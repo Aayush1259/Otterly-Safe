@@ -8,6 +8,7 @@ export interface PhoneFrameProps {
   time?: string;
   autoFit?: boolean;
   scale?: number;
+  statusBarBg?: string;
 }
 
 /**
@@ -23,6 +24,7 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
   time = '9:41',
   autoFit = true,
   scale: explicitScale,
+  statusBarBg = 'bg-white',
 }) => {
   const [computedScale, setComputedScale] = useState(1);
 
@@ -59,14 +61,14 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
 
   return (
     <div
-      className="relative mx-auto flex items-center justify-center shrink-0 transition-all duration-200 ease-out"
+      className="relative mx-auto flex items-center justify-center shrink-0 transition-all duration-200 ease-out isolate"
       style={{
         width: Math.round(350 * activeScale),
         height: Math.round(720 * activeScale),
       }}
     >
       <div
-        className={`absolute top-0 left-1/2 -translate-x-1/2 w-[350px] h-[720px] bg-slate-950 rounded-[48px] p-2.5 shadow-2xl border-[3.5px] border-slate-800 ring-1 ring-white/15 flex flex-col select-none overflow-hidden origin-top ${className}`}
+        className={`absolute top-0 left-1/2 -translate-x-1/2 w-[350px] h-[720px] bg-slate-950 rounded-[48px] p-2.5 shadow-2xl border-[3.5px] border-slate-800 ring-1 ring-white/15 flex flex-col select-none overflow-hidden origin-top isolate ${className}`}
         style={{
           transform: `scale(${activeScale})`,
           transformOrigin: 'top center',
@@ -74,13 +76,16 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
         role="region"
         aria-label={title}
       >
+        {/* Subtle physical ear speaker slit at top chassis bezel */}
+        <div className="absolute top-1 left-1/2 -translate-x-1/2 w-14 h-1 bg-slate-800/90 rounded-full z-10 pointer-events-none" />
+
         {/* Outer titanium rim sheen */}
         <div className="absolute inset-0 rounded-[44px] pointer-events-none border border-white/10" />
 
         {/* Screen container */}
         <div className="relative w-full h-full bg-sand-50 rounded-[38px] overflow-hidden flex flex-col text-navy-900 shadow-inner">
           {/* iPhone Dynamic Island */}
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-50 flex items-center justify-between px-3 shadow-md pointer-events-none">
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-30 flex items-center justify-between px-3 shadow-md pointer-events-none ring-1 ring-black/40">
             <div className="w-2.5 h-2.5 rounded-full bg-slate-900/90 border border-slate-800" />
             <div className="w-3 h-3 rounded-full bg-slate-950 border border-slate-800/90 flex items-center justify-center">
               <div className="w-1.5 h-1.5 rounded-full bg-indigo-950/90 ring-1 ring-indigo-500/20" />
@@ -89,7 +94,7 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
 
           {/* Status Bar */}
           <div
-            className="relative z-40 w-full h-10 px-6 flex items-center justify-between text-xs font-semibold text-navy-900 shrink-0 pt-0.5"
+            className={`relative z-20 w-full h-10 px-6 flex items-center justify-between text-xs font-semibold text-navy-900 shrink-0 pt-0.5 ${statusBarBg} border-b border-slate-100/60`}
             aria-hidden="true"
           >
             <span className="font-heading font-black text-xs tracking-tight">{time}</span>
