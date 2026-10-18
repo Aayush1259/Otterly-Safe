@@ -7,9 +7,10 @@ import type { Lang } from '../../types';
 interface RolePlayChatProps {
   lang: Lang;
   onComplete?: (score: number) => void;
+  onReturnToDashboard?: () => void;
 }
 
-export const RolePlayChat: React.FC<RolePlayChatProps> = ({ lang, onComplete }) => {
+export const RolePlayChat: React.FC<RolePlayChatProps> = ({ lang, onComplete, onReturnToDashboard }) => {
   const [currentTurnIdx, setCurrentTurnIdx] = useState(0);
   const [selectedChoices, setSelectedChoices] = useState<Record<number, string>>({});
   const [scores, setScores] = useState<number[]>([]);

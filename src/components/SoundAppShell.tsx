@@ -68,16 +68,7 @@ export const SoundAppShell: React.FC<SoundAppShellProps> = ({
         </button>
       </header>
 
-      {/* Safety Banner strip */}
-      <div className="bg-foam-50 border-b border-foam-200/80 px-3 py-1 flex items-center justify-between text-[11px] text-kelp-800 font-medium shrink-0">
-        <div className="flex items-center space-x-1">
-          <ShieldCheck className="w-3.5 h-3.5 text-safe-700 shrink-0" />
-          <span>Otterly Safe Active</span>
-        </div>
-        <span className="text-[10px] font-mono text-slate-600 bg-white/70 px-1.5 py-0.5 rounded border border-slate-200">
-          Synthetic Data
-        </span>
-      </div>
+
 
       {/* Main Content Area */}
       <main className="flex-1 overflow-y-auto px-4 py-3 flex flex-col">

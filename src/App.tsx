@@ -51,12 +51,12 @@ export function App() {
   const [showToolsMenu, setShowToolsMenu] = useState(false);
 
   const auditTabs = [
-    { id: 'demo' as const, label: '💻 Live Demo Stage', icon: Presentation },
-    { id: 'practice' as const, label: '🎮 Practice Arena', icon: Gamepad2 },
-    { id: 'staff' as const, label: '🎧 Staff Console', icon: Headphones },
-    { id: 'rules' as const, label: '📊 Rules Lab', icon: Sliders },
-    { id: 'pilot' as const, label: '📅 Pilot Plan', icon: Calendar },
-    { id: 'privacy' as const, label: '🔒 Privacy & Access', icon: Lock },
+    { id: 'demo' as const, label: 'Live Demo Stage', icon: Presentation },
+    { id: 'practice' as const, label: 'Practice Arena', icon: Gamepad2 },
+    { id: 'staff' as const, label: 'Staff Console', icon: Headphones },
+    { id: 'rules' as const, label: 'Rules Lab', icon: Sliders },
+    { id: 'pilot' as const, label: 'Pilot Plan', icon: Calendar },
+    { id: 'privacy' as const, label: 'Privacy & Access', icon: Lock },
   ];
 
   const isAuditActive = auditTabs.some((t) => t.id === activeTab);
@@ -102,7 +102,7 @@ export function App() {
               }`}
             >
               <Smartphone className={`w-3.5 h-3.5 ${activeTab === 'story' ? 'text-white' : 'text-kelp-700'}`} />
-              <span>📱 Member App</span>
+              <span>Member App</span>
             </button>
 
             {/* Compact Staff & Audit Tools Selector */}
