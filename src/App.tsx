@@ -190,7 +190,12 @@ export function App() {
       {/* Main App Content View */}
       <main className="flex-1 max-w-[1520px] w-full mx-auto p-3 sm:p-4 md:p-6 flex flex-col">
         {activeTab === 'story' && (
-          <TheHeistInteractive onBackToDashboard={() => setActiveTab('demo')} />
+          <TheHeistInteractive
+            onBackToDashboard={() => setActiveTab('demo')}
+            members={members}
+            events={events}
+            cases={cases}
+          />
         )}
 
         {activeTab === 'demo' && (
