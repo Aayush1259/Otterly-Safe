@@ -71,58 +71,58 @@ export const SoundAppShell: React.FC<SoundAppShellProps> = ({
 
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto px-4 py-3 flex flex-col">
+      <main className="flex-1 overflow-y-auto px-3 sm:px-4 py-2 sm:py-3 flex flex-col">
         {children}
       </main>
 
       {/* Bottom App Navigation */}
       <nav
-        className="bg-white border-t border-slate-200 px-2 py-1.5 shrink-0 flex items-center justify-around shadow-sm"
+        className="bg-white border-t border-slate-200 px-2 py-1 shrink-0 flex items-center justify-around shadow-sm"
         aria-label="Mobile app navigation"
       >
         <button
           type="button"
           onClick={() => onNavSelect?.('accounts')}
-          className={`flex flex-col items-center justify-center min-w-[54px] min-h-[48px] rounded-xl transition-colors ${
-            activeNav === 'accounts' ? 'text-kelp-700 font-bold' : 'text-slate-500 hover:text-navy-900'
+          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] rounded-xl transition-colors ${
+            activeNav === 'accounts' ? 'text-kelp-700 font-extrabold' : 'text-slate-500 hover:text-navy-900'
           }`}
         >
           <Home className="w-5 h-5 mb-0.5" />
-          <span className="text-[11px] font-body">{lang === 'es' ? 'Cuentas' : 'Accounts'}</span>
+          <span className="text-xs font-heading font-extrabold">{lang === 'es' ? 'Cuentas' : 'Accounts'}</span>
         </button>
 
         <button
           type="button"
           onClick={() => onNavSelect?.('pay')}
-          className={`flex flex-col items-center justify-center min-w-[54px] min-h-[48px] rounded-xl transition-colors ${
-            activeNav === 'pay' ? 'text-kelp-700 font-bold' : 'text-slate-500 hover:text-navy-900'
+          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] rounded-xl transition-colors ${
+            activeNav === 'pay' ? 'text-kelp-700 font-extrabold' : 'text-slate-500 hover:text-navy-900'
           }`}
         >
           <ArrowLeftRight className="w-5 h-5 mb-0.5" />
-          <span className="text-[11px] font-body">{lang === 'es' ? 'Transferir' : 'Transfer'}</span>
+          <span className="text-xs font-heading font-extrabold">{lang === 'es' ? 'Transferir' : 'Transfer'}</span>
         </button>
 
         <button
           type="button"
           onClick={() => onNavSelect?.('practice')}
-          className={`relative flex flex-col items-center justify-center min-w-[54px] min-h-[48px] rounded-xl transition-colors ${
-            activeNav === 'practice' ? 'text-kelp-700 font-bold' : 'text-slate-500 hover:text-navy-900'
+          className={`relative flex flex-col items-center justify-center min-w-[56px] min-h-[48px] rounded-xl transition-colors ${
+            activeNav === 'practice' ? 'text-kelp-700 font-extrabold' : 'text-slate-500 hover:text-navy-900'
           }`}
         >
-          <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-otter-700 ring-2 ring-white" />
+          <span className="absolute top-1 right-2.5 w-2 h-2 rounded-full bg-otter-700 ring-2 ring-white" />
           <Gamepad2 className="w-5 h-5 mb-0.5" />
-          <span className="text-[11px] font-body">{lang === 'es' ? 'Practicar' : 'Practice'}</span>
+          <span className="text-xs font-heading font-extrabold">{lang === 'es' ? 'Practicar' : 'Practice'}</span>
         </button>
 
         <button
           type="button"
           onClick={() => onNavSelect?.('support')}
-          className={`flex flex-col items-center justify-center min-w-[54px] min-h-[48px] rounded-xl transition-colors ${
-            activeNav === 'support' ? 'text-kelp-700 font-bold' : 'text-slate-500 hover:text-navy-900'
+          className={`flex flex-col items-center justify-center min-w-[56px] min-h-[48px] rounded-xl transition-colors ${
+            activeNav === 'support' ? 'text-kelp-700 font-extrabold' : 'text-slate-500 hover:text-navy-900'
           }`}
         >
           <HelpCircle className="w-5 h-5 mb-0.5" />
-          <span className="text-[11px] font-body">{lang === 'es' ? 'Ayuda' : 'Support'}</span>
+          <span className="text-xs font-heading font-extrabold">{lang === 'es' ? 'Ayuda' : 'Support'}</span>
         </button>
       </nav>
     </div>

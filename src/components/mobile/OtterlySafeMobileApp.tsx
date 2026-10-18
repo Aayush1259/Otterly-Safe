@@ -668,28 +668,28 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                   <div className="flex-1 flex flex-col justify-between py-1 space-y-3 animate-fadeIn">
                     <div className="space-y-3">
                       {/* Member Greeting & Shield Badge */}
-                      <div className="flex items-center justify-between bg-white rounded-2xl p-3 border border-slate-200 shadow-2xs">
+                      <div className="flex items-center justify-between bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-2xs">
                         <div>
-                          <span className="text-[10px] font-mono text-slate-400 block uppercase">
+                          <span className="text-xs font-heading font-bold text-slate-500 uppercase tracking-wider block">
                             Welcome Back
                           </span>
-                          <span className="font-heading font-black text-sm text-navy-900 block">
+                          <span className="font-heading font-extrabold text-base text-navy-900 block mt-0.5">
                             {member.display_name}
                           </span>
                         </div>
-                        <div className="flex items-center space-x-1 px-2.5 py-1 rounded-full bg-safe-50 border border-safe-300 text-safe-800 text-[10px] font-heading font-bold">
-                          <ShieldCheck className="w-3.5 h-3.5" />
+                        <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-safe-50 border border-safe-300 text-safe-800 text-xs font-heading font-extrabold shadow-2xs">
+                          <ShieldCheck className="w-3.5 h-3.5 text-safe-700" />
                           <span>Otter Shield Active</span>
                         </div>
                       </div>
 
                       {/* Checking Account Balance Card */}
-                      <div className="bg-navy-900 text-white rounded-3xl p-4 shadow-md space-y-3">
+                      <div className="bg-navy-900 text-white rounded-3xl p-4 sm:p-5 shadow-md space-y-3">
                         <div className="flex justify-between items-center text-xs text-slate-300">
-                          <span className="font-heading font-bold uppercase tracking-wider text-[10px]">
+                          <span className="font-heading font-extrabold uppercase tracking-wider text-xs text-slate-300">
                             Sound Primary Checking (••••-4401)
                           </span>
-                          <span className="bg-kelp-700 text-white text-[9px] font-mono px-2 py-0.5 rounded-full font-bold">
+                          <span className="bg-kelp-700 text-white text-xs font-heading font-bold px-2.5 py-0.5 rounded-full shadow-2xs">
                             PROTECTED
                           </span>
                         </div>
@@ -697,19 +697,19 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                           <span className="text-3xl font-heading font-black tracking-tight block">
                             ${member.balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                           </span>
-                          <span className="text-[11px] text-slate-300">
+                          <span className="text-xs font-body text-slate-300 mt-0.5 block">
                             Available funds · Zero fraudulent losses
                           </span>
                         </div>
-                        <div className="pt-1 border-t border-slate-800 flex justify-between text-[11px] text-slate-300">
+                        <div className="pt-2 border-t border-slate-800 flex justify-between text-xs font-body text-slate-300">
                           <span>High-Risk Wire Pause: <strong>Enabled</strong></span>
                           <span>Family Guardian: <strong>Maya</strong></span>
                         </div>
                       </div>
 
                       {/* Quick In-App Activity Cards */}
-                      <div className="space-y-2">
-                        <span className="text-[10px] font-heading font-extrabold uppercase tracking-wider text-slate-500 block px-1">
+                      <div className="space-y-2.5">
+                        <span className="text-xs font-heading font-extrabold uppercase tracking-wider text-slate-500 block px-1">
                           Quick In-App Actions
                         </span>
 
@@ -718,22 +718,22 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                             setActiveNav('pay');
                             setPaymentState('form');
                           }}
-                          className="bg-white rounded-2xl p-3 border border-slate-200 hover:border-kelp-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs"
+                          className="bg-white rounded-2xl p-3.5 border border-slate-200/90 hover:border-kelp-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs active:scale-98"
                         >
-                          <div className="flex items-center space-x-2.5">
-                            <div className="w-8 h-8 rounded-xl bg-kelp-50 flex items-center justify-center text-kelp-700">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-9 h-9 rounded-xl bg-kelp-50 flex items-center justify-center text-kelp-700 shrink-0">
                               <ArrowLeftRight className="w-4 h-4" />
                             </div>
                             <div>
-                              <strong className="text-xs font-heading font-bold text-navy-900 block">
+                              <strong className="text-xs sm:text-sm font-heading font-extrabold text-navy-900 block leading-tight">
                                 Send Money / Test Scam Triggers
                               </strong>
-                              <span className="text-[10px] text-slate-500">
+                              <span className="text-xs font-body text-slate-600 block mt-0.5">
                                 Experience how Sound CU pauses payments before money moves
                               </span>
                             </div>
                           </div>
-                          <ChevronRight className="w-4 h-4 text-slate-400" />
+                          <ChevronRight className="w-4 h-4 text-slate-400 shrink-0 ml-2" />
                         </div>
 
                         {/* Featured Daily River Challenge Card */}
@@ -742,27 +742,27 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                             setActiveNav('practice');
                             setPracticeGame('river');
                           }}
-                          className="bg-gradient-to-r from-sky-50 to-emerald-50 rounded-2xl p-3 border border-sky-300 hover:border-sky-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs"
+                          className="bg-gradient-to-r from-sky-50 to-emerald-50 rounded-2xl p-3.5 border border-sky-300 hover:border-sky-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs active:scale-98"
                         >
-                          <div className="flex items-center space-x-2.5">
-                            <div className="w-8 h-8 rounded-xl bg-white border border-sky-300 flex items-center justify-center text-base shadow-2xs">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-9 h-9 rounded-xl bg-white border border-sky-300 flex items-center justify-center text-lg shadow-2xs shrink-0">
                               🌊
                             </div>
                             <div>
-                              <div className="flex items-center space-x-1.5">
-                                <strong className="text-xs font-heading font-black text-navy-900 block">
+                              <div className="flex items-center space-x-2">
+                                <strong className="text-xs sm:text-sm font-heading font-extrabold text-navy-900 block leading-tight">
                                   Daily 30s River Challenge
                                 </strong>
-                                <span className="bg-sky-200 text-sky-900 text-[9px] font-mono font-bold px-1.5 py-0.2 rounded-full">
+                                <span className="bg-sky-200 text-sky-900 text-xs font-heading font-bold px-2 py-0.5 rounded-full">
                                   96% Played
                                 </span>
                               </div>
-                              <span className="text-[10px] text-slate-600">
+                              <span className="text-xs font-body text-slate-600 block mt-0.5">
                                 Guide Ollie through the Password Fork (Rank #14 today!)
                               </span>
                             </div>
                           </div>
-                          <ChevronRight className="w-4 h-4 text-sky-600" />
+                          <ChevronRight className="w-4 h-4 text-sky-600 shrink-0 ml-2" />
                         </div>
 
                         {/* Featured Scenario Role-Play Drill Card */}
@@ -771,27 +771,27 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                             setActiveNav('practice');
                             setPracticeGame('roleplay');
                           }}
-                          className="bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl p-3 border border-red-200 hover:border-red-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs group"
+                          className="bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl p-3.5 border border-red-200 hover:border-red-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs group active:scale-98"
                         >
-                          <div className="flex items-center space-x-2.5">
-                            <div className="w-8 h-8 rounded-xl bg-white border border-red-200 flex items-center justify-center text-base shadow-2xs group-hover:scale-105 transition-transform">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-9 h-9 rounded-xl bg-white border border-red-200 flex items-center justify-center text-lg shadow-2xs group-hover:scale-105 transition-transform shrink-0">
                               🎭
                             </div>
                             <div>
-                              <div className="flex items-center space-x-1.5">
-                                <strong className="text-xs font-heading font-black text-navy-900 block">
+                              <div className="flex items-center space-x-2">
+                                <strong className="text-xs sm:text-sm font-heading font-extrabold text-navy-900 block leading-tight">
                                   Scenario Drill: Imposter Security Call
                                 </strong>
-                                <span className="bg-red-200 text-red-900 text-[9px] font-mono font-bold px-1.5 py-0.2 rounded-full">
+                                <span className="bg-red-200 text-red-900 text-xs font-heading font-bold px-2 py-0.5 rounded-full">
                                   Role-Play
                                 </span>
                               </div>
-                              <span className="text-[10px] text-slate-600">
+                              <span className="text-xs font-body text-slate-600 block mt-0.5">
                                 Interactive caller simulation: Test your responses against real pressure tactics
                               </span>
                             </div>
                           </div>
-                          <ChevronRight className="w-4 h-4 text-red-600" />
+                          <ChevronRight className="w-4 h-4 text-red-600 shrink-0 ml-2" />
                         </div>
 
                         <div
@@ -1155,56 +1155,56 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 {activeNav === 'practice' && (
                   <div className="flex-1 flex flex-col justify-between py-1 animate-fadeIn">
                     {/* Top Segmented Activity Switcher */}
-                    <div className="flex items-center p-1 bg-slate-100/90 rounded-2xl gap-1 mb-2 border border-slate-200 shrink-0">
+                    <div className="flex items-center p-1 bg-slate-200/80 rounded-2xl gap-1 mb-2 border border-slate-200 shrink-0 shadow-inner">
                       <button
                         type="button"
                         onClick={() => setPracticeGame('river')}
-                        className={`flex-1 min-h-[38px] px-2 py-1 rounded-xl text-[11px] font-heading font-black flex items-center justify-center space-x-1 transition-all ${
+                        className={`flex-1 min-h-[40px] px-2 py-1.5 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1.5 transition-all ${
                           practiceGame === 'river'
-                            ? 'bg-white text-navy-900 shadow-xs border border-sky-300'
+                            ? 'bg-white text-navy-900 shadow-sm border border-sky-300'
                             : 'text-slate-600 hover:text-navy-900'
                         }`}
                       >
-                        <span>🌊</span>
+                        <span className="text-sm">🌊</span>
                         <span>River Fork</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => setPracticeGame('roleplay')}
-                        className={`flex-1 min-h-[38px] px-2 py-1 rounded-xl text-[11px] font-heading font-black flex items-center justify-center space-x-1 transition-all ${
+                        className={`flex-1 min-h-[40px] px-2 py-1.5 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1.5 transition-all ${
                           practiceGame === 'roleplay'
-                            ? 'bg-white text-navy-900 shadow-xs border border-red-300'
+                            ? 'bg-white text-navy-900 shadow-sm border border-red-300'
                             : 'text-slate-600 hover:text-navy-900'
                         }`}
                       >
-                        <span>🎭</span>
+                        <span className="text-sm">🎭</span>
                         <span>Role-Play</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => setPracticeGame('cards')}
-                        className={`flex-1 min-h-[38px] px-2 py-1 rounded-xl text-[11px] font-heading font-black flex items-center justify-center space-x-1 transition-all ${
+                        className={`flex-1 min-h-[40px] px-2 py-1.5 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1.5 transition-all ${
                           practiceGame === 'cards'
-                            ? 'bg-white text-navy-900 shadow-xs border border-amber-300'
+                            ? 'bg-white text-navy-900 shadow-sm border border-amber-300'
                             : 'text-slate-600 hover:text-navy-900'
                         }`}
                       >
-                        <span>🃏</span>
+                        <span className="text-sm">🃏</span>
                         <span>Cards</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => setPracticeGame('trivia')}
-                        className={`flex-1 min-h-[38px] px-2 py-1 rounded-xl text-[11px] font-heading font-black flex items-center justify-center space-x-1 transition-all ${
+                        className={`flex-1 min-h-[40px] px-2 py-1.5 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1.5 transition-all ${
                           practiceGame === 'trivia'
-                            ? 'bg-white text-navy-900 shadow-xs border border-safe-300'
+                            ? 'bg-white text-navy-900 shadow-sm border border-safe-300'
                             : 'text-slate-600 hover:text-navy-900'
                         }`}
                       >
-                        <span>❓</span>
+                        <span className="text-sm">❓</span>
                         <span>Trivia</span>
                       </button>
                     </div>
