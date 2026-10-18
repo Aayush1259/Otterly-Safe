@@ -26,11 +26,11 @@ http.get('http://127.0.0.1:9226/json', (res) => {
       }
       const ws = new WebSocket(tab.webSocketDebuggerUrl);
       ws.onopen = () => {
-        // Find button that contains "Sign Up"
+        // Find button that contains "Begin Defense Activity"
         ws.send(JSON.stringify({
           id: 1,
           method: 'Runtime.evaluate',
-          params: { expression: 'Array.from(document.querySelectorAll("button")).find(b => b.innerText.includes("Sign Up")).click()' }
+          params: { expression: 'Array.from(document.querySelectorAll("button")).find(b => b.innerText.includes("Begin Defense Activity"))?.click()' }
         }));
       };
       ws.onmessage = async (event) => {
