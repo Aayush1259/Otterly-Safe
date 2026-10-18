@@ -20,6 +20,10 @@ import {
   Clock,
   HelpCircle,
   MessageSquare,
+  KeyRound,
+  LogIn,
+  Award,
+  Info,
 } from 'lucide-react';
 import { Ollie } from '../Ollie';
 import { PhoneFrame } from '../PhoneFrame';
@@ -49,6 +53,8 @@ export const TheHeistInteractive: React.FC<TheHeistInteractiveProps> = ({
   // 4 = Sound CU Safety Measurement (Before Money Moves)
   // 5 = Money Saved & Safe Outcome
   const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [onboardingStage, setOnboardingStage] = useState<'login' | 'drill' | 'shield_ready'>('login');
+  const [drillCardsChecked, setDrillCardsChecked] = useState<number[]>([0]);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [stressBpm, setStressBpm] = useState(72);
   const [scammerTurn, setScammerTurn] = useState(0);
@@ -156,6 +162,8 @@ export const TheHeistInteractive: React.FC<TheHeistInteractiveProps> = ({
     sound.stopRinging();
     sound.stopSpeaking();
     setStep(1);
+    setOnboardingStage('login');
+    setDrillCardsChecked([0]);
     setCallConnected(false);
     setScammerTurn(0);
     setStressBpm(72);
@@ -312,73 +320,258 @@ export const TheHeistInteractive: React.FC<TheHeistInteractiveProps> = ({
             {/* SCREEN 1: FIRST-TIME SIGN UP & ONBOARDING DRILL */}
             {step === 1 && (
               <div className="flex-1 flex flex-col justify-between p-4 bg-sand-50 text-navy-900 font-body animate-fadeIn">
-                <div className="pt-2 text-center space-y-3">
-                  <div className="w-16 h-16 mx-auto rounded-3xl bg-kelp-50 border-2 border-kelp-200 flex items-center justify-center p-2 shadow-2xs">
-                    <Ollie mood="wave" size={56} animated={true} />
-                  </div>
+                {/* 1A: Mobile Login / Activation Screen */}
+                {onboardingStage === 'login' && (
+                  <div className="flex-1 flex flex-col justify-between py-1 space-y-3">
+                    <div className="pt-2 text-center space-y-2">
+                      <div className="w-14 h-14 mx-auto rounded-3xl bg-kelp-50 border-2 border-kelp-200 flex items-center justify-center p-2 shadow-2xs">
+                        <Ollie mood="wave" size={48} animated={false} />
+                      </div>
+                      <div>
+                        <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                          <KeyRound className="w-3 h-3 text-amber-700" />
+                          <span>First-Time Mobile Sign-In Detected</span>
+                        </span>
+                        <h2 className="font-heading font-black text-xl text-navy-900 mt-1">
+                          Sound Mobile Banking
+                        </h2>
+                        <p className="text-xs text-slate-500">
+                          Welcome, Eleanor Vance (Member #••••-8821)
+                        </p>
+                      </div>
+                    </div>
 
-                  <div className="space-y-1">
-                    <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-kelp-100 text-kelp-900">
-                      <Sparkles className="w-3 h-3 text-kelp-700" />
-                      <span>Sound Member First-Time Sign Up</span>
-                    </span>
-                    <h2 className="font-heading font-black text-xl text-navy-900 leading-tight">
-                      Welcome to Sound, {defaultMember.display_name}!
-                    </h2>
-                    <p className="text-xs text-slate-600 px-2 leading-relaxed">
-                      At Sound Credit Union, your security starts on day one. Before you make your first transfer,
-                      Ollie trains you to spot imposter calls.
-                    </p>
-                  </div>
-                </div>
+                    {/* Member Credentials Card */}
+                    <div className="bg-white rounded-2xl p-3 border border-slate-200 space-y-2.5 text-xs shadow-2xs">
+                      <div>
+                        <label className="text-[10px] font-mono font-bold text-slate-500 uppercase block mb-1">
+                          Member ID / Username
+                        </label>
+                        <div className="p-2.5 bg-sand-50 rounded-xl border border-slate-200 font-mono text-xs text-navy-900 flex items-center justify-between">
+                          <span>eleanor.vance</span>
+                          <CheckCircle2 className="w-4 h-4 text-safe-600" />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-mono font-bold text-slate-500 uppercase block mb-1">
+                          Password
+                        </label>
+                        <div className="p-2.5 bg-sand-50 rounded-xl border border-slate-200 font-mono text-xs text-navy-900 flex items-center justify-between">
+                          <span>••••••••••••</span>
+                          <Lock className="w-3.5 h-3.5 text-slate-400" />
+                        </div>
+                      </div>
 
-                {/* 3 Protection Commitments */}
-                <div className="bg-white rounded-2xl p-3 border border-slate-200 space-y-2 text-xs">
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle2 className="w-4 h-4 text-safe-700 shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-navy-900 font-heading block">Interactive Defense Drill</strong>
-                      <span className="text-[11px] text-slate-500">
-                        Practice resisting urgent social engineering calls in a zero-risk sandbox.
+                      {/* First-Time Policy Callout */}
+                      <div className="p-2.5 rounded-xl bg-foam-50 border border-kelp-200 text-slate-700 space-y-1">
+                        <div className="flex items-center space-x-1.5 text-kelp-900 font-heading font-extrabold text-[11px]">
+                          <Sparkles className="w-3.5 h-3.5 text-kelp-700" />
+                          <span>First-Time Sign-Up Safety Policy:</span>
+                        </div>
+                        <p className="text-[11px] leading-relaxed text-slate-600">
+                          Under Sound Credit Union's <strong>Otter Shield</strong> charter, all first-time members complete an interactive 30-second scam defense drill before funds transfers are enabled.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          sound.playSuccess();
+                          setOnboardingStage('drill');
+                        }}
+                        className="w-full min-h-[48px] bg-kelp-700 hover:bg-kelp-800 text-white font-heading font-black text-xs rounded-full shadow-md flex items-center justify-center space-x-2 transition-transform active:scale-95"
+                      >
+                        <LogIn className="w-4 h-4" />
+                        <span>Sign In & Begin Defense Activity</span>
+                      </button>
+                      <span className="text-[10px] text-center text-slate-400 font-mono block">
+                        🛡️ 30-second interactive defense drill with Ollie
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle2 className="w-4 h-4 text-safe-700 shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-navy-900 font-heading block">Pre-Movement Circuit Breaker</strong>
-                      <span className="text-[11px] text-slate-500">
-                        If a payment looks like a scam, funds pause in your account while you review.
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle2 className="w-4 h-4 text-safe-700 shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-navy-900 font-heading block">Family Circle Guardian</strong>
-                      <span className="text-[11px] text-slate-500">
-                        Maya is alerted automatically if an unfamiliar large transfer is held.
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                )}
 
-                <div className="space-y-2 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setStep(2);
-                      setCallConnected(false);
-                    }}
-                    className="w-full min-h-[48px] bg-kelp-700 hover:bg-kelp-800 text-white font-heading font-black text-xs rounded-full shadow-md flex items-center justify-center space-x-2 transition-transform active:scale-95"
-                  >
-                    <span>Simulate Incoming Imposter Call</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                  <span className="text-[10px] text-center text-slate-400 font-mono block">
-                    🔊 Turn on audio to hear the live call & ringtone
-                  </span>
-                </div>
+                {/* 1B: Interactive Scam Defense Drill */}
+                {onboardingStage === 'drill' && (
+                  <div className="flex-1 flex flex-col justify-between py-1 space-y-2.5">
+                    <div className="pt-1 text-center space-y-1.5">
+                      <div className="w-12 h-12 mx-auto rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1 shadow-2xs">
+                        <Ollie mood="wave" size={42} animated={false} />
+                      </div>
+                      <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-kelp-100 text-kelp-900">
+                        First-Time Safety Activity ({drillCardsChecked.length}/3 Rehearsed)
+                      </span>
+                      <h3 className="font-heading font-black text-base text-navy-900">
+                        Spot the 3 Scammer Tricks
+                      </h3>
+                      <p className="text-[11px] text-slate-600 px-2">
+                        Tap each card to rehearse how you and Sound Credit Union defend your funds:
+                      </p>
+                    </div>
+
+                    {/* 3 Interactive Cards */}
+                    <div className="space-y-2 text-xs">
+                      {[
+                        {
+                          id: 0,
+                          icon: '🚨',
+                          title: '1. Urgency Panic Tactic',
+                          scammerSays: '"Emergency! Wire $9,800 immediately or your account is frozen!"',
+                          defenseLearned: 'Sound CU never rushes you. We always give you time to stop and verify.',
+                        },
+                        {
+                          id: 1,
+                          icon: '🏛️',
+                          title: '2. The "Safe Escrow" Trap',
+                          scammerSays: '"Move your money to the Federal Safe Lockbox to protect it!"',
+                          defenseLearned: 'Sound CU will NEVER ask you to wire money to an outside account to protect it.',
+                        },
+                        {
+                          id: 2,
+                          icon: '🤐',
+                          title: '3. Secrecy & Isolation Order',
+                          scammerSays: '"Stay on the phone! Do NOT tell branch staff or your daughter Maya!"',
+                          defenseLearned: 'Real financial safety is transparent. Maya is linked as your trusted guardian.',
+                        },
+                      ].map((card) => {
+                        const isLearned = drillCardsChecked.includes(card.id);
+                        return (
+                          <div
+                            key={card.id}
+                            onClick={() => {
+                              if (!drillCardsChecked.includes(card.id)) {
+                                sound.playAlert();
+                                setDrillCardsChecked([...drillCardsChecked, card.id]);
+                              }
+                            }}
+                            className={`p-2.5 rounded-2xl border text-xs cursor-pointer transition-all ${
+                              isLearned
+                                ? 'bg-white border-kelp-400 shadow-2xs'
+                                : 'bg-sand-50 border-slate-300 hover:bg-white'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between pb-1">
+                              <span className="font-heading font-extrabold text-[11px] text-navy-900 flex items-center space-x-1.5">
+                                <span>{card.icon}</span>
+                                <span>{card.title}</span>
+                              </span>
+                              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${
+                                isLearned
+                                  ? 'bg-safe-100 text-safe-800'
+                                  : 'bg-sand-200 text-slate-600'
+                              }`}>
+                                {isLearned ? '✓ Learned' : 'Tap to Learn'}
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-red-700 italic font-medium">
+                              {card.scammerSays}
+                            </p>
+                            {isLearned && (
+                              <p className="text-[10px] text-kelp-800 font-semibold pt-1 border-t border-slate-100 mt-1">
+                                🛡️ {card.defenseLearned}
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="space-y-1.5 pt-1">
+                      <button
+                        type="button"
+                        disabled={drillCardsChecked.length < 3}
+                        onClick={() => {
+                          sound.playSuccess();
+                          setOnboardingStage('shield_ready');
+                        }}
+                        className={`w-full min-h-[46px] font-heading font-black text-xs rounded-full shadow-md flex items-center justify-center space-x-2 transition-transform ${
+                          drillCardsChecked.length >= 3
+                            ? 'bg-kelp-700 hover:bg-kelp-800 text-white active:scale-95'
+                            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                        }`}
+                      >
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>Lock In Defense Rules & Activate Otter Shield</span>
+                      </button>
+                      <span className="text-[10px] text-center text-slate-400 font-mono block">
+                        {drillCardsChecked.length < 3 ? 'Tap all 3 defense cards above' : 'Ready to activate!'}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* 1C: Otter Shield Certified & Family Guardian Setup */}
+                {onboardingStage === 'shield_ready' && (
+                  <div className="flex-1 flex flex-col justify-between py-1 space-y-3">
+                    <div className="pt-2 text-center space-y-2">
+                      <div className="w-14 h-14 mx-auto rounded-3xl bg-safe-50 border-2 border-safe-200 flex items-center justify-center p-2 shadow-2xs">
+                        <Ollie mood="cheer" size={50} animated={true} />
+                      </div>
+                      <div>
+                        <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-safe-100 text-safe-800 border border-safe-300">
+                          <Award className="w-3 h-3 text-safe-700" />
+                          <span>Otter Shield Certified</span>
+                        </span>
+                        <h2 className="font-heading font-black text-xl text-navy-900 mt-1">
+                          Defense Shield Active!
+                        </h2>
+                        <p className="text-xs text-slate-600 px-2 leading-relaxed">
+                          Eleanor's Sound Credit Union account is now protected with proactive pre-movement circuit breakers.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Active Protections Summary */}
+                    <div className="bg-white rounded-2xl p-3 border border-slate-200 space-y-2 text-xs shadow-2xs">
+                      <div className="flex items-start space-x-2">
+                        <CheckCircle2 className="w-4 h-4 text-safe-700 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="text-navy-900 font-heading block">Pre-Movement Pause Rule</strong>
+                          <span className="text-[11px] text-slate-500">
+                            If Sound detects scam tricks (active call, urgency, unfamiliar escrow wire), funds pause instantly in your account.
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <CheckCircle2 className="w-4 h-4 text-safe-700 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="text-navy-900 font-heading block">Safety Measurement Check</strong>
+                          <span className="text-[11px] text-slate-500">
+                            The exact 3 questions you just practiced will appear before money moves to verify safety.
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-2">
+                        <CheckCircle2 className="w-4 h-4 text-safe-700 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="text-navy-900 font-heading block">Family Circle Guardian (Maya)</strong>
+                          <span className="text-[11px] text-slate-500">
+                            Daughter Maya ({defaultMember.trusted_contact?.phone}) linked for instant SMS if high-risk wires are attempted.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setStep(2);
+                          setCallConnected(false);
+                        }}
+                        className="w-full min-h-[48px] bg-red-600 hover:bg-red-700 text-white font-heading font-black text-xs rounded-full shadow-md flex items-center justify-center space-x-2 transition-transform active:scale-95 animate-pulse"
+                      >
+                        <span>Simulate Real-World Attack (Imposter Call)</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                      <span className="text-[10px] text-center text-slate-400 font-mono block">
+                        🔊 Sound enabled: Test your defense against the imposter
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -602,39 +795,61 @@ export const TheHeistInteractive: React.FC<TheHeistInteractiveProps> = ({
                     </div>
                   </div>
 
-                  {/* Safety Measurement Activity (Memory Replay) */}
-                  <div className="bg-white rounded-2xl p-3 border border-slate-200 space-y-2 text-xs">
+                  {/* Safety Measurement Activity (Echoing First-Time Sign-Up Drill) */}
+                  <div className="bg-white rounded-2xl p-3 border border-slate-200 space-y-2 text-xs shadow-2xs">
                     <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
-                      <span className="font-heading font-extrabold text-[11px] text-kelp-800">
-                        Ollie's 30-Second Safety Measurement
+                      <span className="font-heading font-extrabold text-[11px] text-kelp-800 flex items-center space-x-1">
+                        <ShieldCheck className="w-3.5 h-3.5 text-kelp-700" />
+                        <span>Pre-Movement Safety Measurement Check</span>
                       </span>
-                      <span className="text-[10px] font-mono text-slate-400">Remember Oct 3 drill</span>
+                      <span className="text-[10px] font-mono text-slate-400">Echoing Day 1 Drill</span>
                     </div>
+
+                    <p className="text-[10px] text-slate-600 leading-tight">
+                      Sound's risk rules flagged an active call during an unusual wire. Answer the 3 safety checks to confirm whether you are safe:
+                    </p>
 
                     <div className="space-y-1.5">
                       {[
-                        'Did someone call or text and tell you to send this?',
-                        'Did they say to act fast or keep it secret?',
-                        'Did they claim your money is in danger?',
-                      ].map((questionText, idx) => {
-                        const isAnswered = answeredChecks.includes(idx);
+                        {
+                          id: 0,
+                          q: '1. Urgency: Did a caller claim your funds are in danger right now?',
+                          tag: 'Urgency Trap',
+                        },
+                        {
+                          id: 1,
+                          q: '2. Safe Escrow: Did they tell you to wire funds to "Federal Escrow"?',
+                          tag: 'Escrow Trap',
+                        },
+                        {
+                          id: 2,
+                          q: '3. Isolation: Did they command you NOT to tell Sound staff or Maya?',
+                          tag: 'Secrecy Trap',
+                        },
+                      ].map((item) => {
+                        const isAnswered = answeredChecks.includes(item.id);
                         return (
                           <div
-                            key={idx}
+                            key={item.id}
                             onClick={() => {
-                              if (!answeredChecks.includes(idx)) {
+                              if (!answeredChecks.includes(item.id)) {
                                 sound.playAlert();
-                                setAnsweredChecks([...answeredChecks, idx]);
+                                setAnsweredChecks([...answeredChecks, item.id]);
                               }
                             }}
                             className={`p-2 rounded-xl border text-xs cursor-pointer flex items-center justify-between transition-all ${
                               isAnswered
-                                ? 'bg-amber-50 border-amber-300 text-amber-900 font-bold'
-                                : 'bg-sand-50 border-slate-200 hover:bg-sand-100 text-slate-700'
+                                ? 'bg-amber-50 border-amber-400 text-amber-950 font-semibold shadow-2xs'
+                                : 'bg-sand-50 border-slate-200 hover:bg-white text-slate-700'
                             }`}
                           >
-                            <span className="text-[11px] pr-2">{questionText}</span>
-                            <span className="font-mono text-[10px] uppercase font-bold text-kelp-700 shrink-0">
+                            <div className="pr-2">
+                              <span className="text-[10.5px] block leading-tight">{item.q}</span>
+                              <span className="text-[9px] font-mono text-slate-400">{item.tag}</span>
+                            </div>
+                            <span className={`font-mono text-[10px] uppercase font-bold shrink-0 px-2 py-0.5 rounded-full ${
+                              isAnswered ? 'bg-amber-200 text-amber-900' : 'bg-sand-200 text-slate-600'
+                            }`}>
                               {isAnswered ? 'YES ⚠️' : 'Tap Yes'}
                             </span>
                           </div>
@@ -644,12 +859,24 @@ export const TheHeistInteractive: React.FC<TheHeistInteractiveProps> = ({
                   </div>
 
                   {/* Red Flag Assessment Reassurance */}
-                  <div className="p-2.5 rounded-xl bg-amber-100 border border-amber-300 text-amber-900 text-xs flex items-center space-x-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0" />
-                    <span className="text-[11px] font-semibold leading-tight">
-                      Real credit unions will never ask you to move money to keep it safe.
-                    </span>
-                  </div>
+                  {answeredChecks.length > 0 ? (
+                    <div className="p-2.5 rounded-xl bg-red-50 border-2 border-red-300 text-red-900 text-xs space-y-1 animate-pulse">
+                      <div className="flex items-center space-x-1.5 font-heading font-black text-[11px] text-red-800">
+                        <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
+                        <span>{answeredChecks.length} of 3 Scam Signatures Confirmed!</span>
+                      </div>
+                      <p className="text-[10px] leading-tight text-red-700">
+                        The caller is an imposter. Sound Credit Union will NEVER ask you to wire money to protect your account. Your $9,800 is safely held.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs flex items-center space-x-2">
+                      <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0" />
+                      <span className="text-[11px] font-semibold leading-tight">
+                        Real credit unions will never ask you to move money to keep it safe.
+                      </span>
+                    </div>
+                  )}
 
                   {/* Protective Choices: No "Send Anyway" Button! */}
                   <div className="space-y-1.5 pt-1">
@@ -659,11 +886,12 @@ export const TheHeistInteractive: React.FC<TheHeistInteractiveProps> = ({
                       className="w-full min-h-[46px] bg-kelp-700 hover:bg-kelp-800 text-white font-heading font-black text-xs rounded-full shadow-md flex items-center justify-center space-x-2 transition-transform active:scale-95"
                     >
                       <Lock className="w-3.5 h-3.5" />
-                      <span>Cancel Payment & Talk to Sound</span>
+                      <span>Cancel Payment & Keep My $9,800 Safe</span>
                     </button>
-                    <span className="text-[10px] text-center text-slate-500 font-mono block">
-                      🔒 Zero bypass lane: Funds cannot move until confirmed safe.
-                    </span>
+                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 px-1">
+                      <span>🔒 Zero bypass lane</span>
+                      <span className="text-kelp-700 font-bold">Maya notified via SMS</span>
+                    </div>
                   </div>
                 </div>
               </SoundAppShell>
