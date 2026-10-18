@@ -1209,6 +1209,36 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                       </button>
                     </div>
 
+                    {/* The 3-Step Defense Loop Card for Members & Judges */}
+                    <div className="bg-white rounded-2xl p-2.5 border border-slate-200/90 shadow-2xs mb-2">
+                      <div className="flex items-center justify-between text-xs font-heading font-extrabold text-navy-900 pb-1.5 border-b border-slate-100">
+                        <span className="flex items-center space-x-1.5 text-kelp-800">
+                          <Sparkles className="w-3.5 h-3.5 text-kelp-700" />
+                          <span>The Otter Defense Loop</span>
+                        </span>
+                        <span className="text-[10px] font-heading font-bold text-slate-500 bg-sand-100 px-2 py-0.5 rounded-full">
+                          Why Gamification Works
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-1.5 pt-2 text-center text-xs font-heading font-extrabold">
+                        <div className="bg-sand-50/80 rounded-xl p-2 border border-slate-200/70">
+                          <span className="text-base block mb-0.5">🌊 🎭</span>
+                          <span className="text-navy-900 block leading-tight text-[11px]">1. Drills & Trivia</span>
+                          <span className="text-[10px] font-body text-slate-500 block mt-0.5">Reflexes & awareness</span>
+                        </div>
+                        <div className="bg-sand-50/80 rounded-xl p-2 border border-slate-200/70">
+                          <span className="text-base block mb-0.5">🃏 📖</span>
+                          <span className="text-navy-900 block leading-tight text-[11px]">2. Scam Playbook</span>
+                          <span className="text-[10px] font-body text-slate-500 block mt-0.5">Unlock payment rules</span>
+                        </div>
+                        <div className="bg-sand-50/80 rounded-xl p-2 border border-slate-200/70">
+                          <span className="text-base block mb-0.5">🛑 ⚡</span>
+                          <span className="text-navy-900 block leading-tight text-[11px]">3. Circuit Breaker</span>
+                          <span className="text-[10px] font-body text-slate-500 block mt-0.5">Pauses real scam wires</span>
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Featured Daily River Challenge Game (Password Fork) */}
                     {practiceGame === 'river' && (
                       <div className="flex-1 flex flex-col justify-between">

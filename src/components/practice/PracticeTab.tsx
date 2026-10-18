@@ -65,7 +65,7 @@ export const PracticeTab: React.FC<PracticeTabProps> = ({
         {/* Sub-Nav Pill Switcher */}
         <div className="flex flex-wrap items-center justify-center gap-2 pt-3">
           {[
-            { id: 'imposter_call', icon: Sparkles, label: '🎭 The Imposter Call Simulator' },
+            { id: 'imposter_call', icon: Sparkles, label: 'Imposter Call Simulator' },
             { id: 'deck', icon: ShieldAlert, label: 'Scam or Legit? Cards' },
             { id: 'roleplay', icon: PhoneCall, label: 'Branching Chat' },
             { id: 'hunt', icon: Target, label: 'Red-Flag Hunt' },
