@@ -32,7 +32,7 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
       sound.playAlert();
       setTimeout(() => {
         setGameState('result');
-      }, 900);
+      }, 700);
     } else {
       setGameState('swimming_right');
       sound.playSuccess();
@@ -40,7 +40,7 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
         sound.playCalmChord();
         setGameState('result');
         onComplete?.();
-      }, 900);
+      }, 700);
     }
   };
 
@@ -53,15 +53,15 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isSwiping || dragStartX === null || gameState !== 'idle') return;
     const diff = e.clientX - dragStartX;
-    setCurrentDragX(Math.max(-85, Math.min(85, diff)));
+    setCurrentDragX(Math.max(-90, Math.min(90, diff)));
   };
 
   const handlePointerUp = () => {
     if (!isSwiping || gameState !== 'idle') return;
     setIsSwiping(false);
-    if (currentDragX < -30) {
+    if (currentDragX < -28) {
       handleChooseBranch('key');
-    } else if (currentDragX > 30) {
+    } else if (currentDragX > 28) {
       handleChooseBranch('lock');
     }
     setCurrentDragX(0);
@@ -73,6 +73,30 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
     setSelectedBranch(null);
     setCurrentDragX(0);
   };
+
+  // Compute curved path coordinates for Ollie during swipe tracing
+  const dragFraction = Math.min(1, Math.abs(currentDragX) / 85);
+  const dragDirection = currentDragX < 0 ? -1 : currentDragX > 0 ? 1 : 0;
+  
+  // Dynamic position while dragging or swimming
+  let ollieTop = 16;
+  let ollieLeftPercent = 50;
+
+  if (gameState === 'idle') {
+    if (isSwiping && dragDirection !== 0) {
+      ollieTop = 16 + dragFraction * 115;
+      ollieLeftPercent = 50 + dragDirection * (dragFraction * 33);
+    } else {
+      ollieTop = 16;
+      ollieLeftPercent = 50;
+    }
+  } else if (gameState === 'swimming_left' || (gameState === 'result' && selectedBranch === 'key')) {
+    ollieTop = 135;
+    ollieLeftPercent = 18;
+  } else if (gameState === 'swimming_right' || (gameState === 'result' && selectedBranch === 'lock')) {
+    ollieTop = 135;
+    ollieLeftPercent = 82;
+  }
 
   return (
     <div className="flex-1 flex flex-col justify-between p-3 select-none animate-fadeIn font-body">
@@ -110,10 +134,11 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
-        className="relative my-2 h-[265px] bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 rounded-3xl border-2 border-sky-200 overflow-hidden shadow-inner flex flex-col items-center justify-between p-3 cursor-grab active:cursor-grabbing touch-none"
+        style={{ touchAction: 'none' }}
+        className="relative my-2 h-[265px] bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 rounded-3xl border-2 border-sky-200 overflow-hidden shadow-inner flex flex-col items-center justify-between p-3 cursor-grab active:cursor-grabbing select-none"
       >
         {/* Animated Water Currents Background */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute inset-0 opacity-25 pointer-events-none">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="waves" width="40" height="20" patternUnits="userSpaceOnUse">
@@ -138,52 +163,65 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
             strokeLinecap="round"
             fill="none"
           />
+
           {/* Left Branch to Key */}
           <path
             d="M 150 70 Q 110 110 65 180"
-            stroke={selectedBranch === 'key' ? '#f87171' : '#7dd3fc'}
-            strokeWidth="32"
+            stroke={selectedBranch === 'key' ? '#f87171' : isSwiping && currentDragX < -15 ? '#fca5a5' : '#7dd3fc'}
+            strokeWidth="34"
             strokeLinecap="round"
             fill="none"
-            className="transition-colors duration-500"
+            className="transition-colors duration-300"
           />
+          {/* Dashed guide path for Left Branch */}
+          <path
+            d="M 150 65 Q 110 105 65 170"
+            stroke={currentDragX < -15 ? '#ef4444' : '#bae6fd'}
+            strokeWidth="3"
+            strokeDasharray="5 5"
+            fill="none"
+          />
+
           {/* Right Branch to Lock */}
           <path
             d="M 150 70 Q 190 110 235 180"
-            stroke={selectedBranch === 'lock' ? '#34d399' : '#38bdf8'}
-            strokeWidth="32"
+            stroke={selectedBranch === 'lock' ? '#34d399' : isSwiping && currentDragX > 15 ? '#86efac' : '#38bdf8'}
+            strokeWidth="34"
             strokeLinecap="round"
             fill="none"
-            className="transition-colors duration-500"
+            className="transition-colors duration-300"
           />
+          {/* Dashed guide path for Right Branch */}
+          <path
+            d="M 150 65 Q 190 105 235 170"
+            stroke={currentDragX > 15 ? '#10b981' : '#bae6fd'}
+            strokeWidth="3"
+            strokeDasharray="5 5"
+            fill="none"
+          />
+
           {/* Central River Island */}
           <ellipse cx="150" cy="120" rx="22" ry="16" fill="#cbd5e1" stroke="#94a3b8" strokeWidth="2" />
-          <text x="150" y="124" fontSize="10" textAnchor="middle" fill="#475569" fontWeight="bold">
+          <text x="150" y="124" fontSize="11" textAnchor="middle" fill="#475569" fontWeight="bold">
             🏝️
           </text>
         </svg>
 
-        {/* Floating Ollie Position with Swipe & Drag Tracing */}
+        {/* Floating Ollie Position with Curved Swipe & Drag Tracing */}
         <div
-          className={`absolute z-20 transition-all duration-500 ease-out pointer-events-none ${
-            gameState === 'idle'
-              ? 'top-3.5 left-1/2'
-              : gameState === 'swimming_left' || (gameState === 'result' && selectedBranch === 'key')
-              ? 'top-[135px] left-[52px]'
-              : 'top-[135px] left-[248px]'
-          }`}
-          style={
-            gameState === 'idle'
-              ? { transform: `translateX(calc(-50% + ${currentDragX}px))` }
-              : { transform: 'translateX(-50%)' }
-          }
+          className="absolute z-20 pointer-events-none transition-all duration-300 ease-out"
+          style={{
+            top: `${ollieTop}px`,
+            left: `${ollieLeftPercent}%`,
+            transform: 'translate(-50%, 0)',
+          }}
         >
           <div className="w-12 h-12 rounded-full bg-white/95 border-2 border-sky-400 p-0.5 shadow-md flex items-center justify-center animate-bounce">
             <Ollie
               mood={
                 gameState === 'result' && selectedBranch === 'lock'
                   ? 'cheer'
-                  : selectedBranch === 'key'
+                  : selectedBranch === 'key' || (isSwiping && currentDragX < -20)
                   ? 'concerned'
                   : 'wave'
               }
@@ -191,46 +229,46 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
               animated={gameState !== 'idle' || isSwiping}
             />
           </div>
-          <span className="text-[9px] font-mono font-bold bg-navy-900/80 text-white px-1.5 py-0.2 rounded-full block text-center mt-0.5 shadow-xs">
-            {isSwiping ? (currentDragX < 0 ? '← Key' : 'Lock →') : 'Ollie'}
+          <span className="text-[9px] font-mono font-bold bg-navy-900/85 text-white px-1.5 py-0.2 rounded-full block text-center mt-0.5 shadow-xs whitespace-nowrap">
+            {isSwiping ? (currentDragX < -15 ? '← Swiping to Key 🗝️' : currentDragX > 15 ? 'Swiping to Lock 🔒 →' : 'Tracing...') : 'Ollie'}
           </span>
         </div>
 
         {/* Top Swipe / Trace Instructions */}
-        <div className="z-10 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full border border-sky-300 text-[10px] font-heading font-extrabold text-navy-900 shadow-2xs flex items-center space-x-1">
+        <div className="z-10 bg-white/95 backdrop-blur-xs px-3 py-1 rounded-full border border-sky-300 text-[10px] font-heading font-extrabold text-navy-900 shadow-2xs flex items-center space-x-1">
           {gameState === 'idle' ? (
             <>
               <MoveHorizontal className="w-3.5 h-3.5 text-sky-600 animate-pulse" />
-              <span>Swipe Ollie or tap branch to trace path</span>
+              <span>Swipe Ollie or tap a branch below:</span>
             </>
           ) : gameState === 'result' && selectedBranch === 'lock' ? (
-            <span>🎉 Safe Waters Reached!</span>
+            <span className="text-safe-800">🎉 Safe Waters Reached!</span>
           ) : (
-            <span>⚠️ Danger Ahead!</span>
+            <span className="text-red-700">⚠️ Danger: Account Exposed!</span>
           )}
         </div>
 
         {/* Two River Endpoints (Left = Key 🗝️, Right = Lock 🔒) */}
-        <div className="w-full flex justify-between items-end px-2 z-10 pt-28">
+        <div className="w-full flex justify-between items-end px-1 z-10 pt-28">
           {/* LEFT FORK: The Key (Give Password / Unlock) */}
           <button
             type="button"
             disabled={gameState !== 'idle'}
             onClick={() => handleChooseBranch('key')}
-            className={`w-[130px] p-2.5 rounded-2xl border-2 transition-all flex flex-col items-center text-center shadow-sm active:scale-95 ${
+            className={`w-[134px] p-2 rounded-2xl border-2 transition-all flex flex-col items-center text-center shadow-sm active:scale-95 ${
               selectedBranch === 'key'
                 ? 'bg-red-50 border-red-400 ring-2 ring-red-400/40'
                 : 'bg-white hover:bg-red-50/50 border-slate-300 hover:border-red-300'
             }`}
           >
-            <div className="w-10 h-10 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800 shadow-2xs mb-1">
-              <Key className="w-5 h-5 text-amber-700" />
+            <div className="w-9 h-9 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800 shadow-2xs mb-1">
+              <Key className="w-4 h-4 text-amber-700" />
             </div>
             <strong className="text-[11px] font-heading font-black text-navy-900 block leading-tight">
               Give Key 🗝️
             </strong>
             <span className="text-[9px] text-slate-500 leading-tight block mt-0.5">
-              Read passcode to caller to "verify"
+              Read code to caller
             </span>
           </button>
 
@@ -239,20 +277,20 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
             type="button"
             disabled={gameState !== 'idle'}
             onClick={() => handleChooseBranch('lock')}
-            className={`w-[130px] p-2.5 rounded-2xl border-2 transition-all flex flex-col items-center text-center shadow-sm active:scale-95 ${
+            className={`w-[134px] p-2 rounded-2xl border-2 transition-all flex flex-col items-center text-center shadow-sm active:scale-95 ${
               selectedBranch === 'lock'
                 ? 'bg-safe-50 border-safe-400 ring-2 ring-safe-400/40'
                 : 'bg-white hover:bg-safe-50/50 border-slate-300 hover:border-safe-400'
             }`}
           >
-            <div className="w-10 h-10 rounded-xl bg-safe-100 border border-safe-300 flex items-center justify-center text-safe-800 shadow-2xs mb-1">
-              <Lock className="w-5 h-5 text-safe-700" />
+            <div className="w-9 h-9 rounded-xl bg-safe-100 border border-safe-300 flex items-center justify-center text-safe-800 shadow-2xs mb-1">
+              <Lock className="w-4 h-4 text-safe-700" />
             </div>
             <strong className="text-[11px] font-heading font-black text-navy-900 block leading-tight">
               Keep Locked 🔒
             </strong>
             <span className="text-[9px] text-slate-500 leading-tight block mt-0.5">
-              Hang up! Never share passwords
+              Hang up! Never share
             </span>
           </button>
         </div>
@@ -293,22 +331,36 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
                 </div>
               </div>
 
-              <div className="flex gap-2 pt-1">
-                <button
-                  type="button"
-                  onClick={onReturnToDashboard}
-                  className="flex-1 py-2 bg-kelp-700 hover:bg-kelp-800 text-white rounded-full font-heading font-extrabold text-xs shadow-sm flex items-center justify-center space-x-1.5 transition-transform active:scale-95"
-                >
-                  <span>Return to Dashboard</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="px-3 py-2 rounded-full border border-slate-200 bg-white hover:bg-sand-50 text-slate-700 font-heading font-bold text-xs"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                </button>
+              {/* Action Buttons: Next Role-Play Drill or Dashboard */}
+              <div className="space-y-1.5 pt-1">
+                {onGoToRolePlay && (
+                  <button
+                    type="button"
+                    onClick={onGoToRolePlay}
+                    className="w-full py-2.5 bg-navy-900 hover:bg-slate-800 text-white rounded-xl font-heading font-black text-xs shadow-sm flex items-center justify-center space-x-2 transition-transform active:scale-95"
+                  >
+                    <span>🎭 Try Imposter Call Role-Play Drill Next</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                )}
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={onReturnToDashboard}
+                    className="flex-1 py-2 bg-kelp-700 hover:bg-kelp-800 text-white rounded-xl font-heading font-extrabold text-xs shadow-sm flex items-center justify-center space-x-1.5 transition-transform active:scale-95"
+                  >
+                    <span>Return to Dashboard</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-sand-50 text-slate-700 font-heading font-bold text-xs"
+                    title="Play Again"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
             </div>
           ) : (
@@ -323,7 +375,7 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
               <button
                 type="button"
                 onClick={handleReset}
-                className="w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-heading font-extrabold text-xs shadow-sm transition-transform active:scale-95"
+                className="w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-heading font-extrabold text-xs shadow-sm transition-transform active:scale-95"
               >
                 Try Safe River Fork 🔒
               </button>
