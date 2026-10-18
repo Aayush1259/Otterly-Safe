@@ -185,9 +185,6 @@ export const TheHeistInteractive: React.FC<TheHeistInteractiveProps> = ({
                 <span className="font-heading font-black text-sm text-navy-900 leading-none">
                   Sound Credit Union
                 </span>
-                <span className="text-[10px] font-mono font-medium text-slate-500 bg-sand-100 px-2 py-0.2 rounded-full border border-sand-200">
-                  (prototype)
-                </span>
               </div>
               <span className="text-[11px] font-heading font-extrabold text-otter-700">
                 Interactive Story: "Stop the Scam Before the Money Moves"

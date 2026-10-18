@@ -744,6 +744,58 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                           <ChevronRight className="w-4 h-4 text-slate-400" />
                         </div>
 
+                        {/* Featured Daily River Challenge Card */}
+                        <div
+                          onClick={() => {
+                            setActiveNav('practice');
+                            setPracticeGame('river');
+                          }}
+                          className="bg-gradient-to-r from-sky-50 to-emerald-50 rounded-2xl p-3 border border-sky-300 hover:border-sky-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs"
+                        >
+                          <div className="flex items-center space-x-2.5">
+                            <div className="w-8 h-8 rounded-xl bg-white border border-sky-300 flex items-center justify-center text-base shadow-2xs">
+                              🌊
+                            </div>
+                            <div>
+                              <div className="flex items-center space-x-1.5">
+                                <strong className="text-xs font-heading font-black text-navy-900 block">
+                                  Daily 30s River Challenge
+                                </strong>
+                                <span className="bg-sky-200 text-sky-900 text-[9px] font-mono font-bold px-1.5 py-0.2 rounded-full">
+                                  96% Played
+                                </span>
+                              </div>
+                              <span className="text-[10px] text-slate-600">
+                                Guide Ollie through the Password Fork (Rank #14 today!)
+                              </span>
+                            </div>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-sky-600" />
+                        </div>
+
+                        <div
+                          onClick={() => {
+                            setActiveNav('pay');
+                            setPaymentState('form');
+                          }}
+                          className="bg-white rounded-2xl p-3 border border-slate-200 hover:border-kelp-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs"
+                        >
+                          <div className="flex items-center space-x-2.5">
+                            <div className="w-8 h-8 rounded-xl bg-kelp-50 flex items-center justify-center text-kelp-700">
+                              <ArrowLeftRight className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <strong className="text-xs font-heading font-bold text-navy-900 block">
+                                Send Money / Test Scam Triggers
+                              </strong>
+                              <span className="text-[10px] text-slate-500">
+                                Experience how Sound CU pauses payments before money moves
+                              </span>
+                            </div>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-slate-400" />
+                        </div>
+
                         <div
                           onClick={() => {
                             setActiveNav('practice');
@@ -853,7 +905,7 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                               <span>System Scam Trigger Points</span>
                             </span>
                             <span className="text-[9px] font-mono bg-amber-200 text-amber-900 px-1.5 py-0.2 rounded font-bold">
-                              Sound Risk Engine
+                              Sound Pre-Movement Safety Review
                             </span>
                           </div>
 
