@@ -232,50 +232,37 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-sand-50 text-navy-900 flex flex-col justify-between max-w-7xl mx-auto px-2 sm:px-4 py-3 select-none">
-      {/* Sleek, Simplified, Non-Crowded Header (No prototype text, clean essentials) */}
-      <header className="bg-white border border-slate-200/90 rounded-2xl sm:rounded-3xl p-3 sm:p-4 shadow-sm mb-3 shrink-0">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          {/* Brand & Wordmark (Clean Sound Credit Union) */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1 shrink-0 shadow-2xs">
-              <Ollie mood="wave" size={34} animated={false} />
-            </div>
-            <div>
-              <span className="font-heading font-black text-sm sm:text-base text-navy-900 leading-none tracking-tight block">
-                Sound Credit Union
-              </span>
-              <span className="text-xs font-heading font-extrabold text-otter-700 block mt-0.5">
-                Otterly Safe · "Otterly safe, every wave of life"
-              </span>
-            </div>
-          </div>
-
-          {/* Simple, Non-Crowded Actions */}
-          <div className="flex flex-wrap items-center gap-2 text-xs font-heading font-extrabold">
-            {/* Quick Demo Reset */}
+    <div className="min-h-screen bg-sand-50 text-navy-900 flex flex-col justify-start max-w-7xl mx-auto px-2 sm:px-4 py-2 select-none">
+      {/* Main Mobile App Stage */}
+      <main className="flex-1 flex items-start justify-center gap-6 pb-2 pt-1">
+        {/* Centered Mobile Phone Frame */}
+        <div className="shrink-0 transition-all flex flex-col items-center space-y-2.5">
+          {/* Subtle, Minimal Device Utility Pills */}
+          <div className="flex items-center gap-2 text-xs font-heading font-extrabold bg-white border border-slate-200/90 px-3 py-1 rounded-full shadow-2xs">
             <button
               type="button"
               onClick={handleResetToFirstTime}
               aria-label="Restart onboarding demo"
-              className="min-h-[44px] px-3.5 py-1.5 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 flex items-center space-x-1.5 transition-colors shadow-2xs"
+              className="px-2.5 py-1 rounded-full hover:bg-sand-100 text-slate-700 hover:text-navy-900 flex items-center space-x-1 transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5 text-kelp-700" />
               <span>Reset Demo</span>
             </button>
 
-            {/* Audio Toggle */}
+            <span className="text-slate-200">|</span>
+
             <button
               type="button"
               onClick={() => setSoundEnabled(!soundEnabled)}
               aria-label={soundEnabled ? 'Mute audio' : 'Enable audio'}
-              className="min-h-[44px] px-3 py-1.5 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 flex items-center space-x-1.5 transition-colors shadow-2xs"
+              className="px-2.5 py-1 rounded-full hover:bg-sand-100 text-slate-700 hover:text-navy-900 flex items-center space-x-1 transition-colors"
             >
               {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-kelp-700" /> : <VolumeX className="w-3.5 h-3.5 text-slate-400" />}
               <span>{soundEnabled ? 'Sound ON' : 'Muted'}</span>
             </button>
 
-            {/* Companion View Switcher */}
+            <span className="text-slate-200">|</span>
+
             <button
               type="button"
               onClick={() => {
@@ -284,23 +271,13 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 else setCompanionView('none');
               }}
               aria-label="Toggle companion phone view"
-              className={`min-h-[44px] px-3.5 py-1.5 rounded-xl border transition-colors flex items-center space-x-1.5 ${
-                companionView !== 'none'
-                  ? 'bg-navy-900 text-white border-navy-900 shadow-2xs'
-                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
-              }`}
+              className="px-2.5 py-1 rounded-full hover:bg-sand-100 text-slate-700 hover:text-navy-900 flex items-center space-x-1 transition-colors"
             >
-              <Smartphone className="w-3.5 h-3.5" />
+              <Smartphone className="w-3.5 h-3.5 text-navy-900" />
               <span>{companionView === 'none' ? 'Phone Only' : companionView === 'sms' ? '+ Family SMS' : '+ Staff Log'}</span>
             </button>
           </div>
-        </div>
-      </header>
 
-      {/* Main Mobile App Stage */}
-      <main className="flex-1 flex items-start justify-center gap-6 pb-2">
-        {/* Centered Mobile Phone Frame */}
-        <div className="shrink-0 transition-all">
           <PhoneFrame title="Sound Credit Union Mobile App">
             {/* =========================================================================
                 SCENARIO A: FIRST-TIME SIGN-UP & SCAM AWARENESS ACTIVITY
