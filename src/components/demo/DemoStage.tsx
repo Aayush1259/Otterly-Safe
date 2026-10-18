@@ -101,7 +101,7 @@ export const DemoStage: React.FC<DemoStageProps> = ({
     return () => clearInterval(timer);
   }, [isPlaying, totalSteps]);
 
-  // Global Keyboard shortcuts: Left/Right arrow, R, D
+  // Global Keyboard shortcuts: Left/Right arrow, R, D, J/K (cases), 1/2/3 (staff decisions)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
@@ -114,11 +114,31 @@ export const DemoStage: React.FC<DemoStageProps> = ({
         setIsPlaying(false);
       } else if (e.key === 'd' || e.key === 'D') {
         setShowDataDrawer((prev) => !prev);
+      } else if (e.key === 'j' || e.key === 'J') {
+        // Cycle to next staff case
+        if (cases.length > 0) {
+          const currentIdx = cases.findIndex((c) => c.case_id === selectedCaseId);
+          const nextIdx = (currentIdx + 1) % cases.length;
+          setSelectedCaseId(cases[nextIdx].case_id);
+        }
+      } else if (e.key === 'k' || e.key === 'K') {
+        // Cycle to previous staff case
+        if (cases.length > 0) {
+          const currentIdx = cases.findIndex((c) => c.case_id === selectedCaseId);
+          const prevIdx = (currentIdx - 1 + cases.length) % cases.length;
+          setSelectedCaseId(cases[prevIdx].case_id);
+        }
+      } else if (e.key === '1') {
+        if (selectedCaseId) onStaffDecision(selectedCaseId, 'release');
+      } else if (e.key === '2') {
+        if (selectedCaseId) onStaffDecision(selectedCaseId, 'hold');
+      } else if (e.key === '3') {
+        if (selectedCaseId) onStaffDecision(selectedCaseId, 'escalate');
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [totalSteps]);
+  }, [totalSteps, cases, selectedCaseId, onStaffDecision]);
 
   // Determine active pipeline stage and lane
   let pipelineStage: 1 | 2 | 3 | 4 = 1;

@@ -59,10 +59,10 @@ export const RulesLab: React.FC<RulesLabProps> = ({ members, events, memberKey }
           <AlertTriangle className="w-5 h-5 text-otter-700 shrink-0" />
           <div>
             <span className="font-heading font-extrabold text-xs uppercase tracking-wider text-otter-700 block">
-              Prototype Notice · Synthetic Data Only
+              Synthetic data: not real fraud rates.
             </span>
             <p className="text-xs text-slate-700">
-              Not real fraud rates. Numbers reflect deterministic rule testing across synthetic anchor personas and 90-day fictional look-alikes.
+              Synthetic data: not real fraud rates. Numbers reflect deterministic rule testing across synthetic anchor personas and 90-day fictional look-alikes.
             </p>
           </div>
         </div>
