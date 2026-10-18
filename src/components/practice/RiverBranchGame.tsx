@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, RotateCcw, Lock, Key, Award, Users, TrendingUp, ArrowRight, Sparkles } from 'lucide-react';
+import { ShieldCheck, RotateCcw, Lock, Key, Award, Users, TrendingUp, ArrowRight, Sparkles, MoveHorizontal } from 'lucide-react';
 import { Ollie } from '../Ollie';
 import { sound } from '../../lib/audio';
 
@@ -12,9 +12,14 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
   onComplete,
   onReturnToDashboard,
 }) => {
-  // 'idle' = at the top fork, 'swimming_left' = flowing to Key, 'swimming_right' = flowing to Lock, 'result' = completed
+  // 'idle' = at top fork, 'swimming_left' = flowing to Key, 'swimming_right' = flowing to Lock, 'result' = outcome
   const [gameState, setGameState] = useState<'idle' | 'swimming_left' | 'swimming_right' | 'result'>('idle');
   const [selectedBranch, setSelectedBranch] = useState<'key' | 'lock' | null>(null);
+
+  // Swipe / Drag Tracing state
+  const [dragStartX, setDragStartX] = useState<number | null>(null);
+  const [currentDragX, setCurrentDragX] = useState<number>(0);
+  const [isSwiping, setIsSwiping] = useState(false);
 
   const handleChooseBranch = (branch: 'key' | 'lock') => {
     if (gameState !== 'idle') return;
@@ -25,7 +30,7 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
       sound.playAlert();
       setTimeout(() => {
         setGameState('result');
-      }, 1000);
+      }, 900);
     } else {
       setGameState('swimming_right');
       sound.playSuccess();
@@ -33,13 +38,38 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
         sound.playCalmChord();
         setGameState('result');
         onComplete?.();
-      }, 1000);
+      }, 900);
     }
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (gameState !== 'idle') return;
+    setDragStartX(e.clientX);
+    setIsSwiping(true);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isSwiping || dragStartX === null || gameState !== 'idle') return;
+    const diff = e.clientX - dragStartX;
+    setCurrentDragX(Math.max(-85, Math.min(85, diff)));
+  };
+
+  const handlePointerUp = () => {
+    if (!isSwiping || gameState !== 'idle') return;
+    setIsSwiping(false);
+    if (currentDragX < -30) {
+      handleChooseBranch('key');
+    } else if (currentDragX > 30) {
+      handleChooseBranch('lock');
+    }
+    setCurrentDragX(0);
+    setDragStartX(null);
   };
 
   const handleReset = () => {
     setGameState('idle');
     setSelectedBranch(null);
+    setCurrentDragX(0);
   };
 
   return (
@@ -72,8 +102,14 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
         </div>
       </div>
 
-      {/* Interactive River Canvas / SVG Map */}
-      <div className="relative my-2 h-[260px] bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 rounded-3xl border-2 border-sky-200 overflow-hidden shadow-inner flex flex-col items-center justify-between p-3">
+      {/* Interactive River Canvas / SVG Map with Swipe & Tracing */}
+      <div
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerLeave={handlePointerUp}
+        className="relative my-2 h-[265px] bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 rounded-3xl border-2 border-sky-200 overflow-hidden shadow-inner flex flex-col items-center justify-between p-3 cursor-grab active:cursor-grabbing touch-none"
+      >
         {/* Animated Water Currents Background */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
           <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -125,17 +161,22 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
           </text>
         </svg>
 
-        {/* Floating Ollie Position */}
+        {/* Floating Ollie Position with Swipe & Drag Tracing */}
         <div
-          className={`absolute z-20 transition-all duration-700 ease-in-out ${
+          className={`absolute z-20 transition-all duration-500 ease-out pointer-events-none ${
             gameState === 'idle'
-              ? 'top-4 left-1/2 -translate-x-1/2'
+              ? 'top-3.5 left-1/2'
               : gameState === 'swimming_left' || (gameState === 'result' && selectedBranch === 'key')
-              ? 'top-[130px] left-[52px] -translate-x-1/2'
-              : 'top-[130px] left-[248px] -translate-x-1/2'
+              ? 'top-[135px] left-[52px]'
+              : 'top-[135px] left-[248px]'
           }`}
+          style={
+            gameState === 'idle'
+              ? { transform: `translateX(calc(-50% + ${currentDragX}px))` }
+              : { transform: 'translateX(-50%)' }
+          }
         >
-          <div className="w-12 h-12 rounded-full bg-white/90 border-2 border-sky-400 p-0.5 shadow-md flex items-center justify-center animate-bounce">
+          <div className="w-12 h-12 rounded-full bg-white/95 border-2 border-sky-400 p-0.5 shadow-md flex items-center justify-center animate-bounce">
             <Ollie
               mood={
                 gameState === 'result' && selectedBranch === 'lock'
@@ -145,21 +186,26 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
                   : 'wave'
               }
               size={36}
-              animated={gameState !== 'idle'}
+              animated={gameState !== 'idle' || isSwiping}
             />
           </div>
-          <span className="text-[9px] font-mono font-bold bg-navy-900/80 text-white px-1.5 py-0.2 rounded-full block text-center mt-0.5">
-            Ollie
+          <span className="text-[9px] font-mono font-bold bg-navy-900/80 text-white px-1.5 py-0.2 rounded-full block text-center mt-0.5 shadow-xs">
+            {isSwiping ? (currentDragX < 0 ? '← Key' : 'Lock →') : 'Ollie'}
           </span>
         </div>
 
-        {/* Top Prompt Instruction */}
-        <div className="z-10 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full border border-sky-300 text-[10px] font-heading font-extrabold text-navy-900 shadow-2xs">
-          {gameState === 'idle'
-            ? '👇 Tap or Swipe towards the safe river branch'
-            : gameState === 'result' && selectedBranch === 'lock'
-            ? '🎉 Safe Waters Reached!'
-            : '⚠️ Danger Ahead!'}
+        {/* Top Swipe / Trace Instructions */}
+        <div className="z-10 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full border border-sky-300 text-[10px] font-heading font-extrabold text-navy-900 shadow-2xs flex items-center space-x-1">
+          {gameState === 'idle' ? (
+            <>
+              <MoveHorizontal className="w-3.5 h-3.5 text-sky-600 animate-pulse" />
+              <span>Swipe Ollie or tap branch to trace path</span>
+            </>
+          ) : gameState === 'result' && selectedBranch === 'lock' ? (
+            <span>🎉 Safe Waters Reached!</span>
+          ) : (
+            <span>⚠️ Danger Ahead!</span>
+          )}
         </div>
 
         {/* Two River Endpoints (Left = Key 🗝️, Right = Lock 🔒) */}

@@ -80,10 +80,8 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
   const [lang, setLang] = useState<Lang>('en');
   const [soundEnabled, setSoundEnabled] = useState(true);
 
-  // App Level Mode
-  // 'onboarding' = First-time sign up & learning activity
-  // 'app' = Main Sound Credit Union mobile banking app
-  const [appMode, setAppMode] = useState<'onboarding' | 'app'>('onboarding');
+  // App Level Mode: Starts directly on the main dashboard ('app')
+  const [appMode, setAppMode] = useState<'onboarding' | 'app'>('app');
 
   // In-App Navigation Tab: 'accounts' | 'pay' | 'practice' | 'support'
   const [activeNav, setActiveNav] = useState<'accounts' | 'pay' | 'practice' | 'support'>('accounts');
