@@ -21,26 +21,26 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
 }) => {
   return (
     <div
-      className={`relative mx-auto w-[393px] max-w-full h-[852px] bg-slate-950 rounded-[56px] p-3 shadow-2xl border-[4px] border-slate-800 ring-1 ring-white/15 flex flex-col select-none shrink-0 overflow-hidden ${className}`}
+      className={`relative mx-auto w-[365px] max-w-full h-[740px] bg-slate-950 rounded-[50px] p-2.5 shadow-2xl border-[3.5px] border-slate-800 ring-1 ring-white/15 flex flex-col select-none shrink-0 overflow-hidden ${className}`}
       role="region"
       aria-label={title}
     >
       {/* Outer titanium rim sheen */}
-      <div className="absolute inset-0 rounded-[52px] pointer-events-none border border-white/10" />
+      <div className="absolute inset-0 rounded-[46px] pointer-events-none border border-white/10" />
 
       {/* Screen container */}
-      <div className="relative w-full h-full bg-sand-50 rounded-[44px] overflow-hidden flex flex-col text-navy-900 shadow-inner">
-        {/* iPhone 17 Pro Dynamic Island */}
-        <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-full z-50 flex items-center justify-between px-3.5 shadow-md pointer-events-none">
+      <div className="relative w-full h-full bg-sand-50 rounded-[40px] overflow-hidden flex flex-col text-navy-900 shadow-inner">
+        {/* iPhone Dynamic Island */}
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-50 flex items-center justify-between px-3 shadow-md pointer-events-none">
           <div className="w-2.5 h-2.5 rounded-full bg-slate-900/90 border border-slate-800" />
-          <div className="w-3.5 h-3.5 rounded-full bg-slate-950 border border-slate-800/90 flex items-center justify-center">
+          <div className="w-3 h-3 rounded-full bg-slate-950 border border-slate-800/90 flex items-center justify-center">
             <div className="w-1.5 h-1.5 rounded-full bg-indigo-950/90 ring-1 ring-indigo-500/20" />
           </div>
         </div>
 
         {/* Status Bar */}
         <div
-          className="relative z-40 w-full h-11 px-7 flex items-center justify-between text-xs font-semibold text-navy-900 shrink-0 pt-1"
+          className="relative z-40 w-full h-10 px-6 flex items-center justify-between text-xs font-semibold text-navy-900 shrink-0 pt-0.5"
           aria-hidden="true"
         >
           <span className="font-heading font-black text-xs tracking-tight">{time}</span>
@@ -61,8 +61,8 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
         </div>
 
         {/* iPhone Swipe Home Indicator */}
-        <div className="w-full h-5 flex items-center justify-center shrink-0 pb-1" aria-hidden="true">
-          <div className="w-36 h-1 bg-slate-400/90 rounded-full" />
+        <div className="w-full h-4 flex items-center justify-center shrink-0 pb-1" aria-hidden="true">
+          <div className="w-32 h-1 bg-slate-400/90 rounded-full" />
         </div>
       </div>
     </div>
