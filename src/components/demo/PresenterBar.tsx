@@ -13,7 +13,8 @@ import {
   HeartHandshake,
 } from 'lucide-react';
 
-export type DemoScenario = 'practice' | 'scam' | 'lookalike' | 'takeover' | 'missed';
+export type DemoScenario = 'onboarding' | 'practice' | 'scam' | 'lookalike' | 'takeover' | 'missed';
+export type ViewMode = 'split' | 'member' | 'staff';
 
 interface PresenterBarProps {
   scenario: DemoScenario;
@@ -28,6 +29,10 @@ interface PresenterBarProps {
   showDataDrawer: boolean;
   onToggleDataDrawer: () => void;
   stepNarrative?: string;
+  viewMode?: ViewMode;
+  onSelectViewMode?: (mode: ViewMode) => void;
+  showPersonaRail?: boolean;
+  onTogglePersonaRail?: () => void;
 }
 
 export const PresenterBar: React.FC<PresenterBarProps> = ({
@@ -43,8 +48,13 @@ export const PresenterBar: React.FC<PresenterBarProps> = ({
   showDataDrawer,
   onToggleDataDrawer,
   stepNarrative,
+  viewMode = 'split',
+  onSelectViewMode,
+  showPersonaRail = false,
+  onTogglePersonaRail,
 }) => {
   const scenarios: { id: DemoScenario; label: string; icon: React.FC<{ className?: string }> }[] = [
+    { id: 'onboarding', label: '0. Sign Up & Roleplay', icon: Sparkles },
     { id: 'practice', label: '1. Practice (40s)', icon: Gamepad2 },
     { id: 'scam', label: '2. Scam Signs', icon: ShieldAlert },
     { id: 'lookalike', label: '3. Look-Alike', icon: Home },
@@ -149,21 +159,67 @@ export const PresenterBar: React.FC<PresenterBarProps> = ({
         </div>
       </div>
 
-      {/* Step Narrative Cue Strip */}
-      {stepNarrative && (
-        <div className="bg-sand-50 border border-sand-200 rounded-xl px-3 py-1.5 flex items-center justify-between text-xs text-navy-900">
-          <div className="flex items-center space-x-2">
-            <span className="font-heading font-extrabold text-[11px] uppercase tracking-wider text-kelp-700">
+      {/* Control Strip: View Mode & Narrative */}
+      <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-100">
+        {stepNarrative && (
+          <div className="flex items-center space-x-2 text-xs text-navy-900 flex-1 min-w-[280px]">
+            <span className="font-heading font-extrabold text-[11px] uppercase tracking-wider text-kelp-700 shrink-0">
               Demo Scene:
             </span>
-            <span className="font-body font-semibold">{stepNarrative}</span>
+            <span className="font-body font-semibold truncate">{stepNarrative}</span>
           </div>
+        )}
 
-          <span className="text-[10px] font-mono text-slate-400">
-            Keys: ← → Step · R Reset · D Data
-          </span>
+        <div className="flex items-center space-x-2 shrink-0">
+          {/* Persona Rail Toggle */}
+          {onTogglePersonaRail && (
+            <button
+              type="button"
+              onClick={onTogglePersonaRail}
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-heading font-bold border transition-colors ${
+                showPersonaRail
+                  ? 'bg-sand-200 border-sand-400 text-navy-900'
+                  : 'bg-white border-slate-200 text-slate-600 hover:bg-sand-50'
+              }`}
+            >
+              {showPersonaRail ? 'Hide Personas' : 'Show Personas (10)'}
+            </button>
+          )}
+
+          {/* View Mode Switcher */}
+          {onSelectViewMode && (
+            <div className="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 text-[11px] font-heading font-extrabold">
+              <button
+                type="button"
+                onClick={() => onSelectViewMode('split')}
+                className={`px-2.5 py-1 rounded-md transition-all ${
+                  viewMode === 'split' ? 'bg-white shadow-xs text-navy-900' : 'text-slate-500 hover:text-navy-900'
+                }`}
+              >
+                Split Stage
+              </button>
+              <button
+                type="button"
+                onClick={() => onSelectViewMode('member')}
+                className={`px-2.5 py-1 rounded-md transition-all ${
+                  viewMode === 'member' ? 'bg-white shadow-xs text-navy-900' : 'text-slate-500 hover:text-navy-900'
+                }`}
+              >
+                Member Phone Focus
+              </button>
+              <button
+                type="button"
+                onClick={() => onSelectViewMode('staff')}
+                className={`px-2.5 py-1 rounded-md transition-all ${
+                  viewMode === 'staff' ? 'bg-white shadow-xs text-navy-900' : 'text-slate-500 hover:text-navy-900'
+                }`}
+              >
+                Staff Console Focus
+              </button>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
