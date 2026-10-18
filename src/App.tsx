@@ -18,6 +18,7 @@ import { StaffConsole } from './components/staff/StaffConsole';
 import { RulesLab } from './components/tabs/RulesLab';
 import { PilotPlan } from './components/tabs/PilotPlan';
 import { PrivacyAccess } from './components/tabs/PrivacyAccess';
+import { TheHeistInteractive } from './components/story/TheHeistInteractive';
 
 export function App() {
   const {
@@ -35,6 +36,8 @@ export function App() {
     initDataset,
   } = useStore();
 
+  const [theaterMode, setTheaterMode] = React.useState(false);
+
   // Try loading kit dataset if present
   useEffect(() => {
     loadDataset().then((dataset) => {
@@ -49,7 +52,8 @@ export function App() {
     label: { en: string; es: string };
     icon: React.FC<{ className?: string }>;
   }[] = [
-    { id: 'demo', label: { en: 'Live demo', es: 'Demostración en vivo' }, icon: Laptop },
+    { id: 'story', label: { en: '🎭 Interactive Story (with Audio)', es: '🎭 Historia Interactiva' }, icon: Sparkles },
+    { id: 'demo', label: { en: 'Live demo stage', es: 'Demostración en vivo' }, icon: Laptop },
     { id: 'practice', label: { en: 'Practice with Ollie', es: 'Practicar con Ollie' }, icon: Gamepad2 },
     { id: 'staff', label: { en: 'Staff console', es: 'Consola de personal' }, icon: Headphones },
     { id: 'rules', label: { en: 'Rules lab', es: 'Laboratorio de reglas' }, icon: Sliders },

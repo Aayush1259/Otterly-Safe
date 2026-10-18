@@ -9,9 +9,9 @@ interface AppState {
   cards: Card[];
   cases: Case[];
   memberKey: MemberKeyRow[];
-  activeTab: 'demo' | 'practice' | 'staff' | 'rules' | 'pilot' | 'privacy';
+  activeTab: 'story' | 'demo' | 'practice' | 'staff' | 'rules' | 'pilot' | 'privacy';
   lang: Lang;
-  setActiveTab: (tab: 'demo' | 'practice' | 'staff' | 'rules' | 'pilot' | 'privacy') => void;
+  setActiveTab: (tab: 'story' | 'demo' | 'practice' | 'staff' | 'rules' | 'pilot' | 'privacy') => void;
   toggleLang: () => void;
   setLang: (lang: Lang) => void;
   addMemberRule: (memberId: string, amount: number, category?: string) => void;
@@ -112,7 +112,7 @@ export const useStore = create<AppState>((set) => ({
   cards: cardsRaw as unknown as Card[],
   cases: normalizeCases(seed.cases),
   memberKey: seed.member_key,
-  activeTab: 'demo',
+  activeTab: 'story',
   lang: 'en',
 
   setActiveTab: (tab) => set({ activeTab: tab }),
