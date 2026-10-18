@@ -65,18 +65,19 @@ export function App() {
   return (
     <div className="min-h-screen bg-sand-50 text-navy-900 flex flex-col font-body selection:bg-kelp-200">
       {/* Sleek, Professional Header (No prototype clutter, focused member experience) */}
-      <header className="bg-white border-b border-slate-200/90 shadow-2xs sticky top-0 z-50 px-3 sm:px-6 py-2.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      <header className="bg-white border-b border-slate-200/90 shadow-2xs sticky top-0 z-50 px-2.5 sm:px-6 py-2 sm:py-2.5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
           {/* Brand Wordmark (Clean Sound Credit Union) */}
-          <div className="flex items-center space-x-3 shrink-0">
-            <div className="w-9 h-9 rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1 shrink-0 shadow-2xs">
-              <Ollie mood="wave" size={30} animated={false} />
+          <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1 shrink-0 shadow-2xs">
+              <Ollie mood="wave" size={28} animated={false} />
             </div>
             <div>
               <span className="font-heading font-black text-sm sm:text-base text-navy-900 leading-none tracking-tight block">
-                Sound Credit Union
+                <span className="hidden sm:inline">Sound Credit Union</span>
+                <span className="sm:hidden">Sound CU</span>
               </span>
-              <span className="text-[11px] font-heading font-extrabold text-otter-700 block mt-0.5">
+              <span className="hidden sm:block text-[11px] font-heading font-extrabold text-otter-700 mt-0.5">
                 Otterly Safe · Member Financial Protection
               </span>
             </div>
@@ -85,7 +86,7 @@ export function App() {
           {/* Simple, Streamlined Navigation */}
           <nav
             aria-label="Platform navigation"
-            className="flex items-center gap-2 text-xs font-heading font-extrabold"
+            className="flex items-center gap-1.5 sm:gap-2 text-xs font-heading font-extrabold"
           >
             {/* Primary View: Member Mobile App */}
             <button
@@ -95,14 +96,15 @@ export function App() {
                 setShowToolsMenu(false);
               }}
               aria-current={activeTab === 'story' ? 'page' : undefined}
-              className={`min-h-[42px] px-3.5 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 ${
+              className={`min-h-[38px] sm:min-h-[42px] px-2.5 sm:px-3.5 py-1.5 rounded-xl border transition-all flex items-center space-x-1 sm:space-x-1.5 ${
                 activeTab === 'story'
                   ? 'bg-kelp-700 text-white border-kelp-700 shadow-sm ring-2 ring-kelp-700/20'
                   : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
               }`}
             >
               <Smartphone className={`w-3.5 h-3.5 ${activeTab === 'story' ? 'text-white' : 'text-kelp-700'}`} />
-              <span>Member App</span>
+              <span className="hidden sm:inline">Member App</span>
+              <span className="sm:hidden">App</span>
             </button>
 
             {/* Compact Staff & Audit Tools Selector */}
@@ -112,7 +114,7 @@ export function App() {
                 onClick={() => setShowToolsMenu(!showToolsMenu)}
                 aria-expanded={showToolsMenu}
                 aria-haspopup="true"
-                className={`min-h-[42px] px-3.5 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 ${
+                className={`min-h-[38px] sm:min-h-[42px] px-2.5 sm:px-3.5 py-1.5 rounded-xl border transition-all flex items-center space-x-1 sm:space-x-1.5 ${
                   isAuditActive
                     ? 'bg-navy-900 text-white border-navy-900 shadow-sm'
                     : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
@@ -120,7 +122,13 @@ export function App() {
               >
                 <Sliders className="w-3.5 h-3.5" />
                 <span>
-                  {isAuditActive && currentAuditTab ? currentAuditTab.label : 'Staff & Audit Tools'} ▾
+                  <span className="hidden sm:inline">
+                    {isAuditActive && currentAuditTab ? currentAuditTab.label : 'Staff & Audit Tools'}
+                  </span>
+                  <span className="sm:hidden">
+                    {isAuditActive && currentAuditTab ? currentAuditTab.label.split(' ')[0] : 'Staff'}
+                  </span>{' '}
+                  ▾
                 </span>
               </button>
 
@@ -165,7 +173,7 @@ export function App() {
               type="button"
               onClick={toggleLang}
               aria-label={`Switch language. Current: ${lang === 'en' ? 'English' : 'Español'}`}
-              className="min-h-[42px] px-3 py-1.5 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 transition-colors flex items-center space-x-1 font-bold shrink-0 ml-1"
+              className="min-h-[38px] sm:min-h-[42px] px-2 sm:px-3 py-1.5 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 transition-colors flex items-center space-x-0.5 sm:space-x-1 font-bold shrink-0 ml-0.5"
             >
               <span className={lang === 'en' ? 'underline font-black text-kelp-700' : 'opacity-60'}>EN</span>
               <span className="opacity-30">|</span>
@@ -176,7 +184,7 @@ export function App() {
       </header>
 
       {/* Main Content View Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-2 sm:p-4">
+      <main className="flex-1 max-w-7xl w-full mx-auto p-1 sm:p-4">
         {activeTab === 'story' && (
           <OtterlySafeMobileApp
             member={members[0]}

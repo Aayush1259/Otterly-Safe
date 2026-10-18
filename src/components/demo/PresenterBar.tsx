@@ -193,29 +193,32 @@ export const PresenterBar: React.FC<PresenterBarProps> = ({
               <button
                 type="button"
                 onClick={() => onSelectViewMode('split')}
-                className={`px-2.5 py-1 rounded-md transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded-md transition-all whitespace-nowrap ${
                   viewMode === 'split' ? 'bg-white shadow-xs text-navy-900' : 'text-slate-500 hover:text-navy-900'
                 }`}
               >
-                Split Stage
+                <span className="hidden sm:inline">Split Stage</span>
+                <span className="sm:hidden">Split</span>
               </button>
               <button
                 type="button"
                 onClick={() => onSelectViewMode('member')}
-                className={`px-2.5 py-1 rounded-md transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded-md transition-all whitespace-nowrap ${
                   viewMode === 'member' ? 'bg-white shadow-xs text-navy-900' : 'text-slate-500 hover:text-navy-900'
                 }`}
               >
-                Member Phone Focus
+                <span className="hidden sm:inline">Member Phone</span>
+                <span className="sm:hidden">Phone</span>
               </button>
               <button
                 type="button"
                 onClick={() => onSelectViewMode('staff')}
-                className={`px-2.5 py-1 rounded-md transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded-md transition-all whitespace-nowrap ${
                   viewMode === 'staff' ? 'bg-white shadow-xs text-navy-900' : 'text-slate-500 hover:text-navy-900'
                 }`}
               >
-                Staff Console Focus
+                <span className="hidden sm:inline">Staff Console</span>
+                <span className="sm:hidden">Staff</span>
               </button>
             </div>
           )}
