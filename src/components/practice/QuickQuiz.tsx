@@ -44,14 +44,14 @@ export const QuickQuiz: React.FC<QuickQuizProps> = ({ lang, onComplete }) => {
   return (
     <div className="space-y-4 max-w-xl mx-auto select-none">
       {/* Header bar */}
-      <div className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl px-4 py-2.5 shadow-2xs">
-        <div className="flex items-center space-x-2">
-          <HelpCircle className="w-4 h-4 text-kelp-700" />
-          <span className="font-heading font-extrabold text-xs uppercase tracking-wider text-navy-900">
-            {lang === 'es' ? 'Cuestionario de Protección' : 'Quick Protection Quiz'}
+      <div className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-2xs gap-2">
+        <div className="flex items-center space-x-1.5 min-w-0">
+          <HelpCircle className="w-4 h-4 text-kelp-700 shrink-0" />
+          <span className="font-heading font-extrabold text-xs text-navy-900 truncate">
+            {lang === 'es' ? 'Cuestionario Rápido' : 'Quick Protection Quiz'}
           </span>
         </div>
-        <span className="text-xs font-mono font-bold text-slate-500">
+        <span className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-600 bg-sand-100 border border-sand-200 px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap">
           {!isDone ? `Q ${currentQIndex + 1} of ${QUICK_QUIZ.length}` : 'Completed'}
         </span>
       </div>

@@ -57,19 +57,31 @@ export const ScamOrLegitDeck: React.FC<ScamOrLegitDeckProps> = ({
   return (
     <div className="space-y-4 max-w-xl mx-auto select-none">
       {/* Top Deck Progress & Score */}
-      <div className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl px-4 py-2.5 shadow-2xs">
-        <div className="flex items-center space-x-2">
-          <span className="font-heading font-extrabold text-xs uppercase tracking-wider text-kelp-700">
-            {lang === 'es' ? 'Simulacro: ¿Estafa o Legítimo?' : 'Drill: Scam or Legit?'}
-          </span>
-          <span className="text-xs font-mono font-bold text-slate-500">
-            Card {currentIndex + 1} of {cards.length}
-          </span>
+      <div className="bg-white border border-slate-200/90 rounded-2xl p-2.5 sm:px-4 sm:py-3 shadow-2xs space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          {/* Activity title & card count */}
+          <div className="flex items-center space-x-2 min-w-0">
+            <span className="font-heading font-extrabold text-xs text-navy-900 tracking-tight whitespace-nowrap">
+              {lang === 'es' ? '¿Estafa o Legítimo?' : 'Scam or Legit?'}
+            </span>
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-600 bg-sand-100 border border-sand-200 px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap">
+              Card {currentIndex + 1} of {cards.length}
+            </span>
+          </div>
+
+          {/* Clean, Non-wrapping Score Pill */}
+          <div className="flex items-center space-x-1.5 font-heading font-extrabold text-xs text-amber-900 bg-amber-50 border border-amber-200/80 px-2.5 py-1 rounded-full shadow-2xs shrink-0 whitespace-nowrap">
+            <Award className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+            <span>Score: {score}</span>
+          </div>
         </div>
 
-        <div className="flex items-center space-x-1.5 font-heading font-bold text-xs text-navy-900 bg-sand-50 px-2.5 py-1 rounded-full border border-sand-200">
-          <Award className="w-3.5 h-3.5 text-otter-700" />
-          <span>Score: {score}</span>
+        {/* Visual Progress Bar (Shows 1 of 8 progress cleanly) */}
+        <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-kelp-600 to-emerald-500 transition-all duration-300 rounded-full"
+            style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
+          />
         </div>
       </div>
 

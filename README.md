@@ -3,6 +3,9 @@
 > **"Otterly safe, every wave of life."**  
 > *Sound Credit Union · UW Tacoma · HuskyHack 2026 Challenge: "Stop the scam before the money moves."*
 
+🌐 **Live Deployed Prototype:** [https://otterly-safe.vercel.app/](https://otterly-safe.vercel.app/)  
+💻 **GitHub Repository:** [https://github.com/Aayush1259/Otterly-Safe](https://github.com/Aayush1259/Otterly-Safe)
+
 ![Otterly Safe Header](public/favicon.svg)
 
 ---
@@ -27,35 +30,35 @@ Unlike conventional anti-fraud tools that rely on invasive device spyware, opaqu
 ```mermaid
 flowchart TD
     subgraph SoundInternalData["Sound Credit Union Internal Account Data Only"]
-        TX[Payment Amount, Type, Timing & Channel]
-        HIST[90-Day Transaction History & Balances]
-        PRF[Recent Password & Contact Changes]
-        TC[Opt-In Trusted Contact Info]
+        TX["Payment Amount, Type, Timing & Channel"]
+        HIST["90-Day Transaction History & Balances"]
+        PRF["Recent Password & Contact Changes"]
+        TC["Opt-In Trusted Contact Info"]
     end
 
     subgraph DeterministicEngine["Deterministic Rules Engine (Pure Functions)"]
-        R1[R1: First payment to recipient]
-        R2[R2: Amount ≥ 3x usual payment]
-        R3[R3: Amount ≥ 50% of balance]
-        R4[R4: Wire or instant P2P]
-        R5[R5: Profile change within 72h]
-        R6[R6: Big deposit + new payee]
-        R7[R7: Retry/split after hold]
-        OWN[Member Custom Rule Check]
+        R1["R1: First payment to recipient"]
+        R2["R2: Amount ≥ 3x usual payment"]
+        R3["R3: Amount ≥ 50% of balance"]
+        R4["R4: Wire or instant P2P"]
+        R5["R5: Profile change within 72h"]
+        R6["R6: Big deposit + new payee"]
+        R7["R7: Retry/split after hold"]
+        OWN["Member Custom Rule Check"]
     end
 
     subgraph DecisionLanes["Deterministic Lane Routing"]
-        TAKEOVER[Takeover Lane<br/>R5 + new payee + R2/R3]
-        SCAM[Scam Signs Lane<br/>R1+R4+(R2|R3) or R6 or R7]
-        LOOKALIKE[Look-Alike Lane<br/>R1|R2 alone or covered by rule]
-        NORMAL[Normal Lane<br/>Baseline activity]
+        TAKEOVER["Takeover Lane<br/>R5 + new payee + (R2 or R3)"]
+        SCAM["Scam Signs Lane<br/>R1 + R4 + (R2 or R3) or R6 or R7"]
+        LOOKALIKE["Look-Alike Lane<br/>R1 or R2 alone or covered by rule"]
+        NORMAL["Normal Lane<br/>Baseline activity"]
     end
 
     subgraph Interventions["Kelp UI Empathetic Interventions"]
-        LOCK[LockdownCard<br/>Freeze new payees + Alert old email]
-        CHECK[Ollie 30s Check Sheet<br/>Replay drill + 3 Qs + Zero bypass]
-        TIME[SendTimeCard<br/>Sends at 4:10 pm + Call to release]
-        PASS[Instant Clearance Receipt]
+        LOCK["LockdownCard<br/>Freeze new payees + Alert old email"]
+        CHECK["Ollie 30s Check Sheet<br/>Replay drill + 3 Qs + Zero bypass"]
+        TIME["SendTimeCard<br/>Sends at 4:10 pm + Call to release"]
+        PASS["Instant Clearance Receipt"]
     end
 
     SoundInternalData --> DeterministicEngine
@@ -83,9 +86,13 @@ flowchart TD
 
 ---
 
-## 🚀 How to Run the Prototype
+## 🚀 Live Demo & How to Run
 
-### Prerequisites
+### 🌐 Live Production Deployment
+- **Live URL:** [https://otterly-safe.vercel.app/](https://otterly-safe.vercel.app/)
+- **GitHub Repository:** [https://github.com/Aayush1259/Otterly-Safe](https://github.com/Aayush1259/Otterly-Safe)
+
+### Local Prerequisites
 - Node.js (v18 or v20+)
 - npm or pnpm
 
@@ -111,7 +118,7 @@ Open `http://localhost:5173` in your browser.
 npm run build
 npm run preview
 ```
-The application compiles to a static distribution (`dist/`) requiring zero server-side runtimes. It can be hosted on Vercel, Netlify, GitHub Pages, or operated offline from a local static web server.
+The application compiles to a static distribution (`dist/`) requiring zero server-side runtimes. It is deployed on Vercel at [https://otterly-safe.vercel.app/](https://otterly-safe.vercel.app/) and can also be hosted on Netlify, GitHub Pages, or run fully offline from a local static server.
 
 ---
 

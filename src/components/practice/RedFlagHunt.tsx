@@ -30,14 +30,14 @@ export const RedFlagHunt: React.FC<RedFlagHuntProps> = ({ lang, onComplete }) =>
   return (
     <div className="space-y-4 max-w-xl mx-auto select-none">
       {/* Header bar */}
-      <div className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl px-4 py-2.5 shadow-2xs">
-        <div className="flex items-center space-x-2">
-          <Target className="w-4 h-4 text-check-700" />
-          <span className="font-heading font-extrabold text-xs uppercase tracking-wider text-navy-900">
+      <div className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-2xs gap-2">
+        <div className="flex items-center space-x-1.5 min-w-0">
+          <Target className="w-4 h-4 text-check-700 shrink-0" />
+          <span className="font-heading font-extrabold text-xs text-navy-900 truncate">
             {RED_FLAG_HUNT.title[lang]}
           </span>
         </div>
-        <span className="text-xs font-mono font-bold text-slate-500">
+        <span className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-600 bg-sand-100 border border-sand-200 px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap">
           {foundIds.length} / {RED_FLAG_HUNT.targets.length} Spotted
         </span>
       </div>

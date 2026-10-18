@@ -48,14 +48,14 @@ export const RolePlayChat: React.FC<RolePlayChatProps> = ({ lang, onComplete, on
   return (
     <div className="space-y-4 max-w-xl mx-auto select-none">
       {/* Header bar */}
-      <div className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl px-4 py-2.5 shadow-2xs">
-        <div className="flex items-center space-x-2">
-          <PhoneCall className="w-4 h-4 text-stop-700" />
-          <span className="font-heading font-extrabold text-xs uppercase tracking-wider text-navy-900">
-            {lang === 'es' ? 'Simulación: La Llamada de Seguridad' : 'Role-Play: The Security Call'}
+      <div className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-2xs gap-2">
+        <div className="flex items-center space-x-1.5 min-w-0">
+          <PhoneCall className="w-4 h-4 text-stop-700 shrink-0" />
+          <span className="font-heading font-extrabold text-xs text-navy-900 truncate">
+            {lang === 'es' ? 'Simulación de Llamada' : 'Security Call Role-Play'}
           </span>
         </div>
-        <span className="text-xs font-mono font-bold text-slate-500">
+        <span className="text-[10px] sm:text-[11px] font-mono font-bold text-slate-600 bg-sand-100 border border-sand-200 px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap">
           Turn {!isFinished ? `${currentTurnIdx + 1} of ${ROLE_PLAY_TURNS.length}` : 'Done'}
         </span>
       </div>
