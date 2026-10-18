@@ -15,6 +15,7 @@ interface AppState {
   toggleLang: () => void;
   setLang: (lang: Lang) => void;
   addMemberRule: (memberId: string, amount: number, category?: string) => void;
+  recordPractice: (memberId: string, cardId: string, correct: boolean) => void;
   updateStaffDecision: (caseId: string, decision: Decision) => void;
   initDataset: (dataset: Dataset) => void;
 }
@@ -144,6 +145,22 @@ export const useStore = create<AppState>((set) => ({
           return {
             ...m,
             own_rules: [...m.own_rules, newRule],
+          };
+        }
+        return m;
+      }),
+    })),
+
+  recordPractice: (memberId, cardId, correct) =>
+    set((state) => ({
+      members: state.members.map((m) => {
+        if (m.member_id === memberId) {
+          return {
+            ...m,
+            practice_history: [
+              ...m.practice_history.filter((p) => p.card_id !== cardId),
+              { card_id: cardId, date: new Date().toISOString(), correct },
+            ],
           };
         }
         return m;

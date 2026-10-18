@@ -303,3 +303,5 @@ export const Ollie: React.FC<OllieProps> = ({
     </svg>
   );
 };
+
+export { OllieBubble } from './OllieBubble';

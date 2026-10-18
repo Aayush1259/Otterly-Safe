@@ -3,7 +3,8 @@ import { Ollie, type OllieMood } from './Ollie';
 
 interface OllieBubbleProps {
   mood?: OllieMood;
-  message: string;
+  message?: string;
+  text?: string;
   subtext?: string;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
@@ -18,11 +19,13 @@ interface OllieBubbleProps {
 export const OllieBubble: React.FC<OllieBubbleProps> = ({
   mood = 'wave',
   message,
+  text,
   subtext,
   className = '',
   size = 'md',
   layout = 'row',
 }) => {
+  const displayText = message || text || '';
   const otterSizes = {
     sm: 56,
     md: 72,
@@ -63,7 +66,7 @@ export const OllieBubble: React.FC<OllieBubbleProps> = ({
           </div>
 
           <p className="font-body text-member font-semibold text-navy-900 leading-snug">
-            {message}
+            {displayText}
           </p>
 
           {subtext && (

@@ -83,6 +83,7 @@ export default {
       },
       transitionDuration: {
         DEFAULT: '250ms',
+        calm: '250ms',
       },
       transitionTimingFunction: {
         DEFAULT: 'cubic-bezier(0.4, 0, 0.2, 1)',
