@@ -264,40 +264,120 @@ export const DemoStage: React.FC<DemoStageProps> = ({
         showDataDrawer={showDataDrawer}
         onToggleDataDrawer={() => setShowDataDrawer(!showDataDrawer)}
         stepNarrative={narrative}
+        viewMode={viewMode}
+        onSelectViewMode={(m) => setViewMode(m)}
+        showPersonaRail={showPersonaRail}
+        onTogglePersonaRail={() => setShowPersonaRail(!showPersonaRail)}
       />
 
-      {/* Main 4-Column Presentation Row */}
-      <div className="flex items-start gap-4 overflow-x-auto pb-2 justify-center">
-        {/* Column 1: PersonaRail (240px) */}
-        <div className="shrink-0 hidden xl:block">
-          <PersonaRail
-            members={members}
-            selectedMemberId={selectedMemberId}
-            onSelectMember={(id) => setSelectedMemberId(id)}
-            activeScenario={scenario}
-          />
+      {/* Top Persona Info & Quick Switcher Bar (Spacious & Clean) */}
+      <div className="bg-white border border-slate-200 rounded-2xl px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shadow-2xs">
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          <div className="flex items-center space-x-1.5 font-heading font-black text-navy-900">
+            <User className="w-4 h-4 text-otter-700" />
+            <span>Active: <strong>{currentMember.display_name}</strong></span>
+          </div>
+          <span className="text-[11px] font-mono text-slate-500 bg-sand-100 px-2.5 py-0.5 rounded-full border border-sand-200">
+            Age: {currentMember.age_band} · Checking: ${currentMember.balance.toLocaleString()} · Usual: ${currentMember.usual_payment}
+          </span>
+          {currentMember.trusted_contact ? (
+            <span className="text-[11px] font-bold text-safe-700 bg-safe-50 border border-safe-200 px-2 py-0.5 rounded-full flex items-center space-x-1">
+              <Users className="w-3 h-3" />
+              <span>Guardian: {currentMember.trusted_contact.name}</span>
+            </span>
+          ) : (
+            <span className="text-[11px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+              No Guardian
+            </span>
+          )}
         </div>
 
-        {/* Column 2: Member Phone (390×844) */}
-        <div className="shrink-0">
-          <PhoneFrame title="Sound Credit Union Member App">
-            <SoundAppShell
-              member={currentMember}
-              lang={lang}
-              onToggleLang={onToggleLang}
-              activeNav={scenario === 'practice' ? 'practice' : 'pay'}
+        <div className="flex items-center space-x-2">
+          {scenario !== 'onboarding' && (
+            <button
+              type="button"
+              onClick={() => {
+                setScenario('onboarding');
+                setStep(1);
+              }}
+              className="text-xs font-heading font-extrabold text-otter-700 bg-sand-100 hover:bg-sand-200 px-3 py-1.5 rounded-full border border-sand-300 flex items-center space-x-1.5 transition-colors"
             >
-              {/* Scenario 1: Practice Drill */}
-              {scenario === 'practice' && (
-                <div className="space-y-4">
-                  <ScamOrLegitDeck
-                    cards={[practiceCard]}
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Try Sign-Up Roleplay</span>
+            </button>
+          )}
+
+          <div className="flex items-center space-x-1.5 text-xs">
+            <label htmlFor="persona-select" className="font-heading font-bold text-slate-500">
+              Persona:
+            </label>
+            <select
+              id="persona-select"
+              value={selectedMemberId}
+              onChange={(e) => setSelectedMemberId(e.target.value)}
+              className="bg-sand-50 border border-slate-300 rounded-xl px-2.5 py-1 text-xs font-heading font-bold text-navy-900 focus:ring-2 focus:ring-kelp-700"
+            >
+              {members.map((m) => (
+                <option key={m.member_id} value={m.member_id}>
+                  {m.display_name} ({m.role}) — ${m.balance.toLocaleString()}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Presentation Stage Row */}
+      <div className="flex items-start gap-5 overflow-x-auto pb-2 justify-center">
+        {/* Optional Collapsible Persona Rail */}
+        {showPersonaRail && (
+          <div className="shrink-0 animate-fadeIn">
+            <PersonaRail
+              members={members}
+              selectedMemberId={selectedMemberId}
+              onSelectMember={(id) => setSelectedMemberId(id)}
+              activeScenario={scenario}
+            />
+          </div>
+        )}
+
+        {/* Column 2: Member Phone (shown in split or member mode) */}
+        {(viewMode === 'split' || viewMode === 'member') && (
+          <div className="shrink-0 transition-all">
+            <PhoneFrame title="Sound Credit Union Member App">
+              <SoundAppShell
+                member={currentMember}
+                lang={lang}
+                onToggleLang={onToggleLang}
+                activeNav={scenario === 'practice' ? 'practice' : 'pay'}
+              >
+                {/* Scenario 0: First-Time Onboarding & Imposter Role-Play */}
+                {scenario === 'onboarding' && (
+                  <OnboardingFlow
                     member={currentMember}
                     lang={lang}
-                    onSetRule={(amt) => onUpdateMemberRule(currentMember.member_id, amt)}
+                    onComplete={() => {
+                      setScenario('scam');
+                      setStep(1);
+                    }}
+                    onExit={() => {
+                      setScenario('scam');
+                      setStep(1);
+                    }}
                   />
-                </div>
-              )}
+                )}
+
+                {/* Scenario 1: Practice Drill */}
+                {scenario === 'practice' && (
+                  <div className="space-y-4">
+                    <ScamOrLegitDeck
+                      cards={[practiceCard]}
+                      member={currentMember}
+                      lang={lang}
+                      onSetRule={(amt) => onUpdateMemberRule(currentMember.member_id, amt)}
+                    />
+                  </div>
+                )}
 
               {/* Scenario 2: Scam (Anchor A) */}
               {scenario === 'scam' && (
@@ -467,28 +547,39 @@ export const DemoStage: React.FC<DemoStageProps> = ({
             </SoundAppShell>
           </PhoneFrame>
         </div>
+        )}
 
-        {/* Column 3: Second Phone (300×640) */}
-        <div className="shrink-0 hidden lg:block">
-          <SmsThread
-            member={currentMember}
-            mode={scenario === 'takeover' ? 'email' : 'sms'}
-            lang={lang}
-            scenario={scenario}
-          />
-        </div>
+        {/* Column 3: Second Phone (300×640, shown in split or member mode) */}
+        {(viewMode === 'split' || viewMode === 'member') && (
+          <div className="shrink-0 hidden lg:block transition-all">
+            <SmsThread
+              member={currentMember}
+              mode={scenario === 'takeover' ? 'email' : 'sms'}
+              lang={lang}
+              scenario={scenario}
+            />
+          </div>
+        )}
 
-        {/* Column 4: Staff Console Panel */}
-        <div className="flex-1 min-w-[380px] max-w-2xl shrink-0 hidden md:block">
-          <StaffConsole
-            cases={cases}
-            events={events}
-            members={members}
-            selectedCaseId={selectedCaseId}
-            onSelectCase={(id) => setSelectedCaseId(id)}
-            onDecision={(id, dec) => onStaffDecision(id, dec)}
-          />
-        </div>
+        {/* Column 4: Staff Console Panel (shown in split or staff mode) */}
+        {(viewMode === 'split' || viewMode === 'staff') && (
+          <div
+            className={`transition-all ${
+              viewMode === 'staff'
+                ? 'w-full max-w-4xl mx-auto'
+                : 'flex-1 min-w-[360px] max-w-2xl shrink-0 hidden md:block'
+            }`}
+          >
+            <StaffConsole
+              cases={cases}
+              events={events}
+              members={members}
+              selectedCaseId={selectedCaseId}
+              onSelectCase={(id) => setSelectedCaseId(id)}
+              onDecision={(id, dec) => onStaffDecision(id, dec)}
+            />
+          </div>
+        )}
       </div>
 
       {/* DecisionPipeline Strip underneath phones */}

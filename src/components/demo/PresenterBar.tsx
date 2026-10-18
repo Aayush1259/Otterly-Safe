@@ -11,6 +11,7 @@ import {
   Home,
   AlertOctagon,
   HeartHandshake,
+  Sparkles,
 } from 'lucide-react';
 
 export type DemoScenario = 'onboarding' | 'practice' | 'scam' | 'lookalike' | 'takeover' | 'missed';

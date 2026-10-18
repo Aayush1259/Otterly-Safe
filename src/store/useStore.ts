@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { BankEvent, Card, Case, Dataset, Decision, Lang, Member, MemberKeyRow } from '../types';
+import type { BankEvent, Card, Case, Dataset, Decision, Lang, Lane, Member, MemberKeyRow } from '../types';
 import seedDataRaw from '../data/seed.json';
 import cardsRaw from '../data/cards.json';
 
@@ -75,7 +75,7 @@ function normalizeCases(rawCases: any[]): Case[] {
       ],
       decision: 'pending',
       created_at: '2026-10-18T10:14:00-07:00',
-      source: 'live',
+      source: 'demo',
       audit: [
         {
           at: '2026-10-18T10:14:00-07:00',

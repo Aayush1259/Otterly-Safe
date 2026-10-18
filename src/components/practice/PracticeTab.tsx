@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Gamepad2, ShieldAlert, PhoneCall, Target, HelpCircle, Award } from 'lucide-react';
+import { Gamepad2, ShieldAlert, PhoneCall, Target, HelpCircle, Award, Sparkles } from 'lucide-react';
 import type { Card, Lang, Member } from '../../types';
 import { ScamOrLegitDeck } from './ScamOrLegitDeck';
 import { RolePlayChat } from './RolePlayChat';
 import { RedFlagHunt } from './RedFlagHunt';
 import { QuickQuiz } from './QuickQuiz';
 import { ShellBadges } from './ShellBadges';
+import { OnboardingFlow } from '../onboarding/OnboardingFlow';
+import { PhoneFrame } from '../PhoneFrame';
 
 interface PracticeTabProps {
   cards: Card[];
@@ -14,7 +16,7 @@ interface PracticeTabProps {
   onSetRule?: (amount: number) => void;
 }
 
-type PracticeMode = 'deck' | 'roleplay' | 'hunt' | 'quiz';
+type PracticeMode = 'imposter_call' | 'deck' | 'roleplay' | 'hunt' | 'quiz';
 
 export const PracticeTab: React.FC<PracticeTabProps> = ({
   cards,
@@ -22,7 +24,7 @@ export const PracticeTab: React.FC<PracticeTabProps> = ({
   lang,
   onSetRule,
 }) => {
-  const [activeMode, setActiveMode] = useState<PracticeMode>('deck');
+  const [activeMode, setActiveMode] = useState<PracticeMode>('imposter_call');
   const [unlockedBadges, setUnlockedBadges] = useState<string[]>([
     'first_catch', // unlocked by default for demo
   ]);
@@ -63,10 +65,11 @@ export const PracticeTab: React.FC<PracticeTabProps> = ({
         {/* Sub-Nav Pill Switcher */}
         <div className="flex flex-wrap items-center justify-center gap-2 pt-3">
           {[
+            { id: 'imposter_call', icon: Sparkles, label: '🎭 The Imposter Call Simulator' },
             { id: 'deck', icon: ShieldAlert, label: 'Scam or Legit? Cards' },
-            { id: 'roleplay', icon: PhoneCall, label: 'Bank Security Call' },
+            { id: 'roleplay', icon: PhoneCall, label: 'Branching Chat' },
             { id: 'hunt', icon: Target, label: 'Red-Flag Hunt' },
-            { id: 'quiz', icon: HelpCircle, label: '5-Question Quiz' },
+            { id: 'quiz', icon: HelpCircle, label: 'Quick Quiz' },
           ].map((tab) => {
             const Icon = tab.icon;
             const isActive = activeMode === tab.id;
@@ -93,15 +96,30 @@ export const PracticeTab: React.FC<PracticeTabProps> = ({
       <ShellBadges unlockedBadges={unlockedBadges} lang={lang} />
 
       {/* Active Game Mode */}
-      <div>
+      <div className="flex justify-center">
+        {activeMode === 'imposter_call' && (
+          <div className="w-[390px] mx-auto">
+            <PhoneFrame title="Sound Protective Drill Simulator">
+              <OnboardingFlow
+                member={member}
+                lang={lang}
+                onComplete={() => setActiveMode('deck')}
+                onExit={() => setActiveMode('deck')}
+              />
+            </PhoneFrame>
+          </div>
+        )}
+
         {activeMode === 'deck' && (
-          <ScamOrLegitDeck
-            cards={cards}
-            member={member}
-            lang={lang}
-            onSetRule={onSetRule}
-            onCardFinished={handleCardFinished}
-          />
+          <div className="w-full">
+            <ScamOrLegitDeck
+              cards={cards}
+              member={member}
+              lang={lang}
+              onSetRule={onSetRule}
+              onCardFinished={handleCardFinished}
+            />
+          </div>
         )}
 
         {activeMode === 'roleplay' && (
