@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Home, ArrowLeftRight, Gamepad2, HelpCircle } from 'lucide-react';
+import { ShieldCheck, Home, ArrowLeftRight, Gamepad2, HelpCircle, Bell, Menu } from 'lucide-react';
 import type { Lang, Member } from '../types';
 
 interface SoundAppShellProps {
@@ -9,13 +9,15 @@ interface SoundAppShellProps {
   onToggleLang: () => void;
   activeNav?: 'accounts' | 'pay' | 'practice' | 'support';
   onNavSelect?: (tab: 'accounts' | 'pay' | 'practice' | 'support') => void;
+  notificationCount?: number;
+  onOpenNotifications?: () => void;
+  onOpenMenu?: () => void;
 }
 
 /**
  * Standard Sound Credit Union mobile app shell.
- * Includes text wordmark "Sound Credit Union (prototype)",
- * persistent "Prototype · synthetic data" disclaimer badge,
- * and WCAG 2.2 compliant navigation touch targets (≥ 48px).
+ * Clean member brand with Notification Bell (unread trivia & reminders)
+ * and Hamburger Menu for quick resource navigation.
  */
 export const SoundAppShell: React.FC<SoundAppShellProps> = ({
   children,
@@ -24,47 +26,44 @@ export const SoundAppShell: React.FC<SoundAppShellProps> = ({
   onToggleLang,
   activeNav = 'pay',
   onNavSelect,
+  notificationCount = 0,
+  onOpenNotifications,
+  onOpenMenu,
 }) => {
   return (
-    <div className="flex-1 flex flex-col h-full bg-sand-50 select-none">
-      {/* Brand & Wordmark Header */}
-      <header className="bg-white border-b border-slate-200/80 px-4 py-2.5 shrink-0 flex items-center justify-between shadow-sm">
-        <div className="flex flex-col">
-          <div className="flex items-center space-x-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-kelp-700 inline-block" />
-            <h1 className="font-heading font-extrabold text-sm tracking-tight text-navy-900 leading-none">
-              Sound Credit Union
-            </h1>
-          </div>
-          <span className="text-[10px] font-mono font-medium text-slate-500 uppercase tracking-wider pl-4">
-            (prototype)
-          </span>
+    <div className="flex-1 flex flex-col h-full bg-sand-50 select-none relative">
+      {/* Brand Header with Notification Bell & Hamburger Menu */}
+      <header className="bg-white border-b border-slate-200/80 px-4 py-2.5 shrink-0 flex items-center justify-between shadow-2xs">
+        <div className="flex items-center space-x-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-kelp-700 inline-block shrink-0 shadow-2xs" />
+          <h1 className="font-heading font-extrabold text-sm tracking-tight text-navy-900 leading-none">
+            Sound Credit Union
+          </h1>
         </div>
 
-        <div className="flex items-center space-x-2">
-          {/* EN / ES Language Switch */}
+        <div className="flex items-center space-x-1">
+          {/* Unread Trivia & Reminders Bell */}
           <button
             type="button"
-            onClick={onToggleLang}
-            aria-label={`Switch language. Current: ${lang === 'en' ? 'English' : 'Español'}`}
-            className="inline-flex items-center justify-center px-2 py-1 rounded-full text-xs font-bold font-heading bg-sand-100 hover:bg-sand-200 text-kelp-800 border border-kelp-700/20 transition-colors focus:ring-2 focus:ring-kelp-700 focus:outline-none min-h-[32px]"
+            onClick={onOpenNotifications}
+            aria-label={`View notifications. ${notificationCount} unread`}
+            className="relative p-2 rounded-xl text-slate-700 hover:text-navy-900 hover:bg-sand-100 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
           >
-            <span className={lang === 'en' ? 'underline font-black' : 'opacity-60'}>EN</span>
-            <span className="mx-1 opacity-40">|</span>
-            <span className={lang === 'es' ? 'underline font-black' : 'opacity-60'}>ES</span>
+            <Bell className="w-4 h-4 text-slate-600" />
+            {notificationCount > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-white animate-pulse" />
+            )}
           </button>
 
-          {/* Member avatar initials */}
-          <div
-            className="w-8 h-8 rounded-full bg-kelp-700 text-white flex items-center justify-center text-xs font-heading font-bold shadow-sm"
-            title={member.display_name}
+          {/* Resources Hamburger Menu */}
+          <button
+            type="button"
+            onClick={onOpenMenu}
+            aria-label="Open resources and navigation menu"
+            className="p-2 rounded-xl text-slate-700 hover:text-navy-900 hover:bg-sand-100 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
           >
-            {member.display_name
-              .split(' ')
-              .map((n) => n[0])
-              .join('')
-              .slice(0, 2)}
-          </div>
+            <Menu className="w-4 h-4 text-slate-700" />
+          </button>
         </div>
       </header>
 

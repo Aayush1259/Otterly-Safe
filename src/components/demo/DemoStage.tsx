@@ -69,6 +69,9 @@ export const DemoStage: React.FC<DemoStageProps> = ({
     else if (scenario === 'missed') setSelectedMemberId('ANCHOR-C');
   }, [scenario]);
 
+  const currentMember =
+    members.find((m) => m.member_id === selectedMemberId) || members[0];
+
   const memberLastPracticed = currentMember.practice_history?.[currentMember.practice_history.length - 1];
   const practiceCard =
     (memberLastPracticed && cards.find((c) => c.card_id === memberLastPracticed.card_id)) ||

@@ -26,6 +26,10 @@ import {
   Gamepad2,
   Home,
   ArrowLeftRight,
+  Bell,
+  Menu,
+  X,
+  BookOpen,
 } from 'lucide-react';
 import { Ollie } from '../Ollie';
 import { PhoneFrame } from '../PhoneFrame';
@@ -83,9 +87,14 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
   // In-App Navigation Tab: 'accounts' | 'pay' | 'practice' | 'support'
   const [activeNav, setActiveNav] = useState<'accounts' | 'pay' | 'practice' | 'support'>('accounts');
 
-  // First-Time Sign-Up Sub-Stages
-  const [onboardingStage, setOnboardingStage] = useState<'login' | 'drill' | 'certified'>('login');
-  const [drillCardsChecked, setDrillCardsChecked] = useState<number[]>([0]);
+  // First-Time Sign-Up Sub-Stages: 'login' | 'warmup'
+  const [onboardingStage, setOnboardingStage] = useState<'login' | 'warmup'>('login');
+  const [warmupAnswer, setWarmupAnswer] = useState<number | null>(null);
+
+  // Notification Bell & Hamburger Drawer states
+  const [unreadNotifications, setUnreadNotifications] = useState(1);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [showHamburgerDrawer, setShowHamburgerDrawer] = useState(false);
 
   // Payment & Scam Trigger Points
   const [payeeName, setPayeeName] = useState('Federal Reserve Escrow Lockbox');
@@ -223,133 +232,49 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
 
   return (
     <div className="min-h-screen bg-sand-50 text-navy-900 flex flex-col justify-between max-w-7xl mx-auto px-2 sm:px-4 py-3 select-none">
-      {/* Sleek, Creative, Accessible Top Toolbar (Zero Horizontal Scrollbar) */}
+      {/* Sleek, Simplified, Non-Crowded Header (No prototype text, clean essentials) */}
       <header className="bg-white border border-slate-200/90 rounded-2xl sm:rounded-3xl p-3 sm:p-4 shadow-sm mb-3 shrink-0">
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
-          {/* Brand, Wordmark & Synthetic Data Guardrail */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          {/* Brand & Wordmark (Clean Sound Credit Union) */}
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1 shrink-0 shadow-2xs">
               <Ollie mood="wave" size={34} animated={false} />
             </div>
             <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-heading font-black text-sm sm:text-base text-navy-900 leading-none tracking-tight">
-                  Sound Credit Union (prototype)
-                </span>
-                <span className="text-[10px] font-mono font-bold text-slate-600 bg-sand-100 px-2.5 py-0.5 rounded-full border border-sand-200 shadow-2xs">
-                  Prototype · synthetic data
-                </span>
-              </div>
-              <div className="flex items-center space-x-2 mt-1">
-                <span className="text-xs font-heading font-extrabold text-otter-700">
-                  Otterly Safe · "Otterly safe, every wave of life"
-                </span>
-                <span className="text-slate-300">|</span>
-                <div className="inline-flex items-center space-x-1 text-[11px] font-medium text-safe-700">
-                  <span className="w-1.5 h-1.5 rounded-full bg-safe-700 animate-pulse" />
-                  <span>Pre-Movement Protection Active</span>
-                </div>
-              </div>
+              <span className="font-heading font-black text-sm sm:text-base text-navy-900 leading-none tracking-tight block">
+                Sound Credit Union
+              </span>
+              <span className="text-xs font-heading font-extrabold text-otter-700 block mt-0.5">
+                Otterly Safe · "Otterly safe, every wave of life"
+              </span>
             </div>
           </div>
 
-          {/* Quick Experience Switchers & Accessibility Controls (Wrap-friendly, no ugly scrollbar) */}
-          <div className="flex flex-wrap items-center gap-1.5 text-xs font-heading font-extrabold">
+          {/* Simple, Non-Crowded Actions */}
+          <div className="flex flex-wrap items-center gap-2 text-xs font-heading font-extrabold">
+            {/* Quick Demo Reset */}
             <button
               type="button"
               onClick={handleResetToFirstTime}
-              aria-label="First-Time Sign Up and defensive roleplay activity"
-              className={`min-h-[48px] px-3.5 py-2 rounded-xl border transition-all flex items-center space-x-2 shrink-0 ${
-                appMode === 'onboarding'
-                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-sm ring-2 ring-kelp-700/20'
-                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
-              }`}
+              aria-label="Restart onboarding demo"
+              className="min-h-[44px] px-3.5 py-1.5 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 flex items-center space-x-1.5 transition-colors shadow-2xs"
             >
-              <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>1. First-Time Sign Up</span>
+              <RotateCcw className="w-3.5 h-3.5 text-kelp-700" />
+              <span>Reset Demo</span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                setAppMode('app');
-                setActiveNav('pay');
-                setPaymentState('form');
-              }}
-              aria-label="Send Money and test scam triggers before money moves"
-              className={`min-h-[48px] px-3.5 py-2 rounded-xl border transition-all flex items-center space-x-2 shrink-0 ${
-                appMode === 'app' && activeNav === 'pay'
-                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-sm ring-2 ring-kelp-700/20'
-                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
-              }`}
-            >
-              <ArrowLeftRight className="w-4 h-4 text-kelp-700 shrink-0" />
-              <span>2. Send Money (Test Scam Triggers)</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setAppMode('app');
-                setActiveNav('practice');
-                setPracticeGame('menu');
-              }}
-              aria-label="Practice mini games and scam trivia inside the app"
-              className={`min-h-[48px] px-3.5 py-2 rounded-xl border transition-all flex items-center space-x-2 shrink-0 ${
-                appMode === 'app' && activeNav === 'practice'
-                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-sm ring-2 ring-kelp-700/20'
-                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
-              }`}
-            >
-              <Gamepad2 className="w-4 h-4 text-otter-600 shrink-0" />
-              <span>3. Mini-Games & Trivia</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setAppMode('app');
-                setActiveNav('support');
-              }}
-              aria-label="Ask Ollie AI assistant inside the mobile app"
-              className={`min-h-[48px] px-3.5 py-2 rounded-xl border transition-all flex items-center space-x-2 shrink-0 ${
-                appMode === 'app' && activeNav === 'support'
-                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-sm ring-2 ring-kelp-700/20'
-                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
-              }`}
-            >
-              <MessageSquare className="w-4 h-4 text-kelp-600 shrink-0" />
-              <span>4. Ask Ollie (AI Chat)</span>
-            </button>
-
-            {/* Language Switch */}
-            <button
-              type="button"
-              onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
-              aria-label={`Switch language. Currently ${lang === 'en' ? 'English' : 'Spanish'}`}
-              className="min-h-[48px] px-3 py-2 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 transition-colors flex items-center space-x-1"
-            >
-              <span className={lang === 'en' ? 'underline font-black text-kelp-700' : 'opacity-60'}>EN</span>
-              <span className="opacity-30">|</span>
-              <span className={lang === 'es' ? 'underline font-black text-kelp-700' : 'opacity-60'}>ES</span>
-            </button>
-
-            {/* Sound FX Toggle */}
+            {/* Audio Toggle */}
             <button
               type="button"
               onClick={() => setSoundEnabled(!soundEnabled)}
-              aria-label={soundEnabled ? 'Mute audio sound effects' : 'Enable audio sound effects'}
-              className={`min-h-[48px] px-3 py-2 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1.5 transition-colors shrink-0 ${
-                soundEnabled
-                  ? 'bg-sand-100 text-kelp-800 border-kelp-300 shadow-2xs'
-                  : 'bg-slate-100 text-slate-500 border-slate-300'
-              }`}
+              aria-label={soundEnabled ? 'Mute audio' : 'Enable audio'}
+              className="min-h-[44px] px-3 py-1.5 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 flex items-center space-x-1.5 transition-colors shadow-2xs"
             >
-              {soundEnabled ? <Volume2 className="w-4 h-4 text-kelp-700" /> : <VolumeX className="w-4 h-4" />}
+              {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-kelp-700" /> : <VolumeX className="w-3.5 h-3.5 text-slate-400" />}
               <span>{soundEnabled ? 'Sound ON' : 'Muted'}</span>
             </button>
 
-            {/* Side-by-side Companion Layout Toggle */}
+            {/* Companion View Switcher */}
             <button
               type="button"
               onClick={() => {
@@ -357,21 +282,15 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 else if (companionView === 'sms') setCompanionView('staff');
                 else setCompanionView('none');
               }}
-              aria-label="Toggle side-by-side companion views: Phone Only, Phone with Family SMS, or Phone with Staff Log"
-              className={`min-h-[48px] px-3 py-2 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1.5 transition-colors shrink-0 ${
+              aria-label="Toggle companion phone view"
+              className={`min-h-[44px] px-3.5 py-1.5 rounded-xl border transition-colors flex items-center space-x-1.5 ${
                 companionView !== 'none'
-                  ? 'bg-navy-900 text-white border-navy-900 shadow-sm'
-                  : 'bg-sand-50 text-slate-600 border-slate-200 hover:bg-white'
+                  ? 'bg-navy-900 text-white border-navy-900 shadow-2xs'
+                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
               }`}
             >
-              <Smartphone className="w-4 h-4" />
-              <span>
-                {companionView === 'none'
-                  ? 'Phone Only'
-                  : companionView === 'sms'
-                  ? 'Phone + Family SMS'
-                  : 'Phone + Staff Log'}
-              </span>
+              <Smartphone className="w-3.5 h-3.5" />
+              <span>{companionView === 'none' ? 'Phone Only' : companionView === 'sms' ? '+ Family SMS' : '+ Staff Log'}</span>
             </button>
           </div>
         </div>
