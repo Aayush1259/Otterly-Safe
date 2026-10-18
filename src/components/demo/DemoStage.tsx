@@ -401,7 +401,7 @@ export const DemoStage: React.FC<DemoStageProps> = ({
 
         {/* Column 2: Member Phone (shown in split or member mode) */}
         {(viewMode === 'member' || (viewMode === 'split' && (mobileDeviceFocus === 'member' || true))) && (
-          <div className={`shrink-0 transition-all w-full max-w-md sm:max-w-[390px] ${
+          <div className={`shrink-0 transition-all ${
             viewMode === 'split' && mobileDeviceFocus !== 'member' ? 'hidden lg:block' : 'block'
           }`}>
             <PhoneFrame title="Sound Credit Union Member App">

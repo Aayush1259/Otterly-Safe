@@ -234,7 +234,7 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
       {/* Main Mobile App Stage */}
       <main className="flex-1 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-4 lg:gap-6 pb-2 pt-1">
         {/* Centered Mobile Phone Frame */}
-        <div className="w-full max-w-md sm:max-w-[390px] shrink-0 transition-all flex flex-col items-center space-y-2">
+        <div className="shrink-0 transition-all flex flex-col items-center space-y-2.5">
           {/* Subtle, Minimal Device Utility Pills */}
           <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-xs font-heading font-extrabold bg-white border border-slate-200/90 px-2.5 sm:px-3 py-1 rounded-full shadow-2xs max-w-full">
             <button

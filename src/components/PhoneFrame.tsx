@@ -21,34 +21,35 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
 }) => {
   return (
     <div
-      className={`relative mx-auto w-full max-w-md sm:max-w-[390px] h-[calc(100dvh-115px)] sm:h-[min(844px,calc(100dvh-125px))] min-h-[560px] bg-transparent sm:bg-slate-900 rounded-2xl sm:rounded-[48px] p-0 sm:p-3 sm:shadow-phone sm:border-[4px] sm:border-slate-800 flex flex-col select-none shrink-0 overflow-hidden ${className}`}
+      className={`relative mx-auto w-[393px] max-w-full h-[852px] bg-slate-950 rounded-[56px] p-3 shadow-2xl border-[4px] border-slate-800 ring-1 ring-white/15 flex flex-col select-none shrink-0 overflow-hidden ${className}`}
       role="region"
       aria-label={title}
     >
-      {/* Outer rim glare simulation (desktop chassis only) */}
-      <div className="hidden sm:block absolute inset-0 rounded-[44px] pointer-events-none border border-white/10" />
+      {/* Outer titanium rim sheen */}
+      <div className="absolute inset-0 rounded-[52px] pointer-events-none border border-white/10" />
 
       {/* Screen container */}
-      <div className="relative w-full h-full bg-sand-50 rounded-2xl sm:rounded-[36px] overflow-hidden flex flex-col text-navy-900 shadow-sm sm:shadow-none border border-slate-200 sm:border-0">
-        {/* Dynamic Island / Speaker Pill (desktop chassis only) */}
-        <div className="hidden sm:flex absolute top-2 left-1/2 -translate-x-1/2 w-28 h-6 bg-slate-950 rounded-full z-50 items-center justify-between px-3 pointer-events-none">
-          <div className="w-2.5 h-2.5 rounded-full bg-slate-800" />
-          <div className="w-3 h-3 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-sky-950/80" />
+      <div className="relative w-full h-full bg-sand-50 rounded-[44px] overflow-hidden flex flex-col text-navy-900 shadow-inner">
+        {/* iPhone 17 Pro Dynamic Island */}
+        <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-full z-50 flex items-center justify-between px-3.5 shadow-md pointer-events-none">
+          <div className="w-2.5 h-2.5 rounded-full bg-slate-900/90 border border-slate-800" />
+          <div className="w-3.5 h-3.5 rounded-full bg-slate-950 border border-slate-800/90 flex items-center justify-center">
+            <div className="w-1.5 h-1.5 rounded-full bg-indigo-950/90 ring-1 ring-indigo-500/20" />
           </div>
         </div>
 
-        {/* Status Bar (Desktop chassis only; mobile uses the user's native device bar) */}
+        {/* Status Bar */}
         <div
-          className="hidden sm:flex relative z-40 w-full h-10 px-7 items-center justify-between text-xs font-semibold text-navy-900 shrink-0 pt-1"
+          className="relative z-40 w-full h-11 px-7 flex items-center justify-between text-xs font-semibold text-navy-900 shrink-0 pt-1"
           aria-hidden="true"
         >
-          <span className="font-heading font-bold text-xs tracking-tight">{time}</span>
+          <span className="font-heading font-black text-xs tracking-tight">{time}</span>
           <div className="flex items-center space-x-1.5">
-            <Signal className="w-3.5 h-3.5" />
-            <Wifi className="w-3.5 h-3.5" />
+            <Signal className="w-3.5 h-3.5 text-navy-900" />
+            <span className="text-[10px] font-heading font-extrabold text-navy-900">5G</span>
+            <Wifi className="w-3.5 h-3.5 text-navy-900" />
             <div className="flex items-center space-x-0.5">
-              <span className="text-[10px] font-mono">100%</span>
+              <span className="text-[10px] font-mono font-bold">100%</span>
               <Battery className="w-4 h-4 text-safe-700 fill-safe-700" />
             </div>
           </div>
@@ -59,9 +60,9 @@ export const PhoneFrame: React.FC<PhoneFrameProps> = ({
           {children}
         </div>
 
-        {/* Bottom Home Indicator (Desktop chassis only) */}
-        <div className="hidden sm:flex w-full h-4 items-center justify-center shrink-0 pb-1" aria-hidden="true">
-          <div className="w-32 h-1 bg-slate-400/80 rounded-full" />
+        {/* iPhone Swipe Home Indicator */}
+        <div className="w-full h-5 flex items-center justify-center shrink-0 pb-1" aria-hidden="true">
+          <div className="w-36 h-1 bg-slate-400/90 rounded-full" />
         </div>
       </div>
     </div>
