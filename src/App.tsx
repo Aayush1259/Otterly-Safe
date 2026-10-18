@@ -65,7 +65,7 @@ export function App() {
   return (
     <div className="min-h-screen bg-sand-50 text-navy-900 flex flex-col font-body selection:bg-kelp-200">
       {/* Sleek, Professional Header (No prototype clutter, focused member experience) */}
-      <header className="bg-white border-b border-slate-200/90 shadow-2xs sticky top-0 z-50 px-2.5 sm:px-6 py-2 sm:py-2.5">
+      <header className="bg-white border-b border-slate-200/90 shadow-2xs sticky top-0 z-50 px-2.5 sm:px-6 py-1.5 sm:py-2">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
           {/* Brand Wordmark (Clean Sound Credit Union) */}
           <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
@@ -184,7 +184,7 @@ export function App() {
       </header>
 
       {/* Main Content View Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-1 sm:p-4">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-1 sm:px-4 py-0.5 sm:py-1.5 flex flex-col justify-center">
         {activeTab === 'story' && (
           <OtterlySafeMobileApp
             member={members[0]}

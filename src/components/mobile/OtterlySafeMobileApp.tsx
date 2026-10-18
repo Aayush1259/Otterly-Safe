@@ -30,6 +30,8 @@ import {
   Menu,
   X,
   BookOpen,
+  Maximize2,
+  Minimize2,
 } from 'lucide-react';
 import { Ollie } from '../Ollie';
 import { PhoneFrame } from '../PhoneFrame';
@@ -79,6 +81,7 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
   const [member, setMember] = useState<Member>(defaultMember);
   const [lang, setLang] = useState<Lang>('en');
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [autoFitPhone, setAutoFitPhone] = useState(true);
 
   // App Level Mode: Starts directly on the main dashboard ('app')
   const [appMode, setAppMode] = useState<'onboarding' | 'app'>('app');
@@ -230,13 +233,13 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
   };
 
   return (
-    <div className="w-full flex-1 flex flex-col justify-start max-w-7xl mx-auto px-1 sm:px-4 py-1 sm:py-2 select-none">
+    <div className="w-full flex-1 flex flex-col justify-start max-w-7xl mx-auto px-1 sm:px-4 py-0.5 sm:py-1 select-none">
       {/* Main Mobile App Stage */}
-      <main className="flex-1 flex flex-col lg:flex-row items-center lg:items-start justify-center gap-4 lg:gap-6 pb-2 pt-1">
+      <main className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-3 lg:gap-5 pb-1 pt-0.5">
         {/* Centered Mobile Phone Frame */}
-        <div className="shrink-0 transition-all flex flex-col items-center space-y-2.5">
+        <div className="shrink-0 transition-all flex flex-col items-center space-y-1.5">
           {/* Subtle, Minimal Device Utility Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-xs font-heading font-extrabold bg-white border border-slate-200/90 px-2.5 sm:px-3 py-1 rounded-full shadow-2xs max-w-full">
+          <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2 text-[11px] font-heading font-extrabold bg-white border border-slate-200/90 px-2.5 py-0.5 rounded-full shadow-2xs max-w-full">
             <button
               type="button"
               onClick={handleResetToFirstTime}
@@ -274,9 +277,24 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
               <Smartphone className="w-3.5 h-3.5 text-navy-900" />
               <span>{companionView === 'none' ? 'Phone Only' : companionView === 'sms' ? '+ Family SMS' : '+ Staff Log'}</span>
             </button>
+
+            <span className="text-slate-200">|</span>
+
+            <button
+              type="button"
+              onClick={() => setAutoFitPhone(!autoFitPhone)}
+              aria-label="Toggle auto-fit to screen"
+              title={autoFitPhone ? "Auto-fit active (scaled to fit screen height). Click for 100% full size." : "100% full size active. Click to auto-fit to screen."}
+              className={`px-2 py-0.5 rounded-full flex items-center space-x-1 transition-colors ${
+                autoFitPhone ? 'bg-kelp-50 text-kelp-900 font-black' : 'hover:bg-sand-100 text-slate-600'
+              }`}
+            >
+              {autoFitPhone ? <Minimize2 className="w-3.5 h-3.5 text-kelp-700" /> : <Maximize2 className="w-3.5 h-3.5 text-slate-500" />}
+              <span>{autoFitPhone ? 'Fit Screen' : '100% Size'}</span>
+            </button>
           </div>
 
-          <PhoneFrame title="Sound Credit Union Mobile App">
+          <PhoneFrame title="Sound Credit Union Mobile App" autoFit={autoFitPhone}>
             {/* =========================================================================
                 SCENARIO A: FIRST-TIME SIGN-UP & SCAM AWARENESS ACTIVITY
                ========================================================================= */}
