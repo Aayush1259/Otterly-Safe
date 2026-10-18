@@ -744,21 +744,21 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                           }}
                           className="bg-gradient-to-r from-sky-50 to-emerald-50 rounded-2xl p-3.5 border border-sky-300 hover:border-sky-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs active:scale-98"
                         >
-                          <div className="flex items-center space-x-3">
+                          <div className="flex items-center space-x-3 min-w-0 flex-1">
                             <div className="w-9 h-9 rounded-xl bg-white border border-sky-300 flex items-center justify-center text-lg shadow-2xs shrink-0">
                               🌊
                             </div>
-                            <div>
-                              <div className="flex items-center space-x-2">
-                                <strong className="text-xs sm:text-sm font-heading font-extrabold text-navy-900 block leading-tight">
-                                  Daily 30s River Challenge
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between gap-1.5">
+                                <strong className="text-xs sm:text-sm font-heading font-extrabold text-navy-900 truncate">
+                                  Daily River Challenge
                                 </strong>
-                                <span className="bg-sky-200 text-sky-900 text-xs font-heading font-bold px-2 py-0.5 rounded-full">
+                                <span className="shrink-0 whitespace-nowrap bg-sky-200 text-sky-900 text-[10px] font-heading font-extrabold px-2 py-0.5 rounded-full">
                                   96% Played
                                 </span>
                               </div>
-                              <span className="text-xs font-body text-slate-600 block mt-0.5">
-                                Guide Ollie through the Password Fork (Rank #14 today!)
+                              <span className="text-xs font-body text-slate-600 block mt-0.5 truncate">
+                                Guide Ollie down the Password Fork (Rank #14)
                               </span>
                             </div>
                           </div>
@@ -773,21 +773,21 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                           }}
                           className="bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl p-3.5 border border-red-200 hover:border-red-400 cursor-pointer flex items-center justify-between transition-all shadow-2xs group active:scale-98"
                         >
-                          <div className="flex items-center space-x-3">
+                          <div className="flex items-center space-x-3 min-w-0 flex-1">
                             <div className="w-9 h-9 rounded-xl bg-white border border-red-200 flex items-center justify-center text-lg shadow-2xs group-hover:scale-105 transition-transform shrink-0">
                               🎭
                             </div>
-                            <div>
-                              <div className="flex items-center space-x-2">
-                                <strong className="text-xs sm:text-sm font-heading font-extrabold text-navy-900 block leading-tight">
-                                  Scenario Drill: Imposter Security Call
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between gap-1.5">
+                                <strong className="text-xs sm:text-sm font-heading font-extrabold text-navy-900 truncate">
+                                  Imposter Call Drill
                                 </strong>
-                                <span className="bg-red-200 text-red-900 text-xs font-heading font-bold px-2 py-0.5 rounded-full">
+                                <span className="shrink-0 whitespace-nowrap bg-red-200 text-red-900 text-[10px] font-heading font-extrabold px-2 py-0.5 rounded-full">
                                   Role-Play
                                 </span>
                               </div>
-                              <span className="text-xs font-body text-slate-600 block mt-0.5">
-                                Interactive caller simulation: Test your responses against real pressure tactics
+                              <span className="text-xs font-body text-slate-600 block mt-0.5 truncate">
+                                Practice defusing high-pressure caller tactics
                               </span>
                             </div>
                           </div>
@@ -1159,52 +1159,52 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                       <button
                         type="button"
                         onClick={() => setPracticeGame('river')}
-                        className={`flex-1 min-h-[40px] px-2 py-1.5 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1.5 transition-all ${
+                        className={`flex-1 min-h-[38px] px-1.5 py-1 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1 transition-all whitespace-nowrap ${
                           practiceGame === 'river'
                             ? 'bg-white text-navy-900 shadow-sm border border-sky-300'
                             : 'text-slate-600 hover:text-navy-900'
                         }`}
                       >
-                        <span className="text-sm">🌊</span>
-                        <span>River Fork</span>
+                        <span className="text-xs">🌊</span>
+                        <span>River</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => setPracticeGame('roleplay')}
-                        className={`flex-1 min-h-[40px] px-2 py-1.5 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1.5 transition-all ${
+                        className={`flex-1 min-h-[38px] px-1.5 py-1 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1 transition-all whitespace-nowrap ${
                           practiceGame === 'roleplay'
                             ? 'bg-white text-navy-900 shadow-sm border border-red-300'
                             : 'text-slate-600 hover:text-navy-900'
                         }`}
                       >
-                        <span className="text-sm">🎭</span>
-                        <span>Role-Play</span>
+                        <span className="text-xs">🎭</span>
+                        <span>Call</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => setPracticeGame('cards')}
-                        className={`flex-1 min-h-[40px] px-2 py-1.5 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1.5 transition-all ${
+                        className={`flex-1 min-h-[38px] px-1.5 py-1 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1 transition-all whitespace-nowrap ${
                           practiceGame === 'cards'
                             ? 'bg-white text-navy-900 shadow-sm border border-amber-300'
                             : 'text-slate-600 hover:text-navy-900'
                         }`}
                       >
-                        <span className="text-sm">🃏</span>
+                        <span className="text-xs">🃏</span>
                         <span>Cards</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => setPracticeGame('trivia')}
-                        className={`flex-1 min-h-[40px] px-2 py-1.5 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1.5 transition-all ${
+                        className={`flex-1 min-h-[38px] px-1.5 py-1 rounded-xl text-xs font-heading font-extrabold flex items-center justify-center space-x-1 transition-all whitespace-nowrap ${
                           practiceGame === 'trivia'
                             ? 'bg-white text-navy-900 shadow-sm border border-safe-300'
                             : 'text-slate-600 hover:text-navy-900'
                         }`}
                       >
-                        <span className="text-sm">❓</span>
+                        <span className="text-xs">❓</span>
                         <span>Trivia</span>
                       </button>
                     </div>
@@ -1216,27 +1216,35 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                           <Sparkles className="w-3.5 h-3.5 text-kelp-700" />
                           <span>The Otter Defense Loop</span>
                         </span>
-                        <span className="text-[10px] font-heading font-bold text-slate-500 bg-sand-100 px-2 py-0.5 rounded-full">
-                          Why Gamification Works
+                        <span className="text-[10px] font-heading font-extrabold text-slate-500 bg-sand-100 px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap">
+                          How It Protects
                         </span>
                       </div>
-                      <div className="grid grid-cols-3 gap-1.5 pt-2 text-center text-xs font-heading font-extrabold">
-                        <div className="bg-sand-50/80 rounded-xl p-2 border border-slate-200/70">
-                          <span className="text-base block mb-0.5">🌊 🎭</span>
-                          <span className="text-navy-900 block leading-tight text-[11px]">1. Drills & Trivia</span>
-                          <span className="text-[10px] font-body text-slate-500 block mt-0.5">Reflexes & awareness</span>
+                      <div className="flex items-center justify-between gap-1 pt-2">
+                        <div className="flex-1 bg-sand-50/90 rounded-xl py-2 px-1 border border-slate-200/80 flex items-center justify-center space-x-1 shadow-2xs">
+                          <span className="text-sm">🌊</span>
+                          <strong className="text-[11px] font-heading font-extrabold text-navy-900 whitespace-nowrap">
+                            1. Drills
+                          </strong>
                         </div>
-                        <div className="bg-sand-50/80 rounded-xl p-2 border border-slate-200/70">
-                          <span className="text-base block mb-0.5">🃏 📖</span>
-                          <span className="text-navy-900 block leading-tight text-[11px]">2. Scam Playbook</span>
-                          <span className="text-[10px] font-body text-slate-500 block mt-0.5">Unlock payment rules</span>
+                        <span className="text-slate-400 font-extrabold text-xs shrink-0">→</span>
+                        <div className="flex-1 bg-sand-50/90 rounded-xl py-2 px-1 border border-slate-200/80 flex items-center justify-center space-x-1 shadow-2xs">
+                          <span className="text-sm">📖</span>
+                          <strong className="text-[11px] font-heading font-extrabold text-navy-900 whitespace-nowrap">
+                            2. Rules
+                          </strong>
                         </div>
-                        <div className="bg-sand-50/80 rounded-xl p-2 border border-slate-200/70">
-                          <span className="text-base block mb-0.5">🛑 ⚡</span>
-                          <span className="text-navy-900 block leading-tight text-[11px]">3. Circuit Breaker</span>
-                          <span className="text-[10px] font-body text-slate-500 block mt-0.5">Pauses real scam wires</span>
+                        <span className="text-slate-400 font-extrabold text-xs shrink-0">→</span>
+                        <div className="flex-1 bg-sand-50/90 rounded-xl py-2 px-1 border border-slate-200/80 flex items-center justify-center space-x-1 shadow-2xs">
+                          <span className="text-sm">🛡️</span>
+                          <strong className="text-[11px] font-heading font-extrabold text-navy-900 whitespace-nowrap">
+                            3. Guard
+                          </strong>
                         </div>
                       </div>
+                      <p className="text-[11px] text-center text-slate-500 font-body mt-2 leading-tight">
+                        Drills train reflexes · Rules set limits · Ollie stops scam wires
+                      </p>
                     </div>
 
                     {/* Featured Daily River Challenge Game (Password Fork) */}
