@@ -1,0 +1,202 @@
+[
+  {
+    "card_id": "c-fraud-text",
+    "scam_type": "bank_impersonation",
+    "format": "text",
+    "sender": { "en": "Text from (253) 555-0188", "es": "Mensaje de (253) 555-0188" },
+    "content": {
+      "en": "Sound Fraud Dept: Unusual charge of $842.19. Reply NO to stop it. A specialist will call you to secure your account. Act in 15 minutes or your account will be frozen.",
+      "es": "Depto. de Fraude de Sound: Cargo inusual de $842.19. Responda NO para detenerlo. Un especialista le llamará para proteger su cuenta. Actúe en 15 minutos o su cuenta será congelada."
+    },
+    "is_scam": true,
+    "clues": [
+      {
+        "phrase": { "en": "Reply NO to stop it", "es": "Responda NO para detenerlo" },
+        "why": { "en": "Replying tells scammers your number is real and you're worried.", "es": "Responder le dice al estafador que su número es real y que está preocupado." }
+      },
+      {
+        "phrase": { "en": "A specialist will call you", "es": "Un especialista le llamará" },
+        "why": { "en": "The text sets up a fake call. Call the number on your card instead.", "es": "El mensaje prepara una llamada falsa. Llame al número de su tarjeta." }
+      },
+      {
+        "phrase": { "en": "Act in 15 minutes", "es": "Actúe en 15 minutos" },
+        "why": { "en": "Rushing you is a trick. Real banks give you time.", "es": "Apurarle es un truco. Los bancos reales le dan tiempo." }
+      },
+      {
+        "phrase": { "en": "your account will be frozen", "es": "su cuenta será congelada" },
+        "why": { "en": "Scare words stop you from thinking clearly.", "es": "Las palabras de miedo le impiden pensar con calma." }
+      }
+    ],
+    "protect_action": { "en": "Set a rule: hold new payees over $1,000.", "es": "Cree una regla: retener nuevos destinatarios de más de $1,000." }
+  },
+  {
+    "card_id": "c-job-check",
+    "scam_type": "fake_check_job",
+    "format": "email",
+    "sender": { "en": "Email from hiring@remote-team.example.com", "es": "Correo de hiring@remote-team.example.com" },
+    "content": {
+      "en": "Congrats, you're hired as a remote assistant! We mailed you a $2,450 check. Deposit it, keep $300, and send the rest by P2P to our supplier today.",
+      "es": "¡Felicidades, le contratamos como asistente remoto! Le enviamos un cheque de $2,450. Deposítelo, quédese con $300 y envíe el resto por P2P a nuestro proveedor hoy."
+    },
+    "is_scam": true,
+    "clues": [
+      {
+        "phrase": { "en": "We mailed you a $2,450 check", "es": "Le enviamos un cheque de $2,450" },
+        "why": { "en": "Real jobs don't pay you before you do any work.", "es": "Los trabajos reales no le pagan antes de trabajar." }
+      },
+      {
+        "phrase": { "en": "send the rest by P2P", "es": "envíe el resto por P2P" },
+        "why": { "en": "The check can bounce days later. Then you owe the money.", "es": "El cheque puede rebotar días después. Entonces usted debe el dinero." }
+      },
+      {
+        "phrase": { "en": "today", "es": "hoy" },
+        "why": { "en": "They want the money gone before the check bounces.", "es": "Quieren el dinero antes de que el cheque rebote." }
+      }
+    ],
+    "protect_action": { "en": "Wait for checks to fully clear before sending money.", "es": "Espere a que los cheques se acrediten antes de enviar dinero." }
+  },
+  {
+    "card_id": "c-rental",
+    "scam_type": "rental",
+    "format": "listing",
+    "sender": { "en": "Listing on a rentals site (example.com)", "es": "Anuncio en un sitio de alquiler (example.com)" },
+    "content": {
+      "en": "2BR near campus, only $850/mo! I'm out of town, so no viewing yet. Send the $500 deposit by P2P to hold it. Many people want it.",
+      "es": "¡2 recámaras cerca del campus, solo $850/mes! Estoy fuera de la ciudad, así que no hay visita aún. Envíe el depósito de $500 por P2P para apartarlo. Mucha gente lo quiere."
+    },
+    "is_scam": true,
+    "clues": [
+      {
+        "phrase": { "en": "no viewing yet", "es": "no hay visita aún" },
+        "why": { "en": "Never pay for a place you haven't seen.", "es": "Nunca pague por un lugar que no ha visto." }
+      },
+      {
+        "phrase": { "en": "Send the $500 deposit by P2P", "es": "Envíe el depósito de $500 por P2P" },
+        "why": { "en": "P2P is like cash. It's very hard to get back.", "es": "P2P es como efectivo. Es muy difícil recuperarlo." }
+      },
+      {
+        "phrase": { "en": "Many people want it", "es": "Mucha gente lo quiere" },
+        "why": { "en": "Fake pressure to make you pay fast.", "es": "Presión falsa para que pague rápido." }
+      }
+    ],
+    "protect_action": { "en": "Add a trusted contact who can double-check big payments.", "es": "Agregue un contacto de confianza que revise pagos grandes." }
+  },
+  {
+    "card_id": "c-gov-giftcards",
+    "scam_type": "government_impersonation",
+    "format": "call",
+    "sender": { "en": "Call from \"Government tax office\"", "es": "Llamada de la \"Oficina de impuestos del gobierno\"" },
+    "content": {
+      "en": "This is the government tax office. You owe back taxes. Pay $1,200 in gift cards in the next hour, or an officer will come to your home.",
+      "es": "Habla la oficina de impuestos del gobierno. Usted debe impuestos. Pague $1,200 en tarjetas de regalo en la próxima hora, o un oficial irá a su casa."
+    },
+    "is_scam": true,
+    "clues": [
+      {
+        "phrase": { "en": "gift cards", "es": "tarjetas de regalo" },
+        "why": { "en": "No government office takes gift cards. Ever.", "es": "Ninguna oficina del gobierno acepta tarjetas de regalo. Nunca." }
+      },
+      {
+        "phrase": { "en": "in the next hour", "es": "en la próxima hora" },
+        "why": { "en": "A short deadline is a pressure trick.", "es": "Un plazo corto es un truco de presión." }
+      },
+      {
+        "phrase": { "en": "an officer will come to your home", "es": "un oficial irá a su casa" },
+        "why": { "en": "Threats are meant to scare you into paying.", "es": "Las amenazas buscan asustarle para que pague." }
+      }
+    ],
+    "protect_action": { "en": "Confirm your phone and email on file are up to date.", "es": "Confirme que su teléfono y correo registrados estén al día." }
+  },
+  {
+    "card_id": "c-grandchild",
+    "scam_type": "family_emergency",
+    "format": "payment_request",
+    "sender": { "en": "P2P payment request from \"Your grandson\"", "es": "Solicitud de pago P2P de \"Su nieto\"" },
+    "content": {
+      "en": "Grandma, it's me. I'm in trouble and need $2,000 for bail. Please send it now, and don't tell Mom.",
+      "es": "Abuela, soy yo. Estoy en problemas y necesito $2,000 para la fianza. Por favor envíalo ahora y no le digas a mamá."
+    },
+    "is_scam": true,
+    "clues": [
+      {
+        "phrase": { "en": "it's me", "es": "soy yo" },
+        "why": { "en": "No name. They hope you'll fill one in.", "es": "Sin nombre. Esperan que usted diga uno." }
+      },
+      {
+        "phrase": { "en": "send it now", "es": "envíalo ahora" },
+        "why": { "en": "Rushing stops you from calling family to check.", "es": "Apurarle evita que llame a su familia para verificar." }
+      },
+      {
+        "phrase": { "en": "don't tell Mom", "es": "no le digas a mamá" },
+        "why": { "en": "Secrets are a big red flag. Call another family member.", "es": "Los secretos son una gran señal de alerta. Llame a otro familiar." }
+      }
+    ],
+    "protect_action": { "en": "Add a trusted contact who can double-check big payments.", "es": "Agregue un contacto de confianza que revise pagos grandes." }
+  },
+  {
+    "card_id": "c-direct-deposit",
+    "scam_type": "none",
+    "format": "in_app",
+    "sender": { "en": "In the Sound app · Notifications", "es": "En la app de Sound · Notificaciones" },
+    "content": {
+      "en": "Your direct deposit of $1,240.00 posted today. No action needed.",
+      "es": "Su depósito directo de $1,240.00 se acreditó hoy. No necesita hacer nada."
+    },
+    "is_scam": false,
+    "clues": [
+      {
+        "phrase": { "en": "No action needed", "es": "No necesita hacer nada" },
+        "why": { "en": "It asks for nothing: no link, no code, no payment.", "es": "No pide nada: ni enlace, ni código, ni pago." }
+      },
+      {
+        "phrase": { "en": "posted today", "es": "se acreditó hoy" },
+        "why": { "en": "You can check it yourself in your account history.", "es": "Puede revisarlo usted mismo en su historial." }
+      }
+    ],
+    "protect_action": { "en": "Turn on deposit alerts inside the app.", "es": "Active las alertas de depósito en la app." }
+  },
+  {
+    "card_id": "c-card-shipped",
+    "scam_type": "none",
+    "format": "in_app",
+    "sender": { "en": "In the Sound app · Messages", "es": "En la app de Sound · Mensajes" },
+    "content": {
+      "en": "Your new debit card shipped. It arrives in 5 to 7 days. Activate it in the app when it comes.",
+      "es": "Su nueva tarjeta de débito fue enviada. Llega en 5 a 7 días. Actívela en la app cuando llegue."
+    },
+    "is_scam": false,
+    "clues": [
+      {
+        "phrase": { "en": "Activate it in the app", "es": "Actívela en la app" },
+        "why": { "en": "It sends you to the app you already use, not a link.", "es": "Le envía a la app que ya usa, no a un enlace." }
+      },
+      {
+        "phrase": { "en": "5 to 7 days", "es": "5 a 7 días" },
+        "why": { "en": "No rush and no deadline.", "es": "Sin prisa y sin fecha límite." }
+      }
+    ],
+    "protect_action": { "en": "Confirm your phone and email on file are up to date.", "es": "Confirme que su teléfono y correo registrados estén al día." }
+  },
+  {
+    "card_id": "c-branch-reminder",
+    "scam_type": "none",
+    "format": "text",
+    "sender": { "en": "Text from Sound (the number in your app)", "es": "Mensaje de Sound (el número en su app)" },
+    "content": {
+      "en": "Reminder: Your appointment at the Tacoma branch is Tue at 2:00 pm. To change it, use the app or call the number on your card.",
+      "es": "Recordatorio: Su cita en la sucursal de Tacoma es el martes a las 2:00 pm. Para cambiarla, use la app o llame al número de su tarjeta."
+    },
+    "is_scam": false,
+    "clues": [
+      {
+        "phrase": { "en": "call the number on your card", "es": "llame al número de su tarjeta" },
+        "why": { "en": "It points you to a number you already trust.", "es": "Le dirige a un número en el que ya confía." }
+      },
+      {
+        "phrase": { "en": "Your appointment", "es": "Su cita" },
+        "why": { "en": "It's about something you set up yourself.", "es": "Se trata de algo que usted mismo programó." }
+      }
+    ],
+    "protect_action": { "en": "Save Sound's real number from your card in your contacts.", "es": "Guarde el número real de Sound de su tarjeta en sus contactos." }
+  }
+]
