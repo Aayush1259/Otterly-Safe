@@ -4,6 +4,7 @@ import { loadDataset } from './data/adapter';
 import { OtterlySafeMobileApp } from './components/mobile/OtterlySafeMobileApp';
 import { DemoStage } from './components/demo/DemoStage';
 import { PracticeTab } from './components/practice/PracticeTab';
+import { PracticeWithOllie } from './components/PracticeWithOllie';
 import { StaffConsole } from './components/staff/StaffConsole';
 import { RulesLab } from './components/tabs/RulesLab';
 import { PilotPlan } from './components/tabs/PilotPlan';
@@ -31,6 +32,7 @@ export function App() {
     lang,
     toggleLang,
     addMemberRule,
+    recordPractice,
     updateStaffDecision,
     initDataset,
   } = useStore();
@@ -147,12 +149,18 @@ export function App() {
         )}
 
         {activeTab === 'practice' && (
-          <PracticeTab
-            cards={cards}
-            member={members[0]}
-            lang={lang}
-            onSetRule={(amt) => addMemberRule(members[0].member_id, amt)}
-          />
+          <div className="max-w-5xl mx-auto py-2">
+            <PracticeWithOllie
+              onApplyRule={(ruleLabel) => {
+                const match = ruleLabel.match(/\$([0-9,]+)/);
+                const amount = match ? parseInt(match[1].replace(/,/g, ''), 10) : 1000;
+                addMemberRule(members[0].member_id, amount);
+              }}
+              onRecordPractice={(cardId, correct) => {
+                recordPractice(members[0].member_id, cardId, correct);
+              }}
+            />
+          </div>
         )}
 
         {activeTab === 'staff' && (
