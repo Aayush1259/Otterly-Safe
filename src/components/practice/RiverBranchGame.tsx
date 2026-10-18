@@ -289,25 +289,25 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
         </div>
 
         {/* Two Target Drop-Blocks / Choice Areas (Left = Key 🗝️, Right = Lock 🔒) */}
-        <div className="w-full flex justify-between items-end px-1 z-20 pb-1 mt-auto">
+        <div className="w-full flex justify-between items-end gap-2 px-1 z-20 pb-1 mt-auto">
           {/* LEFT BLOCK: The Key (Give Password / Unlock) */}
           <button
             type="button"
             disabled={gameState !== 'idle'}
             onClick={() => handleChooseBranch('key')}
-            className={`w-[136px] min-h-[92px] p-2.5 rounded-2xl border-2 transition-all flex flex-col items-center justify-center text-center shadow-sm active:scale-95 ${
+            className={`flex-1 max-w-[145px] min-h-[88px] sm:min-h-[92px] p-2 sm:p-2.5 rounded-2xl border-2 transition-all flex flex-col items-center justify-center text-center shadow-sm active:scale-95 ${
               selectedBranch === 'key' || hoveredZone === 'key'
                 ? 'bg-red-50 border-red-500 ring-4 ring-red-400/40 scale-105 shadow-md'
                 : 'bg-white hover:bg-red-50/50 border-slate-300 hover:border-red-300'
             }`}
           >
-            <div className="w-9 h-9 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800 shadow-2xs mb-1">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center text-amber-800 shadow-2xs mb-1">
               <Key className="w-4 h-4 text-amber-700" />
             </div>
             <strong className="text-xs font-heading font-extrabold text-navy-900 block leading-tight">
               Give Key 🗝️
             </strong>
-            <span className="text-[11px] font-body text-slate-500 leading-tight block mt-0.5">
+            <span className="text-[10px] sm:text-[11px] font-body text-slate-500 leading-tight block mt-0.5">
               Read code to caller
             </span>
           </button>
@@ -317,19 +317,19 @@ export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
             type="button"
             disabled={gameState !== 'idle'}
             onClick={() => handleChooseBranch('lock')}
-            className={`w-[136px] min-h-[92px] p-2.5 rounded-2xl border-2 transition-all flex flex-col items-center justify-center text-center shadow-sm active:scale-95 ${
+            className={`flex-1 max-w-[145px] min-h-[88px] sm:min-h-[92px] p-2 sm:p-2.5 rounded-2xl border-2 transition-all flex flex-col items-center justify-center text-center shadow-sm active:scale-95 ${
               selectedBranch === 'lock' || hoveredZone === 'lock'
                 ? 'bg-safe-50 border-safe-500 ring-4 ring-safe-400/40 scale-105 shadow-md'
                 : 'bg-white hover:bg-safe-50/50 border-slate-300 hover:border-safe-400'
             }`}
           >
-            <div className="w-9 h-9 rounded-xl bg-safe-100 border border-safe-300 flex items-center justify-center text-safe-800 shadow-2xs mb-1">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-safe-100 border border-safe-300 flex items-center justify-center text-safe-800 shadow-2xs mb-1">
               <Lock className="w-4 h-4 text-safe-700" />
             </div>
             <strong className="text-xs font-heading font-extrabold text-navy-900 block leading-tight">
               Keep Locked 🔒
             </strong>
-            <span className="text-[11px] font-body text-slate-500 leading-tight block mt-0.5">
+            <span className="text-[10px] sm:text-[11px] font-body text-slate-500 leading-tight block mt-0.5">
               Hang up! Never share
             </span>
           </button>

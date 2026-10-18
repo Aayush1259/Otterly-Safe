@@ -53,6 +53,7 @@ export const DemoStage: React.FC<DemoStageProps> = ({
   const [tighterSettingsEngaged, setTighterSettingsEngaged] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('split');
   const [showPersonaRail, setShowPersonaRail] = useState(false);
+  const [mobileDeviceFocus, setMobileDeviceFocus] = useState<'member' | 'sms' | 'staff'>('member');
 
   // Scenario specific state
   const [customRuleAdded, setCustomRuleAdded] = useState(false);
@@ -351,11 +352,44 @@ export const DemoStage: React.FC<DemoStageProps> = ({
         </div>
       </div>
 
+      {/* Mobile Device Switcher for small screens when split mode is active */}
+      {viewMode === 'split' && (
+        <div className="lg:hidden flex items-center justify-center p-1 bg-slate-200/80 rounded-xl gap-1 mb-2 border border-slate-200 w-full max-w-md mx-auto">
+          <button
+            type="button"
+            onClick={() => setMobileDeviceFocus('member')}
+            className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-heading font-extrabold transition-all ${
+              mobileDeviceFocus === 'member' ? 'bg-white text-navy-900 shadow-xs' : 'text-slate-600 hover:text-navy-900'
+            }`}
+          >
+            📱 Member Phone
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileDeviceFocus('sms')}
+            className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-heading font-extrabold transition-all ${
+              mobileDeviceFocus === 'sms' ? 'bg-white text-navy-900 shadow-xs' : 'text-slate-600 hover:text-navy-900'
+            }`}
+          >
+            💬 Family Alert
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileDeviceFocus('staff')}
+            className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-heading font-extrabold transition-all ${
+              mobileDeviceFocus === 'staff' ? 'bg-white text-navy-900 shadow-xs' : 'text-slate-600 hover:text-navy-900'
+            }`}
+          >
+            🎧 Staff Console
+          </button>
+        </div>
+      )}
+
       {/* Main Presentation Stage Row */}
-      <div className="flex items-start gap-5 overflow-x-auto pb-2 justify-center">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-5 pb-2 justify-center">
         {/* Optional Collapsible Persona Rail */}
         {showPersonaRail && (
-          <div className="shrink-0 animate-fadeIn">
+          <div className="shrink-0 animate-fadeIn w-full lg:w-auto">
             <PersonaRail
               members={members}
               selectedMemberId={selectedMemberId}
@@ -366,8 +400,10 @@ export const DemoStage: React.FC<DemoStageProps> = ({
         )}
 
         {/* Column 2: Member Phone (shown in split or member mode) */}
-        {(viewMode === 'split' || viewMode === 'member') && (
-          <div className="shrink-0 transition-all">
+        {(viewMode === 'member' || (viewMode === 'split' && (mobileDeviceFocus === 'member' || true))) && (
+          <div className={`shrink-0 transition-all w-full max-w-md sm:max-w-[390px] ${
+            viewMode === 'split' && mobileDeviceFocus !== 'member' ? 'hidden lg:block' : 'block'
+          }`}>
             <PhoneFrame title="Sound Credit Union Member App">
               <SoundAppShell
                 member={currentMember}
@@ -573,9 +609,11 @@ export const DemoStage: React.FC<DemoStageProps> = ({
         </div>
         )}
 
-        {/* Column 3: Second Phone (300×640, shown in split or member mode) */}
+        {/* Column 3: Second Phone (shown in split or member mode) */}
         {(viewMode === 'split' || viewMode === 'member') && (
-          <div className="shrink-0 hidden lg:block transition-all">
+          <div className={`shrink-0 transition-all w-full max-w-md sm:max-w-[300px] ${
+            viewMode === 'split' && mobileDeviceFocus === 'sms' ? 'block' : 'hidden lg:block'
+          }`}>
             <SmsThread
               member={currentMember}
               mode={scenario === 'takeover' ? 'email' : 'sms'}
@@ -590,8 +628,10 @@ export const DemoStage: React.FC<DemoStageProps> = ({
           <div
             className={`transition-all ${
               viewMode === 'staff'
-                ? 'w-full max-w-4xl mx-auto'
-                : 'flex-1 min-w-[360px] max-w-2xl shrink-0 hidden md:block'
+                ? 'w-full max-w-4xl mx-auto block'
+                : viewMode === 'split' && mobileDeviceFocus === 'staff'
+                ? 'w-full max-w-4xl mx-auto block'
+                : 'flex-1 min-w-[360px] max-w-2xl shrink-0 hidden lg:block'
             }`}
           >
             <StaffConsole
