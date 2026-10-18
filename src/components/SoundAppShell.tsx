@@ -32,39 +32,40 @@ export const SoundAppShell: React.FC<SoundAppShellProps> = ({
 }) => {
   return (
     <div className="flex-1 flex flex-col h-full bg-sand-50 select-none relative">
-      {/* Brand Header with Notification Bell & Hamburger Menu */}
-      <header className="bg-white border-b border-slate-200/80 px-4 py-2.5 shrink-0 flex items-center justify-between shadow-2xs">
+      {/* Brand Header: Hamburger Menu (Top Left), Brand (Center-Left), Bell with Red Dot (Top Right) */}
+      <header className="bg-white border-b border-slate-200/80 px-3 py-2.5 shrink-0 flex items-center justify-between shadow-2xs">
+        {/* Top Left: Hamburger Menu */}
         <div className="flex items-center space-x-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-kelp-700 inline-block shrink-0 shadow-2xs" />
-          <h1 className="font-heading font-extrabold text-sm tracking-tight text-navy-900 leading-none">
-            Sound Credit Union
-          </h1>
-        </div>
-
-        <div className="flex items-center space-x-1">
-          {/* Unread Trivia & Reminders Bell */}
-          <button
-            type="button"
-            onClick={onOpenNotifications}
-            aria-label={`View notifications. ${notificationCount} unread`}
-            className="relative p-2 rounded-xl text-slate-700 hover:text-navy-900 hover:bg-sand-100 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
-          >
-            <Bell className="w-4 h-4 text-slate-600" />
-            {notificationCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-white animate-pulse" />
-            )}
-          </button>
-
-          {/* Resources Hamburger Menu */}
           <button
             type="button"
             onClick={onOpenMenu}
-            aria-label="Open resources and navigation menu"
-            className="p-2 rounded-xl text-slate-700 hover:text-navy-900 hover:bg-sand-100 transition-colors min-h-[36px] min-w-[36px] flex items-center justify-center"
+            aria-label="Open resources menu"
+            className="p-2 -ml-1 rounded-xl text-navy-900 hover:bg-sand-100 transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center active:scale-95"
           >
-            <Menu className="w-4 h-4 text-slate-700" />
+            <Menu className="w-5 h-5 text-navy-900" />
           </button>
+
+          {/* Sound Credit Union Brand */}
+          <div className="flex items-center space-x-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-kelp-700 inline-block shrink-0 shadow-2xs" />
+            <h1 className="font-heading font-black text-sm tracking-tight text-navy-900 leading-none">
+              Sound Credit Union
+            </h1>
+          </div>
         </div>
+
+        {/* Top Right: Notification Bell with Red Dot */}
+        <button
+          type="button"
+          onClick={onOpenNotifications}
+          aria-label={`View notifications. ${notificationCount > 0 ? `${notificationCount} unread` : 'No unread'}`}
+          className="relative p-2 rounded-xl text-navy-900 hover:bg-sand-100 transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center active:scale-95"
+        >
+          <Bell className="w-5 h-5 text-slate-700" />
+          {notificationCount > 0 && (
+            <span className="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-red-500 ring-2 ring-white animate-pulse" />
+          )}
+        </button>
       </header>
 
       {/* Safety Banner strip */}

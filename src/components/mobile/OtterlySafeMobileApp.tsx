@@ -39,6 +39,7 @@ import { StaffConsole } from '../staff/StaffConsole';
 import { ScamOrLegitDeck } from '../practice/ScamOrLegitDeck';
 import { RolePlayChat } from '../practice/RolePlayChat';
 import { QuickQuiz } from '../practice/QuickQuiz';
+import { RiverBranchGame } from '../practice/RiverBranchGame';
 import { sound } from '../../lib/audio';
 import type { Member, BankEvent, Case, Card, Lang } from '../../types';
 
@@ -106,8 +107,8 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
   const [answeredSafetyChecks, setAnsweredSafetyChecks] = useState<number[]>([]);
   const [stressBpm, setStressBpm] = useState(72);
 
-  // Practice & In-App Activities
-  const [practiceGame, setPracticeGame] = useState<'menu' | 'cards' | 'roleplay' | 'trivia'>('menu');
+  // Practice & In-App Activities (Defaults to 'river' for today's daily 30s challenge)
+  const [practiceGame, setPracticeGame] = useState<'river' | 'menu' | 'cards' | 'roleplay' | 'trivia'>('river');
 
   // Ask Ollie (AI Chat inside the app)
   const [chatInput, setChatInput] = useState('');
@@ -174,7 +175,7 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
     sound.stopSpeaking();
     setAppMode('onboarding');
     setOnboardingStage('login');
-    setDrillCardsChecked([0]);
+    setWarmupAnswer(null);
     setPaymentState('form');
     setAnsweredSafetyChecks([]);
     setActiveNav('accounts');
@@ -348,193 +349,15 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                         </div>
                       </div>
 
-                      {/* Scam Awareness Policy */}
+                      {/* Member Sign-In Notice */}
                       <div className="p-2.5 rounded-xl bg-foam-50 border border-kelp-200 text-slate-700 space-y-1">
                         <div className="flex items-center space-x-1.5 text-kelp-900 font-heading font-extrabold text-[11px]">
-                          <Sparkles className="w-3.5 h-3.5 text-kelp-700" />
-                          <span>First-Time Sign-Up Scam Awareness Policy:</span>
+                          <ShieldCheck className="w-3.5 h-3.5 text-safe-700" />
+                          <span>Otter Shield Protection Active:</span>
                         </div>
                         <p className="text-[11px] leading-relaxed text-slate-600">
-                          Under Sound Credit Union's <strong>Otter Shield</strong> charter, all first-time members complete an interactive 30-second scam defense activity before funds transfers are enabled.
+                          Your account is guarded by Sound Credit Union's <strong>Pre-Movement Circuit Breakers</strong>. Suspicious wire transfers pause automatically before any funds leave your checking account.
                         </p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          sound.playSuccess();
-                          setOnboardingStage('drill');
-                        }}
-                        className="w-full min-h-[48px] bg-kelp-700 hover:bg-kelp-800 text-white font-heading font-black text-xs rounded-full shadow-md flex items-center justify-center space-x-2 transition-transform active:scale-95"
-                      >
-                        <LogIn className="w-4 h-4" />
-                        <span>Sign In & Begin Scam Awareness Activity</span>
-                      </button>
-                      <span className="text-[10px] text-center text-slate-400 font-mono block">
-                        🛡️ 30-second interactive learning with Ollie
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {/* 1B: Interactive Scam Defense Drill Activity */}
-                {onboardingStage === 'drill' && (
-                  <div className="flex-1 flex flex-col justify-between py-1 space-y-2.5">
-                    <div className="pt-1 text-center space-y-1.5">
-                      <div className="w-12 h-12 mx-auto rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1 shadow-2xs">
-                        <Ollie mood="wave" size={42} animated={false} />
-                      </div>
-                      <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-kelp-100 text-kelp-900">
-                        First-Time Safety Activity ({drillCardsChecked.length}/3 Learned)
-                      </span>
-                      <h3 className="font-heading font-black text-base text-navy-900">
-                        Spot the 3 Scammer Tricks
-                      </h3>
-                      <p className="text-[11px] text-slate-600 px-2">
-                        Tap each card to learn how scammers manipulate members and how Sound protects you:
-                      </p>
-                    </div>
-
-                    {/* 3 Interactive Cards */}
-                    <div className="space-y-2 text-xs">
-                      {[
-                        {
-                          id: 0,
-                          icon: '🚨',
-                          title: '1. Urgency Panic Tactic',
-                          scammerSays: '"Emergency! Wire $9,800 immediately or your account is frozen!"',
-                          defenseLearned: 'Sound CU never rushes you. We always give you time to stop and verify.',
-                        },
-                        {
-                          id: 1,
-                          icon: '🏛️',
-                          title: '2. The "Safe Escrow" Trap',
-                          scammerSays: '"Move your money to the Federal Safe Lockbox to protect it!"',
-                          defenseLearned: 'Sound CU will NEVER ask you to wire money to an outside account to protect it.',
-                        },
-                        {
-                          id: 2,
-                          icon: '🤐',
-                          title: '3. Secrecy & Isolation Order',
-                          scammerSays: '"Stay on the phone! Do NOT tell branch staff or daughter Maya!"',
-                          defenseLearned: 'Real financial safety is transparent. Maya is linked as your trusted guardian.',
-                        },
-                      ].map((card) => {
-                        const isLearned = drillCardsChecked.includes(card.id);
-                        return (
-                          <div
-                            key={card.id}
-                            onClick={() => {
-                              if (!drillCardsChecked.includes(card.id)) {
-                                sound.playAlert();
-                                setDrillCardsChecked([...drillCardsChecked, card.id]);
-                              }
-                            }}
-                            className={`p-2.5 rounded-2xl border text-xs cursor-pointer transition-all ${
-                              isLearned
-                                ? 'bg-white border-kelp-400 shadow-2xs'
-                                : 'bg-sand-50 border-slate-300 hover:bg-white'
-                            }`}
-                          >
-                            <div className="flex items-center justify-between pb-1">
-                              <span className="font-heading font-extrabold text-[11px] text-navy-900 flex items-center space-x-1.5">
-                                <span>{card.icon}</span>
-                                <span>{card.title}</span>
-                              </span>
-                              <span
-                                className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${
-                                  isLearned ? 'bg-safe-100 text-safe-800' : 'bg-sand-200 text-slate-600'
-                                }`}
-                              >
-                                {isLearned ? '✓ Learned' : 'Tap to Learn'}
-                              </span>
-                            </div>
-                            <p className="text-[10px] text-red-700 italic font-medium">{card.scammerSays}</p>
-                            {isLearned && (
-                              <p className="text-[10px] text-kelp-800 font-semibold pt-1 border-t border-slate-100 mt-1">
-                                🛡️ {card.defenseLearned}
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <div className="space-y-1.5 pt-1">
-                      <button
-                        type="button"
-                        disabled={drillCardsChecked.length < 3}
-                        onClick={() => {
-                          sound.playSuccess();
-                          setOnboardingStage('certified');
-                        }}
-                        className={`w-full min-h-[46px] font-heading font-black text-xs rounded-full shadow-md flex items-center justify-center space-x-2 transition-transform ${
-                          drillCardsChecked.length >= 3
-                            ? 'bg-kelp-700 hover:bg-kelp-800 text-white active:scale-95'
-                            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                        }`}
-                      >
-                        <ShieldCheck className="w-4 h-4" />
-                        <span>Lock In Defense Rules & Activate Otter Shield</span>
-                      </button>
-                      <span className="text-[10px] text-center text-slate-400 font-mono block">
-                        {drillCardsChecked.length < 3 ? 'Tap all 3 defense cards above' : 'Ready to activate!'}
-                      </span>
-                    </div>
-                  </div>
-                )}
-
-                {/* 1C: Certified & Enter Mobile App */}
-                {onboardingStage === 'certified' && (
-                  <div className="flex-1 flex flex-col justify-between py-1 space-y-3">
-                    <div className="pt-2 text-center space-y-2">
-                      <div className="w-14 h-14 mx-auto rounded-3xl bg-safe-50 border-2 border-safe-200 flex items-center justify-center p-2 shadow-2xs">
-                        <Ollie mood="cheer" size={50} animated={true} />
-                      </div>
-                      <div>
-                        <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-safe-100 text-safe-800 border border-safe-300">
-                          <Award className="w-3 h-3 text-safe-700" />
-                          <span>Otter Shield Certified</span>
-                        </span>
-                        <h2 className="font-heading font-black text-xl text-navy-900 mt-1">
-                          Defense Shield Active!
-                        </h2>
-                        <p className="text-xs text-slate-600 px-2 leading-relaxed">
-                          Eleanor's account is now protected. If Sound Credit Union detects these scam triggers on any payment, this exact safety check will pause funds before money moves.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Active Protections */}
-                    <div className="bg-white rounded-2xl p-3 border border-slate-200 space-y-2 text-xs shadow-2xs">
-                      <div className="flex items-start space-x-2">
-                        <CheckCircle2 className="w-4 h-4 text-safe-700 shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="text-navy-900 font-heading block">Pre-Movement Pause Rule</strong>
-                          <span className="text-[11px] text-slate-500">
-                            Funds pause instantly in your checking account if any scam flag is triggered.
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-2">
-                        <CheckCircle2 className="w-4 h-4 text-safe-700 shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="text-navy-900 font-heading block">Safety Measurement Check</strong>
-                          <span className="text-[11px] text-slate-500">
-                            The 3 questions you just practiced will appear to verify safety before money moves.
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-2">
-                        <CheckCircle2 className="w-4 h-4 text-safe-700 shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="text-navy-900 font-heading block">Family Circle Guardian (Maya)</strong>
-                          <span className="text-[11px] text-slate-500">
-                            Daughter Maya ({defaultMember.trusted_contact?.phone}) receives an instant SMS if a held payment occurs.
-                          </span>
-                        </div>
                       </div>
                     </div>
 
@@ -548,9 +371,13 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                         }}
                         className="w-full min-h-[48px] bg-kelp-700 hover:bg-kelp-800 text-white font-heading font-black text-xs rounded-full shadow-md flex items-center justify-center space-x-2 transition-transform active:scale-95"
                       >
-                        <span>Enter Sound Mobile Banking Dashboard</span>
+                        <LogIn className="w-4 h-4" />
+                        <span>Sign In to Mobile Banking</span>
                         <ArrowRight className="w-4 h-4" />
                       </button>
+                      <span className="text-[10px] text-center text-slate-400 font-mono block">
+                        🔒 Direct 1-tap sign in to your dashboard
+                      </span>
                     </div>
                   </div>
                 )}
@@ -569,9 +396,281 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 onNavSelect={(nav) => {
                   setActiveNav(nav);
                   if (nav === 'pay') setPaymentState('form');
-                  if (nav === 'practice') setPracticeGame('menu');
+                  if (nav === 'practice') setPracticeGame('river');
                 }}
+                notificationCount={unreadNotifications}
+                onOpenNotifications={() => setShowNotificationModal(!showNotificationModal)}
+                onOpenMenu={() => setShowHamburgerDrawer(true)}
               >
+                {/* Left-to-Right Hamburger Drawer (Simple resource list) */}
+                {showHamburgerDrawer && (
+                  <div className="absolute inset-0 z-50 flex">
+                    {/* Backdrop */}
+                    <div
+                      onClick={() => setShowHamburgerDrawer(false)}
+                      className="absolute inset-0 bg-navy-950/40 backdrop-blur-xs animate-fadeIn"
+                    />
+
+                    {/* Left Slide Panel (Slides open from left to right) */}
+                    <div className="relative mr-auto w-72 h-full bg-white shadow-2xl flex flex-col justify-between p-4 z-10 animate-slideRight">
+                      <div className="space-y-4">
+                        {/* Drawer Header */}
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-8 h-8 rounded-xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-0.5">
+                              <Ollie mood="wave" size={26} animated={false} />
+                            </div>
+                            <div>
+                              <span className="font-heading font-black text-xs text-navy-900 block leading-tight">
+                                Sound Credit Union
+                              </span>
+                              <span className="text-[10px] text-slate-500 font-mono">Member Resources</span>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setShowHamburgerDrawer(false)}
+                            aria-label="Close menu"
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-navy-900 hover:bg-slate-100 transition-colors"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {/* Simplified Resource List */}
+                        <div className="space-y-1">
+                          <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block px-2 mb-1">
+                            App Resources
+                          </span>
+
+                          <nav className="space-y-1 text-xs font-heading font-extrabold" aria-label="Resources menu">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveNav('accounts');
+                                setShowHamburgerDrawer(false);
+                              }}
+                              className={`w-full p-2.5 rounded-xl flex items-center space-x-3 transition-colors ${
+                                activeNav === 'accounts' ? 'bg-kelp-50 text-kelp-900 font-black' : 'text-slate-700 hover:bg-sand-50'
+                              }`}
+                            >
+                              <Home className="w-4 h-4 text-kelp-700 shrink-0" />
+                              <span>Accounts & Balances</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveNav('pay');
+                                setPaymentState('form');
+                                setShowHamburgerDrawer(false);
+                              }}
+                              className={`w-full p-2.5 rounded-xl flex items-center space-x-3 transition-colors ${
+                                activeNav === 'pay' ? 'bg-kelp-50 text-kelp-900 font-black' : 'text-slate-700 hover:bg-sand-50'
+                              }`}
+                            >
+                              <ArrowLeftRight className="w-4 h-4 text-kelp-700 shrink-0" />
+                              <span>Send Money & Safe Checks</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveNav('practice');
+                                setPracticeGame('river');
+                                setShowHamburgerDrawer(false);
+                              }}
+                              className={`w-full p-2.5 rounded-xl flex items-center space-x-3 transition-colors ${
+                                activeNav === 'practice' && practiceGame === 'river'
+                                  ? 'bg-sky-50 text-sky-900 font-black border border-sky-200'
+                                  : 'text-slate-700 hover:bg-sand-50'
+                              }`}
+                            >
+                              <span className="text-base">🌊</span>
+                              <span>River Challenge: Password Fork</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveNav('practice');
+                                setPracticeGame('cards');
+                                setShowHamburgerDrawer(false);
+                              }}
+                              className="w-full p-2.5 rounded-xl flex items-center space-x-3 text-slate-700 hover:bg-sand-50 transition-colors"
+                            >
+                              <Gamepad2 className="w-4 h-4 text-amber-700 shrink-0" />
+                              <span>Mini-Games & Trivia Hub</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveNav('practice');
+                                setPracticeGame('cards');
+                                setShowHamburgerDrawer(false);
+                              }}
+                              className="w-full p-2.5 rounded-xl flex items-center space-x-3 text-slate-700 hover:bg-sand-50 transition-colors"
+                            >
+                              <BookOpen className="w-4 h-4 text-otter-700 shrink-0" />
+                              <span>Scam Trick Playbook</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveNav('support');
+                                setShowHamburgerDrawer(false);
+                              }}
+                              className={`w-full p-2.5 rounded-xl flex items-center space-x-3 transition-colors ${
+                                activeNav === 'support' ? 'bg-kelp-50 text-kelp-900 font-black' : 'text-slate-700 hover:bg-sand-50'
+                              }`}
+                            >
+                              <MessageSquare className="w-4 h-4 text-otter-700 shrink-0" />
+                              <span>Ask Ollie (AI Assistant)</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setCompanionView(companionView === 'sms' ? 'none' : 'sms');
+                                setShowHamburgerDrawer(false);
+                              }}
+                              className="w-full p-2.5 rounded-xl flex items-center space-x-3 text-slate-700 hover:bg-sand-50 transition-colors"
+                            >
+                              <Users className="w-4 h-4 text-safe-700 shrink-0" />
+                              <span>Family Guardian: Maya</span>
+                            </button>
+                          </nav>
+                        </div>
+                      </div>
+
+                      {/* Footer Controls */}
+                      <div className="pt-3 border-t border-slate-100 space-y-2">
+                        <div className="flex items-center justify-between text-xs font-heading font-extrabold">
+                          <button
+                            type="button"
+                            onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
+                            className="px-3 py-1.5 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 flex items-center space-x-1"
+                          >
+                            <span>Language:</span>
+                            <span className="text-kelp-700 uppercase font-black">{lang}</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => setSoundEnabled(!soundEnabled)}
+                            className="px-3 py-1.5 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 flex items-center space-x-1"
+                          >
+                            {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-kelp-700" /> : <VolumeX className="w-3.5 h-3.5 text-slate-400" />}
+                            <span>{soundEnabled ? 'Sound ON' : 'Muted'}</span>
+                          </button>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleResetToFirstTime();
+                            setShowHamburgerDrawer(false);
+                          }}
+                          className="w-full py-1.5 text-center text-xs font-mono text-slate-400 hover:text-navy-900 transition-colors"
+                        >
+                          🔄 Reset Demo View
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Top-Right Notification Popover with Red Dot & 96% Metric */}
+                {showNotificationModal && (
+                  <div className="absolute top-12 right-2 w-80 bg-white border border-slate-200 rounded-3xl shadow-xl p-3.5 z-40 animate-slideDown text-navy-900 font-body">
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
+                      <div className="flex items-center space-x-1.5">
+                        <Bell className="w-4 h-4 text-kelp-700" />
+                        <span className="font-heading font-extrabold text-xs text-navy-900">
+                          Notifications & Reminders
+                        </span>
+                        {unreadNotifications > 0 && (
+                          <span className="bg-red-100 text-red-700 text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full flex items-center space-x-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                            <span>1 New</span>
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowNotificationModal(false)}
+                        className="p-1 rounded-lg text-slate-400 hover:text-navy-900 hover:bg-slate-100 transition-colors"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <div className="space-y-2 text-xs">
+                      {/* Daily Trivia & Game Challenge Suggestion */}
+                      <div className="p-3 rounded-2xl bg-gradient-to-br from-amber-50 to-sky-50 border border-amber-200 space-y-2 shadow-2xs">
+                        <div className="flex items-center justify-between">
+                          <span className="font-heading font-black text-xs text-navy-900 flex items-center space-x-1">
+                            <span>🌊</span>
+                            <span>Today's 30s River Challenge</span>
+                          </span>
+                          <span className="text-[9px] font-mono text-amber-800 bg-amber-200 px-1.5 py-0.2 rounded-full font-bold">
+                            Unread
+                          </span>
+                        </div>
+
+                        {/* Metric & Leaderboard Prompt */}
+                        <div className="bg-white/80 rounded-xl p-2 border border-amber-100 space-y-1">
+                          <div className="flex items-center space-x-1.5 text-kelp-800 font-heading font-black text-[11px]">
+                            <Users className="w-3.5 h-3.5 text-kelp-700" />
+                            <span>96% of members played today!</span>
+                          </div>
+                          <p className="text-[10.5px] text-slate-600 leading-tight">
+                            Take 30 seconds to guide Ollie past the scammer's password trap and see your Puget Sound safety leaderboard position!
+                          </p>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setUnreadNotifications(0);
+                            setShowNotificationModal(false);
+                            setActiveNav('practice');
+                            setPracticeGame('river');
+                          }}
+                          className="w-full py-2 bg-kelp-700 hover:bg-kelp-800 text-white rounded-xl font-heading font-black text-xs shadow-sm transition-transform active:scale-95 flex items-center justify-center space-x-1.5"
+                        >
+                          <span>Play River Challenge (30s)</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+
+                      {/* Active Protection Status */}
+                      <div className="p-2.5 rounded-2xl bg-sand-50 border border-slate-200 space-y-1">
+                        <div className="flex items-center space-x-1.5 font-heading font-extrabold text-[11px] text-navy-900">
+                          <ShieldCheck className="w-3.5 h-3.5 text-safe-700" />
+                          <span>Pre-Movement Safety Active</span>
+                        </div>
+                        <p className="text-[10px] text-slate-500 leading-tight">
+                          Checking account is protected. High-risk wire transfers pause automatically before money leaves your account.
+                        </p>
+                      </div>
+                    </div>
+
+                    {unreadNotifications > 0 && (
+                      <div className="pt-2 mt-2 border-t border-slate-100 flex justify-end">
+                        <button
+                          type="button"
+                          onClick={() => setUnreadNotifications(0)}
+                          className="text-[10px] font-mono text-slate-400 hover:text-navy-900 font-bold"
+                        >
+                          Mark as read
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
                 {/* ---------------- TAB 1: ACCOUNTS (HOME) ---------------- */}
                 {activeNav === 'accounts' && (
                   <div className="flex-1 flex flex-col justify-between py-1 space-y-3 animate-fadeIn">
@@ -1005,6 +1104,27 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 {/* ---------------- TAB 3: IN-APP ACTIVITIES & TRIVIA ---------------- */}
                 {activeNav === 'practice' && (
                   <div className="flex-1 flex flex-col justify-between py-1 animate-fadeIn">
+                    {/* Featured Daily River Challenge Game (Password Fork) */}
+                    {practiceGame === 'river' && (
+                      <div className="flex-1 flex flex-col justify-between">
+                        <div className="flex items-center justify-between pb-1 border-b border-slate-100 mb-1">
+                          <button
+                            type="button"
+                            onClick={() => setPracticeGame('menu')}
+                            className="text-xs font-heading font-bold text-kelp-700 flex items-center space-x-1 py-1"
+                          >
+                            <ArrowLeft className="w-3.5 h-3.5" />
+                            <span>More Games & Activities</span>
+                          </button>
+                          <span className="text-[10px] font-mono text-slate-400">Daily Mini-Game</span>
+                        </div>
+                        <RiverBranchGame
+                          onComplete={() => setUnreadNotifications(0)}
+                          onReturnToDashboard={() => setActiveNav('accounts')}
+                        />
+                      </div>
+                    )}
+
                     {/* Activity Menu */}
                     {practiceGame === 'menu' && (
                       <div className="space-y-3">
@@ -1016,11 +1136,37 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                             </h3>
                           </div>
                           <p className="text-[11px] text-slate-600 leading-tight">
-                            Choose an activity to practice your scam detection skills right inside your Sound app:
+                            Choose a bite-sized activity to practice your scam detection skills right inside your Sound app:
                           </p>
                         </div>
 
                         <div className="space-y-2">
+                          {/* Featured: The River Challenge */}
+                          <div
+                            onClick={() => setPracticeGame('river')}
+                            className="bg-gradient-to-r from-sky-50 to-emerald-50 rounded-2xl p-3.5 border-2 border-sky-300 hover:border-sky-400 cursor-pointer flex items-center justify-between shadow-2xs transition-all"
+                          >
+                            <div className="flex items-center space-x-2.5">
+                              <div className="w-10 h-10 rounded-2xl bg-white border border-sky-300 flex items-center justify-center text-xl shadow-2xs">
+                                🌊
+                              </div>
+                              <div>
+                                <div className="flex items-center space-x-1.5">
+                                  <strong className="text-xs font-heading font-black text-navy-900 block">
+                                    River Challenge: Password Fork
+                                  </strong>
+                                  <span className="bg-sky-200 text-sky-900 text-[9px] font-mono font-bold px-1.5 py-0.2 rounded-full">
+                                    96% Played
+                                  </span>
+                                </div>
+                                <span className="text-[11px] text-slate-600">
+                                  Guide Ollie down the river: Give the Key or Keep it Locked?
+                                </span>
+                              </div>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-sky-600" />
+                          </div>
+
                           {/* Mini-Game: Scam or Legit Cards */}
                           <div
                             onClick={() => setPracticeGame('cards')}
