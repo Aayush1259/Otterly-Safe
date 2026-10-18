@@ -156,14 +156,26 @@ export const RolePlayChat: React.FC<RolePlayChatProps> = ({ lang, onComplete, on
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={handleReset}
-            className="w-full min-h-[46px] bg-kelp-700 hover:bg-kelp-800 text-white font-heading font-extrabold text-xs rounded-full flex items-center justify-center space-x-2 transition-transform active:scale-98"
-          >
-            <RotateCcw className="w-4 h-4" />
-            <span>Replay Drill</span>
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={handleReset}
+              className="flex-1 min-h-[46px] border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 font-heading font-extrabold text-xs rounded-full flex items-center justify-center space-x-2 transition-transform active:scale-98"
+            >
+              <RotateCcw className="w-4 h-4 text-kelp-700" />
+              <span>Replay Drill</span>
+            </button>
+            {onReturnToDashboard && (
+              <button
+                type="button"
+                onClick={onReturnToDashboard}
+                className="flex-1 min-h-[46px] bg-kelp-700 hover:bg-kelp-800 text-white font-heading font-extrabold text-xs rounded-full flex items-center justify-center space-x-2 transition-transform active:scale-98 shadow-sm"
+              >
+                <span>Dashboard</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>

@@ -6,11 +6,13 @@ import { sound } from '../../lib/audio';
 interface RiverBranchGameProps {
   onComplete?: () => void;
   onReturnToDashboard?: () => void;
+  onGoToRolePlay?: () => void;
 }
 
 export const RiverBranchGame: React.FC<RiverBranchGameProps> = ({
   onComplete,
   onReturnToDashboard,
+  onGoToRolePlay,
 }) => {
   // 'idle' = at top fork, 'swimming_left' = flowing to Key, 'swimming_right' = flowing to Lock, 'result' = outcome
   const [gameState, setGameState] = useState<'idle' | 'swimming_left' | 'swimming_right' | 'result'>('idle');
