@@ -224,34 +224,34 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
   return (
     <div className="min-h-screen bg-sand-50 text-navy-900 flex flex-col justify-between max-w-7xl mx-auto px-2 sm:px-4 py-3 select-none">
       {/* Sleek, Non-Crowded Top Toolbar */}
-      <header className="bg-white border border-slate-200 rounded-3xl p-3 shadow-sm mb-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <header className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-2 sm:p-3 shadow-sm mb-2 sm:mb-3 shrink-0">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 sm:gap-3">
           {/* Brand & Wordmark */}
           <div className="flex items-center space-x-2.5">
-            <div className="w-9 h-9 rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1">
-              <Ollie mood="wave" size={32} animated={false} />
+            <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1 shrink-0">
+              <Ollie mood="wave" size={30} animated={false} />
             </div>
             <div>
               <div className="flex items-center space-x-1.5">
-                <span className="font-heading font-black text-sm text-navy-900 leading-none">
+                <span className="font-heading font-black text-xs sm:text-sm text-navy-900 leading-none">
                   Sound Credit Union
                 </span>
-                <span className="text-[10px] font-mono text-slate-500 bg-sand-100 px-2 py-0.2 rounded-full border border-sand-200">
+                <span className="text-[9px] sm:text-[10px] font-mono text-slate-500 bg-sand-100 px-2 py-0.2 rounded-full border border-sand-200">
                   (mobile prototype)
                 </span>
               </div>
-              <span className="text-[11px] font-heading font-extrabold text-otter-700">
+              <span className="text-[10px] sm:text-[11px] font-heading font-extrabold text-otter-700 block mt-0.5">
                 Otterly Safe · "Otterly safe, every wave of life"
               </span>
             </div>
           </div>
 
           {/* Quick Experience Switchers (Up to the user what they want to do!) */}
-          <div className="flex flex-wrap items-center gap-1.5 text-xs font-heading font-extrabold">
+          <div className="flex items-center gap-1.5 text-xs font-heading font-extrabold overflow-x-auto pb-1 lg:pb-0 scrollbar-none w-full lg:w-auto">
             <button
               type="button"
               onClick={handleResetToFirstTime}
-              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 ${
+              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 whitespace-nowrap shrink-0 ${
                 appMode === 'onboarding'
                   ? 'bg-kelp-700 text-white border-kelp-700 shadow-xs'
                   : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
@@ -268,7 +268,7 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 setActiveNav('pay');
                 setPaymentState('form');
               }}
-              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 ${
+              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 whitespace-nowrap shrink-0 ${
                 appMode === 'app' && activeNav === 'pay'
                   ? 'bg-kelp-700 text-white border-kelp-700 shadow-xs'
                   : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
@@ -285,7 +285,7 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 setActiveNav('practice');
                 setPracticeGame('menu');
               }}
-              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 ${
+              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 whitespace-nowrap shrink-0 ${
                 appMode === 'app' && activeNav === 'practice'
                   ? 'bg-kelp-700 text-white border-kelp-700 shadow-xs'
                   : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
@@ -301,7 +301,7 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 setAppMode('app');
                 setActiveNav('support');
               }}
-              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 ${
+              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 whitespace-nowrap shrink-0 ${
                 appMode === 'app' && activeNav === 'support'
                   ? 'bg-kelp-700 text-white border-kelp-700 shadow-xs'
                   : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
@@ -315,7 +315,7 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
             <button
               type="button"
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`p-1.5 px-2.5 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1 transition-colors ${
+              className={`p-1.5 px-2.5 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1 transition-colors whitespace-nowrap shrink-0 ${
                 soundEnabled
                   ? 'bg-sand-100 text-kelp-800 border-kelp-300'
                   : 'bg-slate-100 text-slate-500 border-slate-300'
@@ -334,7 +334,7 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 else if (companionView === 'sms') setCompanionView('staff');
                 else setCompanionView('none');
               }}
-              className={`p-1.5 px-2.5 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1 transition-colors ${
+              className={`p-1.5 px-2.5 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1 transition-colors whitespace-nowrap shrink-0 ${
                 companionView !== 'none'
                   ? 'bg-navy-900 text-white border-navy-900'
                   : 'bg-sand-50 text-slate-600 border-slate-200 hover:bg-white'
