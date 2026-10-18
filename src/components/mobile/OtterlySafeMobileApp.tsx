@@ -223,41 +223,49 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
 
   return (
     <div className="min-h-screen bg-sand-50 text-navy-900 flex flex-col justify-between max-w-7xl mx-auto px-2 sm:px-4 py-3 select-none">
-      {/* Sleek, Non-Crowded Top Toolbar */}
-      <header className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-2 sm:p-3 shadow-sm mb-2 sm:mb-3 shrink-0">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 sm:gap-3">
-          {/* Brand & Wordmark */}
-          <div className="flex items-center space-x-2.5">
-            <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1 shrink-0">
-              <Ollie mood="wave" size={30} animated={false} />
+      {/* Sleek, Creative, Accessible Top Toolbar (Zero Horizontal Scrollbar) */}
+      <header className="bg-white border border-slate-200/90 rounded-2xl sm:rounded-3xl p-3 sm:p-4 shadow-sm mb-3 shrink-0">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+          {/* Brand, Wordmark & Synthetic Data Guardrail */}
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-2xl bg-kelp-50 border border-kelp-200 flex items-center justify-center p-1 shrink-0 shadow-2xs">
+              <Ollie mood="wave" size={34} animated={false} />
             </div>
             <div>
-              <div className="flex items-center space-x-1.5">
-                <span className="font-heading font-black text-xs sm:text-sm text-navy-900 leading-none">
-                  Sound Credit Union
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-heading font-black text-sm sm:text-base text-navy-900 leading-none tracking-tight">
+                  Sound Credit Union (prototype)
                 </span>
-                <span className="text-[9px] sm:text-[10px] font-mono text-slate-500 bg-sand-100 px-2 py-0.2 rounded-full border border-sand-200">
-                  (mobile prototype)
+                <span className="text-[10px] font-mono font-bold text-slate-600 bg-sand-100 px-2.5 py-0.5 rounded-full border border-sand-200 shadow-2xs">
+                  Prototype · synthetic data
                 </span>
               </div>
-              <span className="text-[10px] sm:text-[11px] font-heading font-extrabold text-otter-700 block mt-0.5">
-                Otterly Safe · "Otterly safe, every wave of life"
-              </span>
+              <div className="flex items-center space-x-2 mt-1">
+                <span className="text-xs font-heading font-extrabold text-otter-700">
+                  Otterly Safe · "Otterly safe, every wave of life"
+                </span>
+                <span className="text-slate-300">|</span>
+                <div className="inline-flex items-center space-x-1 text-[11px] font-medium text-safe-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-safe-700 animate-pulse" />
+                  <span>Pre-Movement Protection Active</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Quick Experience Switchers (Up to the user what they want to do!) */}
-          <div className="flex items-center gap-1.5 text-xs font-heading font-extrabold overflow-x-auto pb-1 lg:pb-0 scrollbar-none w-full lg:w-auto">
+          {/* Quick Experience Switchers & Accessibility Controls (Wrap-friendly, no ugly scrollbar) */}
+          <div className="flex flex-wrap items-center gap-1.5 text-xs font-heading font-extrabold">
             <button
               type="button"
               onClick={handleResetToFirstTime}
-              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 whitespace-nowrap shrink-0 ${
+              aria-label="First-Time Sign Up and defensive roleplay activity"
+              className={`min-h-[48px] px-3.5 py-2 rounded-xl border transition-all flex items-center space-x-2 shrink-0 ${
                 appMode === 'onboarding'
-                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-xs'
-                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
+                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-sm ring-2 ring-kelp-700/20'
+                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
               <span>1. First-Time Sign Up</span>
             </button>
 
@@ -268,13 +276,14 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 setActiveNav('pay');
                 setPaymentState('form');
               }}
-              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 whitespace-nowrap shrink-0 ${
+              aria-label="Send Money and test scam triggers before money moves"
+              className={`min-h-[48px] px-3.5 py-2 rounded-xl border transition-all flex items-center space-x-2 shrink-0 ${
                 appMode === 'app' && activeNav === 'pay'
-                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-xs'
-                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
+                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-sm ring-2 ring-kelp-700/20'
+                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
               }`}
             >
-              <ArrowLeftRight className="w-3.5 h-3.5" />
+              <ArrowLeftRight className="w-4 h-4 text-kelp-700 shrink-0" />
               <span>2. Send Money (Test Scam Triggers)</span>
             </button>
 
@@ -285,13 +294,14 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 setActiveNav('practice');
                 setPracticeGame('menu');
               }}
-              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 whitespace-nowrap shrink-0 ${
+              aria-label="Practice mini games and scam trivia inside the app"
+              className={`min-h-[48px] px-3.5 py-2 rounded-xl border transition-all flex items-center space-x-2 shrink-0 ${
                 appMode === 'app' && activeNav === 'practice'
-                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-xs'
-                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
+                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-sm ring-2 ring-kelp-700/20'
+                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
               }`}
             >
-              <Gamepad2 className="w-3.5 h-3.5" />
+              <Gamepad2 className="w-4 h-4 text-otter-600 shrink-0" />
               <span>3. Mini-Games & Trivia</span>
             </button>
 
@@ -301,32 +311,45 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 setAppMode('app');
                 setActiveNav('support');
               }}
-              className={`px-3 py-1.5 rounded-xl border transition-all flex items-center space-x-1.5 whitespace-nowrap shrink-0 ${
+              aria-label="Ask Ollie AI assistant inside the mobile app"
+              className={`min-h-[48px] px-3.5 py-2 rounded-xl border transition-all flex items-center space-x-2 shrink-0 ${
                 appMode === 'app' && activeNav === 'support'
-                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-xs'
-                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white'
+                  ? 'bg-kelp-700 text-white border-kelp-700 shadow-sm ring-2 ring-kelp-700/20'
+                  : 'bg-sand-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
               }`}
             >
-              <MessageSquare className="w-3.5 h-3.5 text-otter-600" />
+              <MessageSquare className="w-4 h-4 text-kelp-600 shrink-0" />
               <span>4. Ask Ollie (AI Chat)</span>
             </button>
 
-            {/* Sound Toggle */}
+            {/* Language Switch */}
+            <button
+              type="button"
+              onClick={() => setLang(lang === 'en' ? 'es' : 'en')}
+              aria-label={`Switch language. Currently ${lang === 'en' ? 'English' : 'Spanish'}`}
+              className="min-h-[48px] px-3 py-2 rounded-xl border border-slate-200 bg-sand-50 hover:bg-white text-navy-900 transition-colors flex items-center space-x-1"
+            >
+              <span className={lang === 'en' ? 'underline font-black text-kelp-700' : 'opacity-60'}>EN</span>
+              <span className="opacity-30">|</span>
+              <span className={lang === 'es' ? 'underline font-black text-kelp-700' : 'opacity-60'}>ES</span>
+            </button>
+
+            {/* Sound FX Toggle */}
             <button
               type="button"
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`p-1.5 px-2.5 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1 transition-colors whitespace-nowrap shrink-0 ${
+              aria-label={soundEnabled ? 'Mute audio sound effects' : 'Enable audio sound effects'}
+              className={`min-h-[48px] px-3 py-2 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1.5 transition-colors shrink-0 ${
                 soundEnabled
-                  ? 'bg-sand-100 text-kelp-800 border-kelp-300'
+                  ? 'bg-sand-100 text-kelp-800 border-kelp-300 shadow-2xs'
                   : 'bg-slate-100 text-slate-500 border-slate-300'
               }`}
-              title="Toggle Audio Effects"
             >
-              {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-kelp-700" /> : <VolumeX className="w-3.5 h-3.5" />}
+              {soundEnabled ? <Volume2 className="w-4 h-4 text-kelp-700" /> : <VolumeX className="w-4 h-4" />}
               <span>{soundEnabled ? 'Sound ON' : 'Muted'}</span>
             </button>
 
-            {/* Optional Companion Toggle */}
+            {/* Side-by-side Companion Layout Toggle */}
             <button
               type="button"
               onClick={() => {
@@ -334,14 +357,14 @@ export const OtterlySafeMobileApp: React.FC<OtterlySafeMobileAppProps> = ({
                 else if (companionView === 'sms') setCompanionView('staff');
                 else setCompanionView('none');
               }}
-              className={`p-1.5 px-2.5 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1 transition-colors whitespace-nowrap shrink-0 ${
+              aria-label="Toggle side-by-side companion views: Phone Only, Phone with Family SMS, or Phone with Staff Log"
+              className={`min-h-[48px] px-3 py-2 rounded-xl border text-xs font-heading font-bold flex items-center space-x-1.5 transition-colors shrink-0 ${
                 companionView !== 'none'
-                  ? 'bg-navy-900 text-white border-navy-900'
+                  ? 'bg-navy-900 text-white border-navy-900 shadow-sm'
                   : 'bg-sand-50 text-slate-600 border-slate-200 hover:bg-white'
               }`}
-              title="View companion side-by-side"
             >
-              <Smartphone className="w-3.5 h-3.5" />
+              <Smartphone className="w-4 h-4" />
               <span>
                 {companionView === 'none'
                   ? 'Phone Only'
