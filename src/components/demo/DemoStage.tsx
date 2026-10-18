@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { User, Users, Sparkles } from 'lucide-react';
 import type { BankEvent, Card, Case, Decision, Lang, Member, PaymentType } from '../../types';
 import { PersonaRail } from './PersonaRail';
-import { PresenterBar, type DemoScenario } from './PresenterBar';
+import { PresenterBar, type DemoScenario, type ViewMode } from './PresenterBar';
 import { DataDrawer } from './DataDrawer';
 import { PhoneFrame } from '../PhoneFrame';
 import { SoundAppShell } from '../SoundAppShell';
@@ -16,6 +17,7 @@ import { OwnRulePrompt } from '../payment/OwnRulePrompt';
 import { LockdownCard } from '../payment/LockdownCard';
 import { RecoveryPath } from '../payment/RecoveryPath';
 import { ScamOrLegitDeck } from '../practice/ScamOrLegitDeck';
+import { OnboardingFlow } from '../onboarding/OnboardingFlow';
 import { OllieBubble } from '../OllieBubble';
 import { evaluatePayment } from '../../rules/engine';
 import { DEFAULT_CONFIG } from '../../rules/config';
@@ -49,6 +51,8 @@ export const DemoStage: React.FC<DemoStageProps> = ({
   const [selectedMemberId, setSelectedMemberId] = useState<string>('ANCHOR-A');
   const [selectedCaseId, setSelectedCaseId] = useState<string>('CASE-DEMO-SCAM');
   const [tighterSettingsEngaged, setTighterSettingsEngaged] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('split');
+  const [showPersonaRail, setShowPersonaRail] = useState(false);
 
   // Scenario specific state
   const [customRuleAdded, setCustomRuleAdded] = useState(false);
@@ -57,7 +61,8 @@ export const DemoStage: React.FC<DemoStageProps> = ({
   useEffect(() => {
     setStep(1);
     setIsPlaying(false);
-    if (scenario === 'practice') setSelectedMemberId('ANCHOR-A');
+    if (scenario === 'onboarding') setSelectedMemberId('ANCHOR-A');
+    else if (scenario === 'practice') setSelectedMemberId('ANCHOR-A');
     else if (scenario === 'scam') setSelectedMemberId('ANCHOR-A');
     else if (scenario === 'lookalike') setSelectedMemberId('L2001');
     else if (scenario === 'takeover') setSelectedMemberId('ANCHOR-B');
@@ -71,6 +76,7 @@ export const DemoStage: React.FC<DemoStageProps> = ({
 
   // Total steps per scenario
   const scenarioSteps: Record<DemoScenario, number> = {
+    onboarding: 4,
     practice: 3,
     scam: 5,
     lookalike: 5,
@@ -122,7 +128,21 @@ export const DemoStage: React.FC<DemoStageProps> = ({
   let outcomeText = '';
   let narrative = '';
 
-  if (scenario === 'practice') {
+  if (scenario === 'onboarding') {
+    narrative =
+      step === 1
+        ? 'First-Time Sign Up: Welcome & Sound Otter Shield Introduction'
+        : step === 2
+          ? 'Live Imposter Role-Play: Member counters high-pressure scammer tactics'
+          : step === 3
+            ? 'Trusted Family Circle: Maya enrolled for non-invasive pause notifications'
+            : 'Otter Shield Active: $1,000 safety threshold automated & badge earned';
+    pipelineStage = step <= 2 ? 1 : step === 3 ? 2 : 4;
+    pipelineLane = 'normal';
+    pipelineReasons = [{ id: 'ROLEPLAY', plainText: 'First-time onboarding role-play completed' }];
+    pipelineFired = ['ROLEPLAY'];
+    outcomeText = 'Otter Shield Activated · 24h Hold Rule Live';
+  } else if (scenario === 'practice') {
     pipelineLane = 'normal';
     narrative =
       step === 1
