@@ -131,7 +131,7 @@ export const DemoStage: React.FC<DemoStageProps> = ({
       } else if (e.key === '1') {
         if (selectedCaseId) onStaffDecision(selectedCaseId, 'release');
       } else if (e.key === '2') {
-        if (selectedCaseId) onStaffDecision(selectedCaseId, 'hold');
+        if (selectedCaseId) onStaffDecision(selectedCaseId, 'keep_holding');
       } else if (e.key === '3') {
         if (selectedCaseId) onStaffDecision(selectedCaseId, 'escalate');
       }
