@@ -307,7 +307,7 @@ export const StaffConsole: React.FC<StaffConsoleProps> = ({
                 Deterministic Rule Triggers
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {activeCase.reasons.map((r, i) => (
+                {(activeCase.reasons || []).map((r, i) => (
                   <div
                     key={i}
                     className={`p-2 rounded-xl border text-xs flex items-center space-x-2 ${
@@ -334,7 +334,7 @@ export const StaffConsole: React.FC<StaffConsoleProps> = ({
                   Member In-App Responses (Ollie 30-Second Check)
                 </h4>
                 <div className="space-y-1.5 text-xs">
-                  {activeCase.answers.map((a, i) => (
+                  {(activeCase.answers || []).map((a, i) => (
                     <div
                       key={i}
                       className="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-800/80"
@@ -450,7 +450,7 @@ export const StaffConsole: React.FC<StaffConsoleProps> = ({
                   Case Action Audit Trail
                 </span>
                 <div className="space-y-1 text-[11px] font-mono">
-                  {activeCase.audit.map((a, i) => (
+                  {(activeCase.audit || []).map((a, i) => (
                     <div key={i} className="flex items-start justify-between">
                       <span className="text-slate-400">[{stamp(a.at).slice(11)}] {a.who}:</span>
                       <span className="font-semibold">{a.action} — {a.why}</span>
