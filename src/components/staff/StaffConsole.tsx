@@ -43,6 +43,7 @@ export const StaffConsole: React.FC<StaffConsoleProps> = ({
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [laneFilter, setLaneFilter] = useState<'all' | Lane>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showQueue, setShowQueue] = useState(isStandaloneTab);
 
   // Find active case
   const activeCase =
@@ -134,6 +135,19 @@ export const StaffConsole: React.FC<StaffConsoleProps> = ({
         </div>
 
         <div className="flex items-center space-x-2">
+          {/* Queue View Toggle */}
+          <button
+            type="button"
+            onClick={() => setShowQueue(!showQueue)}
+            className={`px-2.5 py-1.5 rounded-lg border text-xs font-heading font-extrabold transition-colors ${
+              showQueue
+                ? 'bg-info-700 text-white border-info-700'
+                : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+            }`}
+          >
+            {showQueue ? 'Hide Queue' : `Queue (${filteredCases.length})`}
+          </button>
+
           {/* Dark Mode Switcher */}
           <button
             type="button"
@@ -151,106 +165,138 @@ export const StaffConsole: React.FC<StaffConsoleProps> = ({
         </div>
       </div>
 
-      {/* Main Split: Queue (left or top) & Detail View */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Case Queue Sidebar (240px) */}
+      {/* Optional Horizontal Case Ribbon when Queue is hidden */}
+      {!showQueue && (
         <div
-          className={`w-56 border-r flex flex-col shrink-0 overflow-hidden ${
-            isDarkMode ? 'bg-slate-900/50 border-slate-700' : 'bg-slate-50/70 border-slate-200'
+          className={`px-3 py-2 border-b flex items-center space-x-2 overflow-x-auto text-xs shrink-0 ${
+            isDarkMode ? 'bg-slate-900/60 border-slate-700' : 'bg-slate-50 border-slate-200'
           }`}
         >
-          {/* Filter Pills */}
-          <div className="p-2 border-b border-slate-700/20 space-y-1.5 shrink-0">
-            <div className="flex items-center space-x-1 text-xs">
-              <Search className="w-3.5 h-3.5 opacity-50 ml-1" />
-              <input
-                type="text"
-                placeholder="Filter cases..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full bg-transparent text-xs p-1 focus:outline-none ${
-                  isDarkMode ? 'text-white' : 'text-navy-900'
+          <span className="text-[10px] font-mono uppercase font-bold text-slate-400 shrink-0">Cases:</span>
+          {filteredCases.map((c) => {
+            const isSelected = c.case_id === activeCase?.case_id;
+            const mem = members.find((m) => m.member_id === c.member_id);
+            return (
+              <button
+                key={c.case_id}
+                type="button"
+                onClick={() => onSelectCase(c.case_id)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold shrink-0 transition-all flex items-center space-x-1.5 ${
+                  isSelected
+                    ? 'bg-info-700 text-white shadow-xs'
+                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100'
                 }`}
-              />
-            </div>
-
-            <div className="flex flex-wrap gap-1">
-              {(['all', 'scam', 'lookalike', 'takeover'] as const).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLaneFilter(l)}
-                  className={`text-[10px] font-mono px-2 py-0.5 rounded capitalize transition-all ${
-                    laneFilter === l
-                      ? 'bg-info-700 text-white font-bold'
-                      : isDarkMode
-                        ? 'bg-slate-800 text-slate-400 hover:text-white'
-                        : 'bg-white text-slate-600 border border-slate-200'
-                  }`}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Queue List */}
-          <div className="flex-1 overflow-y-auto p-1.5 space-y-1.5">
-            {filteredCases.map((c) => {
-              const mem = members.find((m) => m.member_id === c.member_id);
-              const isSelected = c.case_id === activeCase?.case_id;
-              return (
-                <div
-                  key={c.case_id}
-                  onClick={() => onSelectCase(c.case_id)}
-                  className={`p-2 rounded-xl border text-xs cursor-pointer transition-all ${
-                    isSelected
-                      ? isDarkMode
-                        ? 'bg-info-700/30 border-info-500 shadow-xs'
-                        : 'bg-sand-50 border-kelp-700 shadow-xs'
-                      : isDarkMode
-                        ? 'bg-slate-800/40 border-slate-700 hover:bg-slate-800'
-                        : 'bg-white border-slate-200 hover:bg-sand-50/50'
-                  }`}
-                >
-                  <div className="flex items-center justify-between font-mono text-[10px] text-slate-400 mb-0.5">
-                    <span className="font-bold text-info-600">{c.case_id}</span>
-                    <span>{stamp(c.created_at).slice(11)}</span>
-                  </div>
-
-                  <div className="font-heading font-bold text-xs truncate">
-                    {mem?.display_name || c.member_id}
-                  </div>
-
-                  <div className="flex items-center justify-between mt-1 text-[10px]">
-                    <span
-                      className={`font-mono uppercase px-1.5 py-0.2 rounded font-bold ${
-                        c.lane === 'takeover'
-                          ? 'bg-stop-200 text-stop-700'
-                          : c.lane === 'scam'
-                            ? 'bg-check-200 text-check-800'
-                            : 'bg-kelp-100 text-kelp-800'
-                      }`}
-                    >
-                      {c.lane}
-                    </span>
-
-                    <span
-                      className={`font-semibold capitalize ${
-                        c.decision === 'pending'
-                          ? 'text-amber-500 font-bold'
-                          : c.decision === 'release'
-                            ? 'text-safe-700'
-                            : 'text-stop-700'
-                      }`}
-                    >
-                      {c.decision.replace('_', ' ')}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+              >
+                <span>{c.case_id}</span>
+                <span className="opacity-60 text-[10px]">({mem?.display_name?.split(' ')[0] || c.member_id})</span>
+              </button>
+            );
+          })}
         </div>
+      )}
+
+      {/* Main Split: Queue (left) & Detail View */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Case Queue Sidebar (only if showQueue is true) */}
+        {showQueue && (
+          <div
+            className={`w-56 border-r flex flex-col shrink-0 overflow-hidden ${
+              isDarkMode ? 'bg-slate-900/50 border-slate-700' : 'bg-slate-50/70 border-slate-200'
+            }`}
+          >
+            {/* Filter Pills */}
+            <div className="p-2 border-b border-slate-700/20 space-y-1.5 shrink-0">
+              <div className="flex items-center space-x-1 text-xs">
+                <Search className="w-3.5 h-3.5 opacity-50 ml-1" />
+                <input
+                  type="text"
+                  placeholder="Filter cases..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className={`w-full bg-transparent text-xs p-1 focus:outline-none ${
+                    isDarkMode ? 'text-white' : 'text-navy-900'
+                  }`}
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-1">
+                {(['all', 'scam', 'lookalike', 'takeover'] as const).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setLaneFilter(l)}
+                    className={`text-[10px] font-mono px-2 py-0.5 rounded capitalize transition-all ${
+                      laneFilter === l
+                        ? 'bg-info-700 text-white font-bold'
+                        : isDarkMode
+                          ? 'bg-slate-800 text-slate-400 hover:text-white'
+                          : 'bg-white text-slate-600 border border-slate-200'
+                    }`}
+                  >
+                    {l}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Queue List */}
+            <div className="flex-1 overflow-y-auto p-1.5 space-y-1.5">
+              {filteredCases.map((c) => {
+                const mem = members.find((m) => m.member_id === c.member_id);
+                const isSelected = c.case_id === activeCase?.case_id;
+                return (
+                  <div
+                    key={c.case_id}
+                    onClick={() => onSelectCase(c.case_id)}
+                    className={`p-2 rounded-xl border text-xs cursor-pointer transition-all ${
+                      isSelected
+                        ? isDarkMode
+                          ? 'bg-info-700/30 border-info-500 shadow-xs'
+                          : 'bg-sand-50 border-kelp-700 shadow-xs'
+                        : isDarkMode
+                          ? 'bg-slate-800/40 border-slate-700 hover:bg-slate-800'
+                          : 'bg-white border-slate-200 hover:bg-sand-50/50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between font-mono text-[10px] text-slate-400 mb-0.5">
+                      <span className="font-bold text-info-600">{c.case_id}</span>
+                      <span>{stamp(c.created_at).slice(11)}</span>
+                    </div>
+
+                    <div className="font-heading font-bold text-xs truncate">
+                      {mem?.display_name || c.member_id}
+                    </div>
+
+                    <div className="flex items-center justify-between mt-1 text-[10px]">
+                      <span
+                        className={`font-mono uppercase px-1.5 py-0.2 rounded font-bold ${
+                          c.lane === 'takeover'
+                            ? 'bg-stop-200 text-stop-700'
+                            : c.lane === 'scam'
+                              ? 'bg-check-200 text-check-800'
+                              : 'bg-kelp-100 text-kelp-800'
+                        }`}
+                      >
+                        {c.lane}
+                      </span>
+
+                      <span
+                        className={`font-semibold capitalize ${
+                          c.decision === 'pending'
+                            ? 'text-amber-500 font-bold'
+                            : c.decision === 'release'
+                              ? 'text-safe-700'
+                              : 'text-stop-700'
+                        }`}
+                      >
+                        {c.decision.replace('_', ' ')}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Case Detail View */}
         {activeCase ? (
